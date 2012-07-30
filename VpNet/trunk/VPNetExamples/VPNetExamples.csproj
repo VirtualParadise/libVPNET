@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Common\BaseExampleBot.cs" />
     <Compile Include="Common\SerializationHelpers.cs" />
+    <Compile Include="EventDisplayBot.cs" />
     <Compile Include="GreeterBot.cs" />
     <Compile Include="HelloWorldBot.cs" />
     <Compile Include="KeywordBot\KeywordBot.cs" />

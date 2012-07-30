@@ -20,7 +20,8 @@ menu:
                 Console.WriteLine("1. Hello World! Bot");
                 Console.WriteLine("2. Greeter Bot");
                 Console.WriteLine("3. Keyword Bot");
-                Console.Write("Please enter a numer (1-3): ");
+                Console.WriteLine("4. Event Display Bot");
+                Console.Write("Please enter a numer (0-4): ");
                 string read = Console.ReadLine();
 
                 switch (read)
@@ -29,6 +30,7 @@ menu:
                         _bot = new GreeterBot();
                         _bot.AttachBot<HelloWorldBot>();
                         _bot.AttachBot<KeywordBot.KeywordBot>();
+                        _bot.AttachBot<EventDisplayBot>();
                         break;
                     case "1":
                         _bot = new HelloWorldBot();
@@ -39,12 +41,15 @@ menu:
                     case "3":
                         _bot = new KeywordBot.KeywordBot();
                         break;
+                    case "4":
+                        _bot = new EventDisplayBot();
+                        break;
                     default:
                         Console.WriteLine("Please enter an existing number");
                         goto menu;
                 }
                 _bot.Initialize();
-                Console.Write(string.Format("Running Example {0}. Press Enter to exit and choose another example.",read));
+                Console.WriteLine(string.Format("Running Example {0}. Press Enter to exit and choose another example.",read));
                 Console.ReadLine();
                 _bot.Dispose();
                 goto menu;
