@@ -9,7 +9,12 @@ namespace VPNetExamples
         public GreeterBot()
         {
             Instance.EventAvatarAdd += EventAvatarAdd;
-            Instance.UpdateAvatar();
+            Instance.EventAvatarDelete += EventAvatarDelete;
+        }
+
+        void EventAvatarDelete(Instance sender, Avatar eventData)
+        {
+            sender.Say(string.Format("{0} has left.", eventData.Name));
         }
 
         void EventAvatarAdd(Instance sender, Avatar eventData)
