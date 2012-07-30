@@ -25,7 +25,7 @@ namespace VPNetExamples.Common
             _instance.Wait(0);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _timer.Dispose();
             _instance.Dispose();

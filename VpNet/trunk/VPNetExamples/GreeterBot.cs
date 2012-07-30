@@ -15,5 +15,6 @@ namespace VPNetExamples
         {
             sender.Say(string.Format("Hello {0}.",eventData.Name));
         }
+
     }
 }

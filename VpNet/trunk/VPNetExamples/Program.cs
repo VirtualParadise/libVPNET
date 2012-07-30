@@ -34,7 +34,7 @@ menu:
                         Console.WriteLine("Please enter an existing number");
                         goto menu;
                 }
-                Console.Write("Running Example {0}. Press Enter to exit and choose another example.");
+                Console.Write(string.Format("Running Example {0}. Press Enter to exit and choose another example.",read));
                 Console.ReadLine();
                 _bot.Dispose();
                 goto menu;

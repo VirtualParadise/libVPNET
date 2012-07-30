@@ -208,7 +208,11 @@ namespace VpNet.Core
 
         public void Dispose()
         {
-            Functions.vp_destroy(_instance);
+            if (_instance != IntPtr.Zero)
+            {
+                Functions.vp_destroy(_instance);
+            }
+            GC.SuppressFinalize(this);
         }
     }
 }

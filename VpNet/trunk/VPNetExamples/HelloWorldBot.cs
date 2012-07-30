@@ -7,7 +7,6 @@ namespace VPNetExamples
         public HelloWorldBot()
         {
             Instance.Say("Hello World!");
-            Instance.Wait(0);
         }
     }
 }
