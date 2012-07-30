@@ -127,7 +127,7 @@ namespace VpNet.Core
         public event ChatEvent EventChat;
         public event AvatarEvent EventAvatarAdd;
         public event AvatarEvent EventAvatarChange;
-        public event Event EventAvatarDelete;
+        public event AvatarEvent EventAvatarDelete;
         public event Event EventObject;
         public event Event EventObjectChange;
         public event Event EventObjectDelete;
@@ -184,8 +184,16 @@ namespace VpNet.Core
             }
         }
 
-        private static void OnAvatarDelete(IntPtr sender)
+        private void OnAvatarDelete(IntPtr sender)
         {
+            if (EventAvatarDelete != null)
+            {
+                var data = new Avatar(
+                    Functions.vp_string(_instance, Attribute.AvatarName),
+                    Functions.vp_int(_instance, Attribute.AvatarSession),
+                    0, 0, 0, 0, 0, 0);
+                EventAvatarDelete(this, data);
+            }
         }
 
         private void OnWorldList(IntPtr sender)
