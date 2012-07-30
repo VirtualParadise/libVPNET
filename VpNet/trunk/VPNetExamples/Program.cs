@@ -16,7 +16,7 @@ namespace VPNetExamples
             try {
 menu:
                 Console.WriteLine("Bot Examples");
-
+                Console.WriteLine("0. Run all Bots (from a single vp sdk instance)");
                 Console.WriteLine("1. Hello World! Bot");
                 Console.WriteLine("2. Greeter Bot");
                 Console.WriteLine("3. Keyword Bot");
@@ -25,6 +25,11 @@ menu:
 
                 switch (read)
                 {
+                    case "0":
+                        _bot = new GreeterBot();
+                        _bot.AttachBot<HelloWorldBot>();
+                        _bot.AttachBot<KeywordBot.KeywordBot>();
+                        break;
                     case "1":
                         _bot = new HelloWorldBot();
                         break;
@@ -38,6 +43,7 @@ menu:
                         Console.WriteLine("Please enter an existing number");
                         goto menu;
                 }
+                _bot.Initialize();
                 Console.Write(string.Format("Running Example {0}. Press Enter to exit and choose another example.",read));
                 Console.ReadLine();
                 _bot.Dispose();

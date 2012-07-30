@@ -10,10 +10,11 @@ namespace VPNetExamples.KeywordBot
     {
         public List<KeywordItem> _keywordItems;
 
+        public KeywordBot(Instance instance) : base(instance) {}
+
         public KeywordBot()
         {
-            _keywordItems = SerializationHelpers.Deserialize<List<KeywordItem>>(new FileInfo(@".\KeywordBot\KeywordBotData.xml"));
-            Instance.EventChat += EventChat;
+          
         }
 
         void EventChat(Instance sender, Chat eventData)
@@ -26,6 +27,12 @@ namespace VPNetExamples.KeywordBot
                     sender.Say(item.Response);
                 }
             }
+        }
+
+        public override void Initialize()
+        {
+            _keywordItems = SerializationHelpers.Deserialize<List<KeywordItem>>(new FileInfo(@".\KeywordBot\KeywordBotData.xml"));
+            Instance.EventChat += EventChat;
         }
     }
 }

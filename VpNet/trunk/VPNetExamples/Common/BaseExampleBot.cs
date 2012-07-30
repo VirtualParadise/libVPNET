@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Threading;
@@ -11,6 +12,11 @@ namespace VPNetExamples.Common
         private Instance _instance;
         internal Instance Instance { get { return _instance; } }
         private Timer _timer;
+
+        private List<BaseExampleBot> _attachedBots;
+
+        public abstract void Initialize();
+
 
         protected BaseExampleBot()
         {
@@ -25,6 +31,21 @@ namespace VPNetExamples.Common
             _instance.UpdateAvatar(float.Parse(position[0], ci), float.Parse(position[1], ci),float.Parse(position[2], ci), 
                 float.Parse(rotation[0], ci), float.Parse(rotation[1]));
             _timer = new Timer(AliveCallBack,null,0,1000);
+        }
+
+        protected BaseExampleBot(Instance instance)
+        {
+            _instance = instance;
+        }
+
+        public void AttachBot<T>() where T : BaseExampleBot
+        {
+            if (_attachedBots == null)
+                _attachedBots = new List<BaseExampleBot>();
+
+            var botInstance = (T) Activator.CreateInstance(typeof (T), new object[] {_instance});
+            botInstance.Initialize();
+            _attachedBots.Add(botInstance);
         }
 
         private void AliveCallBack(object state)

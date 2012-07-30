@@ -6,11 +6,9 @@ namespace VPNetExamples
 {
     internal class GreeterBot : BaseExampleBot
     {
-        public GreeterBot()
-        {
-            Instance.EventAvatarAdd += EventAvatarAdd;
-            Instance.EventAvatarDelete += EventAvatarDelete;
-        }
+        public GreeterBot(Instance instance) : base(instance){}
+
+        public GreeterBot(){}
 
         void EventAvatarDelete(Instance sender, Avatar eventData)
         {
@@ -22,5 +20,11 @@ namespace VPNetExamples
             sender.Say(string.Format("Hello {0}.",eventData.Name));
         }
 
+
+        public override void Initialize()
+        {
+            Instance.EventAvatarAdd += EventAvatarAdd;
+            Instance.EventAvatarDelete += EventAvatarDelete;
+        }
     }
 }
