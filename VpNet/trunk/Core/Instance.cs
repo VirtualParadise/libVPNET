@@ -6,7 +6,7 @@ using Attribute = VpNet.NativeApi.Attribute;
 
 namespace VpNet.Core
 {
-    public class Instance
+    public class Instance : IDisposable
     {
         static bool _isInitialized;
         readonly IntPtr _instance;
@@ -205,5 +205,10 @@ namespace VpNet.Core
 
         }
         #endregion
+
+        public void Dispose()
+        {
+            Functions.vp_destroy(_instance);
+        }
     }
 }
