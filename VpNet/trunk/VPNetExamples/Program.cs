@@ -19,7 +19,8 @@ menu:
 
                 Console.WriteLine("1. Hello World! Bot");
                 Console.WriteLine("2. Greeter Bot");
-                Console.Write("Please enter a numer (1-2): ");
+                Console.WriteLine("3. Keyword Bot");
+                Console.Write("Please enter a numer (1-3): ");
                 string read = Console.ReadLine();
 
                 switch (read)
@@ -29,6 +30,9 @@ menu:
                         break;
                     case "2":
                         _bot = new GreeterBot();
+                        break;
+                    case "3":
+                        _bot = new KeywordBot.KeywordBot();
                         break;
                     default:
                         Console.WriteLine("Please enter an existing number");
