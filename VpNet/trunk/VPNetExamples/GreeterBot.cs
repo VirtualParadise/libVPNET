@@ -9,6 +9,7 @@ namespace VPNetExamples
         public GreeterBot()
         {
             Instance.EventAvatarAdd += EventAvatarAdd;
+            Instance.UpdateAvatar();
         }
 
         void EventAvatarAdd(Instance sender, Avatar eventData)
