@@ -29,10 +29,25 @@ namespace VPNetExamples.KeywordBot
             }
         }
 
+        void LoadConfig(FileInfo fi)
+        {
+            _keywordItems = SerializationHelpers.Deserialize<List<KeywordItem>>(fi);
+        }
+
         public override void Initialize()
         {
-            _keywordItems = SerializationHelpers.Deserialize<List<KeywordItem>>(new FileInfo(@".\KeywordBot\KeywordBotData.xml"));
+            var config = new FileInfo(@".\KeywordBot\KeywordBotData.xml");
+            
+            var watcher = new FileSystemWatcher(config.Directory.FullName,config.Name);
+            LoadConfig(config);
+            watcher.Changed += new FileSystemEventHandler(watcher_Changed);
+            watcher.EnableRaisingEvents = true;
             Instance.EventChat += EventChat;
+        }
+
+        void watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            LoadConfig(new FileInfo(e.FullPath));
         }
     }
 }
