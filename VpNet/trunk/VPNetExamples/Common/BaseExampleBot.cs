@@ -30,7 +30,8 @@ namespace VPNetExamples.Common
             var ci = new CultureInfo("en-US");
             _instance.UpdateAvatar(float.Parse(position[0], ci), float.Parse(position[1], ci),float.Parse(position[2], ci), 
                 float.Parse(rotation[0], ci), float.Parse(rotation[1]));
-            _timer = new Timer(AliveCallBack,null,0,1000);
+            _timer = new Timer(AliveCallBack,null,0,0);
+      
         }
 
         protected BaseExampleBot(Instance instance)
@@ -51,6 +52,7 @@ namespace VPNetExamples.Common
         private void AliveCallBack(object state)
         {
             _instance.Wait(0);
+            _timer = new Timer(AliveCallBack, null, 1000, 0);
         }
 
         public virtual void Dispose()
