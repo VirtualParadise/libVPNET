@@ -6,7 +6,7 @@ namespace VpNet.Core.EventData
     {
         public int Id { get; set; }
         public int Type { get; set; }
-        //public DateTime Time { get; set; }
+        public DateTime Time { get; set; }
         public int Owner { get; set; }
         public float X { get; set; }
         public float Y { get; set; }
@@ -20,11 +20,11 @@ namespace VpNet.Core.EventData
         public int ObjectType { get; set; }
         public string Model { get; set; }
 
-        internal VpObject(int id, int type,/* DateTime time, */int owner, float x, float y, float z, float rotationX, float rotationY, float rotationZ, string action, string description, int objectType, string model)
+        internal VpObject(int id, int type, DateTime time, int owner, float x, float y, float z, float rotationX, float rotationY, float rotationZ, string action, string description, int objectType, string model)
         {
             Id = id;
             Type = type;
-            //Time = time;
+            Time = time;
             Owner = owner;
             X = x;
             Y = y;

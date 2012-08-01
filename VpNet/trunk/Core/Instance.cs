@@ -234,7 +234,7 @@ namespace VpNet.Core
                                        RotationX = Functions.vp_float(sender, Attribute.ObjectRotationX),
                                        RotationY = Functions.vp_float(sender, Attribute.ObjectRotationY),
                                        RotationZ = Functions.vp_float(sender, Attribute.ObjectRotationZ),
-                                       /*Time = DateTime.FromFileTime(Functions.vp_int(sender, Attribute.ObjectTime)),/* /* TODO: should be a long, returns string VB_Build? */
+                                       Time = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Functions.vp_int(sender, Attribute.ObjectTime)),/* TODO: should be a long, returns string VB_Build? */
                                        ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
                                        Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
                                        X = Functions.vp_float(sender, Attribute.ObjectX),
@@ -258,7 +258,7 @@ namespace VpNet.Core
                                    RotationX =  Functions.vp_float(sender, Attribute.ObjectRotationX),
                                    RotationY =  Functions.vp_float(sender, Attribute.ObjectRotationY),
                                    RotationZ =  Functions.vp_float(sender, Attribute.ObjectRotationZ),
-                                   /*Time = DateTime.FromFileTime(Functions.vp_int(sender, Attribute.ObjectTime)),/* /* TODO: should be a long, returns string VB_Build? */
+                                   Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Functions.vp_int(sender, Attribute.ObjectTime)),/* TODO: should be a long, returns string VB_Build? */
                                    ObjectType =  Functions.vp_int(sender, Attribute.ObjectType),
                                    Owner =  Functions.vp_int(sender, Attribute.ObjectUserId),
                                    X =  Functions.vp_float(sender, Attribute.ObjectX),
