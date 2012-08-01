@@ -12,7 +12,7 @@ namespace VpNet.UnitTests
         public void TextRotatorConfigTest()
         {
             var config = new TextRotatorConfig {ObjectId = int.MaxValue};
-            config.TextItems.Add(new TextRotatorConfigItem(){Delay=1000,Text="Hello world!"});
+            config.TextItems.Add(new TextRotatorConfigItem(){Delay=1000,Text="Hello world!\r\n"});
             SerializationHelpers.Serialize<TextRotatorConfig>(config, new FileInfo("TextRotatorConfigTest.xml"));
             var target = SerializationHelpers.Deserialize<TextRotatorConfig>(new FileInfo("TextRotatorConfigTest.xml"));
             Assert.AreEqual(config.ObjectId, target.ObjectId);
