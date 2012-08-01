@@ -32,6 +32,9 @@ namespace VpNet.NativeApi
         [DllImport("vpsdk", CallingConvention=CallingConvention.Cdecl)]
         public static extern int vp_enter(IntPtr instance,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string worldname);
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int vp_leave(IntPtr instance);
         
         [DllImport("vpsdk", CallingConvention=CallingConvention.Cdecl)]
         public static extern int vp_say(IntPtr instance,

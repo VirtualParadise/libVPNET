@@ -81,6 +81,18 @@ namespace VpNet.Core
             }
         }
 
+        /// <summary>
+        /// Leave the current world
+        /// </summary>
+        public void Leave()
+        {
+            int rc = Functions.vp_leave(_instance);
+            if (rc != 0)
+            {
+                throw new VpException((ReasonCode)rc);
+            }
+        }
+
         public void UpdateAvatar(
             float x=0.0f, float y=0.0f, float z=0.0f, 
             float yaw=0.0f, float pitch=0.0f)
