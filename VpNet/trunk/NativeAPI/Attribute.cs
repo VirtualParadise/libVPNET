@@ -19,7 +19,7 @@
         MyType,
         /// <summary>
         /// Object Id
-        /// </summary>
+        /// </summary>f
         ObjectId,
         /// <summary>
         /// Object Type

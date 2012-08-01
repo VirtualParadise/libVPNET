@@ -52,7 +52,7 @@ namespace VPNetExamples.Common
         private void AliveCallBack(object state)
         {
             _instance.Wait(0);
-            _timer = new Timer(AliveCallBack, null, 1000, 0);
+            _timer = new Timer(AliveCallBack, null, 30, 0);
         }
 
         public virtual void Dispose()

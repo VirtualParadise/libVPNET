@@ -29,6 +29,11 @@ namespace VpNet.Core
             SetNativeEvent(Events.AvatarChange, OnAvatarChange);
             SetNativeEvent(Events.AvatarDelete, OnAvatarDelete);
             SetNativeEvent(Events.WorldList, OnWorldList);
+            SetNativeEvent(Events.ObjectChange, OnObjectChange);
+            SetNativeEvent(Events.Object, OnObjectCreate);
+            SetNativeEvent(Events.ObjectClick, OnObjectClick);
+            SetNativeEvent(Events.ObjectDelete, OnObjectDelete);
+            
         }
 
         ~Instance()
@@ -124,14 +129,21 @@ namespace VpNet.Core
         //public delegate void AvatarDeleteEvent(Instance sender, EventData.AvatarDelete eventData);
         public delegate void WorldListEvent(Instance sender, World eventData);
 
+        public delegate void ObjectChangeEvent(Instance sender, VpObject objectData);
+        public delegate void ObjectCreateEvent(Instance sender, VpObject objectData);
+        public delegate void ObjectDeleteEvent(Instance sender, int id);
+        public delegate void ObjectClickEvent(Instance sender, int id);
+
+
         public event ChatEvent EventChat;
         public event AvatarEvent EventAvatarAdd;
         public event AvatarEvent EventAvatarChange;
         public event AvatarEvent EventAvatarDelete;
-        public event Event EventObject;
-        public event Event EventObjectChange;
-        public event Event EventObjectDelete;
-        public event Event EventObjectClick;
+        public event ObjectChangeEvent EventObjectCreate;
+        public event ObjectChangeEvent EventObjectChange;
+        public event ObjectDeleteEvent EventObjectDelete;
+        public event ObjectClickEvent EventObjectClick; 
+       
         public event WorldListEvent EventWorldList;
         public event Event EventWorldSetting;
         public event Event EventWorldSettingsChanged;
@@ -194,6 +206,69 @@ namespace VpNet.Core
                     0, 0, 0, 0, 0, 0);
                 EventAvatarDelete(this, data);
             }
+        }
+
+        private void OnObjectClick(IntPtr sender)
+        {
+            if (EventObjectClick != null)
+                EventObjectClick(this, Functions.vp_int(sender, Attribute.ObjectId));
+        }
+
+        private void OnObjectDelete(IntPtr sender)
+        {
+            if (EventObjectDelete !=null)
+                EventObjectDelete(this, Functions.vp_int(sender, Attribute.ObjectId));
+        }
+
+        private void OnObjectCreate(IntPtr sender)
+        {
+            if (EventObjectCreate != null)
+            {
+                var vpObject = new VpObject()
+
+                                   {
+                                       Action = Functions.vp_string(sender, Attribute.ObjectAction),
+                                       Description = Functions.vp_string(sender, Attribute.ObjectDescription),
+                                       Id = Functions.vp_int(sender, Attribute.ObjectId),
+                                       Model = Functions.vp_string(sender, Attribute.ObjectModel),
+                                       RotationX = Functions.vp_float(sender, Attribute.ObjectRotationX),
+                                       RotationY = Functions.vp_float(sender, Attribute.ObjectRotationY),
+                                       RotationZ = Functions.vp_float(sender, Attribute.ObjectRotationZ),
+                                       /*Time = DateTime.FromFileTime(Functions.vp_int(sender, Attribute.ObjectTime)),/* /* TODO: should be a long, returns string VB_Build? */
+                                       ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
+                                       Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
+                                       X = Functions.vp_float(sender, Attribute.ObjectX),
+                                       Y = Functions.vp_float(sender, Attribute.ObjectY),
+                                       Z = Functions.vp_float(sender, Attribute.ObjectZ)
+                                   };
+
+                EventObjectCreate(this, vpObject);
+            }
+        }
+
+
+        private void OnObjectChange(IntPtr sender)
+        {
+            var vpObject = new VpObject()
+                               {
+                                   Action =  Functions.vp_string(sender, Attribute.ObjectAction),
+                                   Description =  Functions.vp_string(sender, Attribute.ObjectDescription),
+                                   Id =  Functions.vp_int(sender, Attribute.ObjectId),
+                                   Model =  Functions.vp_string(sender, Attribute.ObjectModel),
+                                   RotationX =  Functions.vp_float(sender, Attribute.ObjectRotationX),
+                                   RotationY =  Functions.vp_float(sender, Attribute.ObjectRotationY),
+                                   RotationZ =  Functions.vp_float(sender, Attribute.ObjectRotationZ),
+                                   /*Time = DateTime.FromFileTime(Functions.vp_int(sender, Attribute.ObjectTime)),/* /* TODO: should be a long, returns string VB_Build? */
+                                   ObjectType =  Functions.vp_int(sender, Attribute.ObjectType),
+                                   Owner =  Functions.vp_int(sender, Attribute.ObjectUserId),
+                                   X =  Functions.vp_float(sender, Attribute.ObjectX),
+                                   Y =  Functions.vp_float(sender, Attribute.ObjectY),
+                                   Z =  Functions.vp_float(sender, Attribute.ObjectZ),
+                                   
+
+                               };
+
+            EventObjectChange(this, vpObject);
         }
 
         private void OnWorldList(IntPtr sender)

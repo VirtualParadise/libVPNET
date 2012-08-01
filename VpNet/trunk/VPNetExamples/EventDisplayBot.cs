@@ -20,10 +20,21 @@ namespace VPNetExamples
             Instance.EventAvatarDelete += EventAvatarDelete;
             Instance.EventChat += EventChat;
             Instance.EventFriend += EventFriend;
-            Instance.EventObject += EventObject;
             Instance.EventObjectClick += EventObjectClick;
             Instance.EventObjectDelete += EventObjectDelete;
+            Instance.EventObjectChange += EventObjectChange;
+            Instance.EventObjectCreate += EventObjectCreate;
             Instance.EventWorldList += EventWorldList;
+        }
+
+        void EventObjectCreate(Instance sender, VpObject objectData)
+        {
+            Console.WriteLine("Created Object {0}", objectData.Id);
+        }
+
+        void EventObjectChange(Instance sender, VpObject objectData)
+        {
+            Console.WriteLine("Changed Object {0}", objectData.Id);
         }
 
         void EventWorldList(Instance sender, World eventData)
@@ -31,16 +42,15 @@ namespace VPNetExamples
             Console.WriteLine("World List {0}, {1} users.",eventData.Name,eventData.UserCount);
         }
 
-        void EventObjectDelete(Instance sender)
+        void EventObjectDelete(Instance sender, int id)
         {
-            // currently not supported.
-            Console.WriteLine("Delete Object.");
+            Console.WriteLine("Delete Object. {0}",id);
         }
 
-        void EventObjectClick(Instance sender)
+        void EventObjectClick(Instance sender, int id)
         {
-            // currently not supported.
-            Console.WriteLine("Click on object.");
+            // TODO: currently not unmanaged SDK / Server.
+            Console.WriteLine("Click on object. {0}",id);
         }
 
         void EventObject(Instance sender)
