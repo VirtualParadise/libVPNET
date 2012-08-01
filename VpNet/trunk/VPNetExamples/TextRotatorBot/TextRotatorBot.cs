@@ -13,6 +13,10 @@ namespace VPNetExamples.TextRotatorBot
         private bool _isRotationStarted;
         private VpObject _billBoard;
 
+        public TextRotatorBot(){}
+
+        public TextRotatorBot(Instance instance) : base(instance){}
+
         public override void Initialize()
         {
             _config = new ActiveConfig<TextRotatorConfig>(new FileInfo(@".\TextRotatorBot\TextRotatorBotData.xml"));
