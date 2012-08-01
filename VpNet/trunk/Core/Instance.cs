@@ -147,6 +147,7 @@ namespace VpNet.Core
             Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.X);
             Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Y);
             Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Z);
+            Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
 
             int rc = Functions.vp_object_change(_instance);
             if (rc != 0)
@@ -282,7 +283,8 @@ namespace VpNet.Core
                                        Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
                                        X = Functions.vp_float(sender, Attribute.ObjectX),
                                        Y = Functions.vp_float(sender, Attribute.ObjectY),
-                                       Z = Functions.vp_float(sender, Attribute.ObjectZ)
+                                       Z = Functions.vp_float(sender, Attribute.ObjectZ),
+                                       Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle)
                                    };
 
                 EventObjectCreate(this, vpObject);
@@ -307,7 +309,7 @@ namespace VpNet.Core
                                    X =  Functions.vp_float(sender, Attribute.ObjectX),
                                    Y =  Functions.vp_float(sender, Attribute.ObjectY),
                                    Z =  Functions.vp_float(sender, Attribute.ObjectZ),
-                                   
+                                   Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle),
 
                                };
 
