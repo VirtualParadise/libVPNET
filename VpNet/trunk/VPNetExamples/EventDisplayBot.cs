@@ -25,6 +25,8 @@ namespace VPNetExamples
             Instance.EventObjectChange += EventObjectChange;
             Instance.EventObjectCreate += EventObjectCreate;
             Instance.EventWorldList += EventWorldList;
+            Instance.EventUniverseDisconnect += EventUniverseDisconnect;
+            Instance.EventWorldDisconnect += EventWorldDisconnect;
         }
 
         void EventObjectCreate(Instance sender, VpObject objectData)
@@ -79,6 +81,16 @@ namespace VPNetExamples
         void EventAvatarAdd(Instance sender, VpNet.Core.EventData.Avatar eventData)
         {
             Console.WriteLine("{0} entered world.",eventData.Name);
+        }
+
+        void EventUniverseDisconnect(Instance sender)
+        {
+            Console.WriteLine("Universe disconnected.");
+        }
+        
+        void EventWorldDisconnect(Instance sender)
+        {
+            Console.WriteLine("World disconnected.");
         }
     }
 }

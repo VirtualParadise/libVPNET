@@ -33,7 +33,8 @@ namespace VpNet.Core
             SetNativeEvent(Events.Object, OnObjectCreate);
             SetNativeEvent(Events.ObjectClick, OnObjectClick);
             SetNativeEvent(Events.ObjectDelete, OnObjectDelete);
-            
+            SetNativeEvent(Events.UniverseDisconnect, OnUniverseDisconnect);
+            SetNativeEvent(Events.WorldDisconnect, OnWorldDisconnect);
         }
 
         ~Instance()
@@ -299,6 +300,23 @@ namespace VpNet.Core
             }
 
         }
+
+        private void OnUniverseDisconnect(IntPtr sender)
+        {
+            if (EventUniverseDisconnect != null)
+            {
+                EventUniverseDisconnect(this);
+            }
+        }
+
+        private void OnWorldDisconnect(IntPtr sender)
+        {
+            if (EventWorldDisconnect != null)
+            {
+                EventWorldDisconnect(this);
+            }
+        }
+
         #endregion
 
         public void Dispose()
