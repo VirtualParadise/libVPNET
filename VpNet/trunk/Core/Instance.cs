@@ -22,7 +22,6 @@ namespace VpNet.Core
                 }
                 _isInitialized = true;
             }
-
             _instance = Functions.vp_create();
             SetNativeEvent(Events.Chat, OnChat);
             SetNativeEvent(Events.AvatarAdd, OnAvatarAdd);
@@ -41,7 +40,10 @@ namespace VpNet.Core
         {
             if (_instance != IntPtr.Zero)
             {
-                Functions.vp_destroy(_instance);
+                lock (this)
+                {
+                    Functions.vp_destroy(_instance);
+                }
             }
         }
 
@@ -57,7 +59,11 @@ namespace VpNet.Core
 
         public void Connect(string host = "universe.virtualparadise.org", ushort port = 57000)
         {
-            int rc = Functions.vp_connect_universe(_instance, host, port);
+            int rc;
+            lock (this)
+            {
+                rc = Functions.vp_connect_universe(_instance, host, port);
+            }
             if (rc != 0)
             {
                 throw new VpException((ReasonCode)rc);
@@ -66,7 +72,11 @@ namespace VpNet.Core
 
         public void Login(string username, string password, string botname)
         {
-            int rc = Functions.vp_login(_instance, username, password, botname);
+            int rc;
+            lock (this)
+            {
+                rc = Functions.vp_login(_instance, username, password, botname);
+            }
             if (rc != 0)
             {
                 throw new VpException((ReasonCode)rc);
@@ -75,7 +85,11 @@ namespace VpNet.Core
 
         public void Enter(string worldname)
         {
-            int rc = Functions.vp_enter(_instance, worldname);
+            int rc;
+            lock (this)
+            {
+                rc = Functions.vp_enter(_instance, worldname);
+            }
             if (rc != 0)
             {
                 throw new VpException((ReasonCode)rc);
@@ -87,10 +101,14 @@ namespace VpNet.Core
         /// </summary>
         public void Leave()
         {
-            int rc = Functions.vp_leave(_instance);
+            int rc;
+            lock (this)
+            {
+                rc = Functions.vp_leave(_instance);
+            }
             if (rc != 0)
             {
-                throw new VpException((ReasonCode)rc);
+                throw new VpException((ReasonCode) rc);
             }
         }
 
@@ -98,12 +116,16 @@ namespace VpNet.Core
             float x=0.0f, float y=0.0f, float z=0.0f, 
             float yaw=0.0f, float pitch=0.0f)
         {
-            Functions.vp_float_set(_instance, Attribute.MyX, x);
-            Functions.vp_float_set(_instance, Attribute.MyY, y);
-            Functions.vp_float_set(_instance, Attribute.MyZ, z);
-            Functions.vp_float_set(_instance, Attribute.MyYaw, yaw);
-            Functions.vp_float_set(_instance, Attribute.MyPitch, pitch);
-            int rc = Functions.vp_state_change(_instance);
+            int rc;
+            lock (this)
+            {
+                Functions.vp_float_set(_instance, Attribute.MyX, x);
+                Functions.vp_float_set(_instance, Attribute.MyY, y);
+                Functions.vp_float_set(_instance, Attribute.MyZ, z);
+                Functions.vp_float_set(_instance, Attribute.MyYaw, yaw);
+                Functions.vp_float_set(_instance, Attribute.MyPitch, pitch);
+                rc = Functions.vp_state_change(_instance);
+            }
             if (rc != 0)
             {
                 throw new VpException((ReasonCode)rc);
@@ -112,7 +134,11 @@ namespace VpNet.Core
 
         public void ListWorlds()
         {
-            int rc = Functions.vp_world_list(_instance, 0);
+            int rc;
+            lock (this)
+            {
+                rc = Functions.vp_world_list(_instance, 0);
+            }
             if (rc != 0)
             {
                 throw new VpException((ReasonCode)rc);
@@ -121,14 +147,22 @@ namespace VpNet.Core
 
         public void QueryCell(int cellX, int cellZ)
         {
-            int rc = Functions.vp_query_cell(_instance, cellX, cellZ);
+            int rc;
+            lock (this)
+            {
+                rc = Functions.vp_query_cell(_instance, cellX, cellZ);
+            }
             if (rc != 0)
-                throw new VpException((ReasonCode)rc);
+                throw new VpException((ReasonCode) rc);
         }
 
         public void Say(string message)
         {
-            int rc = Functions.vp_say(_instance, message);
+            int rc;
+            lock (this)
+            {
+                rc = Functions.vp_say(_instance, message);
+            }
             if (rc != 0)
             {
                 throw new VpException((ReasonCode)rc);
@@ -137,19 +171,23 @@ namespace VpNet.Core
 
         public void ChangeObject(VpObject vpObject)
         {
-            Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
-            Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
-            Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
-            Functions.vp_string_set(_instance,Attribute.ObjectModel, vpObject.Model);
-            Functions.vp_float_set(_instance, Attribute.ObjectRotationX,  vpObject.RotationX);
-            Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.RotationY);
-            Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.RotationZ);
-            Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.X);
-            Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Y);
-            Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Z);
-            Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
+            int rc;
+            lock (this)
+            {
+                Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
+                Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
+                Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
+                Functions.vp_string_set(_instance, Attribute.ObjectModel, vpObject.Model);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationX, vpObject.RotationX);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.RotationY);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.RotationZ);
+                Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.X);
+                Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Y);
+                Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Z);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
 
-            int rc = Functions.vp_object_change(_instance);
+                rc = Functions.vp_object_change(_instance);
+            }
             if (rc != 0)
             {
                 throw new VpException((ReasonCode)rc);
@@ -171,10 +209,10 @@ namespace VpNet.Core
         //public delegate void AvatarDeleteEvent(Instance sender, EventData.AvatarDelete eventData);
         public delegate void WorldListEvent(Instance sender, World eventData);
 
-        public delegate void ObjectChangeEvent(Instance sender, VpObject objectData);
-        public delegate void ObjectCreateEvent(Instance sender, VpObject objectData);
-        public delegate void ObjectDeleteEvent(Instance sender, int id);
-        public delegate void ObjectClickEvent(Instance sender, int sessionID, int objectId);
+        public delegate void ObjectChangeEvent(Instance sender, int sessionId, VpObject objectData);
+        public delegate void ObjectCreateEvent(Instance sender, int sessionId, VpObject objectData);
+        public delegate void ObjectDeleteEvent(Instance sender, int sessionId, int objectId);
+        public delegate void ObjectClickEvent(Instance sender, int sessionId, int objectId);
 
 
         public event ChatEvent EventChat;
@@ -197,156 +235,189 @@ namespace VpNet.Core
         #region Event handlers
         private void OnChat(IntPtr sender)
         {
-            if (EventChat != null)
+            if (EventChat == null) return;
+            Chat data;
+            lock (this)
             {
-                var data = new Chat(Functions.vp_string(_instance, Attribute.AvatarName),
-                                                         Functions.vp_string(_instance, Attribute.ChatMessage),
-                                                         Functions.vp_int(_instance, Attribute.AvatarSession));
-                EventChat(this, data);
+                    data = new Chat(Functions.vp_string(_instance, Attribute.AvatarName),
+                                    Functions.vp_string(_instance, Attribute.ChatMessage),
+                                    Functions.vp_int(_instance, Attribute.AvatarSession));
             }
+            EventChat(this, data);
         }
 
         private void OnAvatarAdd(IntPtr sender)
         {
-            if (EventAvatarAdd != null)
+            if (EventAvatarAdd == null) return;
+            Avatar data;
+            lock (this)
             {
-                var data = new Avatar(Functions.vp_string(_instance, Attribute.AvatarName),
-                                                                     Functions.vp_int(_instance, Attribute.AvatarSession),
-                                                                     Functions.vp_int(_instance, Attribute.AvatarType),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarX),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarY),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarZ),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarYaw),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarPitch));
-                EventAvatarAdd(this, data);
+                data = new Avatar(Functions.vp_string(_instance, Attribute.AvatarName),
+                                  Functions.vp_int(_instance, Attribute.AvatarSession),
+                                  Functions.vp_int(_instance, Attribute.AvatarType),
+                                  Functions.vp_float(_instance, Attribute.AvatarX),
+                                  Functions.vp_float(_instance, Attribute.AvatarY),
+                                  Functions.vp_float(_instance, Attribute.AvatarZ),
+                                  Functions.vp_float(_instance, Attribute.AvatarYaw),
+                                  Functions.vp_float(_instance, Attribute.AvatarPitch));
             }
+            EventAvatarAdd(this, data);
         }
 
         private void OnAvatarChange(IntPtr sender)
         {
-            if (EventAvatarChange != null)
+            if (EventAvatarChange == null) return;
+            Avatar data = null;
+            lock (this)
             {
-                var data = new Avatar(Functions.vp_string(_instance, Attribute.AvatarName),
-                                                                     Functions.vp_int(_instance, Attribute.AvatarSession),
-                                                                     Functions.vp_int(_instance, Attribute.AvatarType),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarX),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarY),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarZ),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarYaw),
-                                                                     Functions.vp_float(_instance, Attribute.AvatarPitch));
-                EventAvatarChange(this, data);
+                data = new Avatar(Functions.vp_string(_instance, Attribute.AvatarName),
+                                  Functions.vp_int(_instance, Attribute.AvatarSession),
+                                  Functions.vp_int(_instance, Attribute.AvatarType),
+                                  Functions.vp_float(_instance, Attribute.AvatarX),
+                                  Functions.vp_float(_instance, Attribute.AvatarY),
+                                  Functions.vp_float(_instance, Attribute.AvatarZ),
+                                  Functions.vp_float(_instance, Attribute.AvatarYaw),
+                                  Functions.vp_float(_instance, Attribute.AvatarPitch));
             }
+            EventAvatarChange(this, data);
         }
 
         private void OnAvatarDelete(IntPtr sender)
         {
-            if (EventAvatarDelete != null)
+            if (EventAvatarDelete == null) return;
+            Avatar data;
+            lock (this)
             {
-                var data = new Avatar(
+                data = new Avatar(
                     Functions.vp_string(_instance, Attribute.AvatarName),
                     Functions.vp_int(_instance, Attribute.AvatarSession),
                     0, 0, 0, 0, 0, 0);
-                EventAvatarDelete(this, data);
             }
+            EventAvatarDelete(this, data);
         }
 
         private void OnObjectClick(IntPtr sender)
         {
-            if (EventObjectClick != null)
-                EventObjectClick(this,
-                    Functions.vp_int(sender, Attribute.AvatarSession),
-                    Functions.vp_int(sender, Attribute.ObjectId));
+            if (EventObjectClick == null) return;
+            int session;
+            int objectId;
+            lock(this)
+            {
+                session = Functions.vp_int(sender, Attribute.AvatarSession);
+                objectId = Functions.vp_int(sender, Attribute.ObjectId);
+            }
+            EventObjectClick(this, session, objectId);
         }
 
         private void OnObjectDelete(IntPtr sender)
         {
-            if (EventObjectDelete !=null)
-                EventObjectDelete(this, Functions.vp_int(sender, Attribute.ObjectId));
+            if (EventObjectDelete == null) return;
+            int session;
+            int objectId;
+            lock (this)
+            {
+                session = Functions.vp_int(sender, Attribute.AvatarSession);
+                objectId = Functions.vp_int(sender, Attribute.ObjectId);
+            }
+            EventObjectDelete(this,session, objectId);
         }
 
         private void OnObjectCreate(IntPtr sender)
         {
-            if (EventObjectCreate != null)
+            if (EventObjectCreate == null) return;
+            VpObject vpObject;
+            int sessionId;
+            lock (this)
             {
-                var vpObject = new VpObject()
+                vpObject = new VpObject()
 
-                                   {
-                                       Action = Functions.vp_string(sender, Attribute.ObjectAction),
-                                       Description = Functions.vp_string(sender, Attribute.ObjectDescription),
-                                       Id = Functions.vp_int(sender, Attribute.ObjectId),
-                                       Model = Functions.vp_string(sender, Attribute.ObjectModel),
-                                       RotationX = Functions.vp_float(sender, Attribute.ObjectRotationX),
-                                       RotationY = Functions.vp_float(sender, Attribute.ObjectRotationY),
-                                       RotationZ = Functions.vp_float(sender, Attribute.ObjectRotationZ),
-                                       Time = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Functions.vp_int(sender, Attribute.ObjectTime)),
-                                       ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
-                                       Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
-                                       X = Functions.vp_float(sender, Attribute.ObjectX),
-                                       Y = Functions.vp_float(sender, Attribute.ObjectY),
-                                       Z = Functions.vp_float(sender, Attribute.ObjectZ),
-                                       Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle)
-                                   };
-
-                EventObjectCreate(this, vpObject);
+                               {
+                                   Action = Functions.vp_string(sender, Attribute.ObjectAction),
+                                   Description = Functions.vp_string(sender, Attribute.ObjectDescription),
+                                   Id = Functions.vp_int(sender, Attribute.ObjectId),
+                                   Model = Functions.vp_string(sender, Attribute.ObjectModel),
+                                   RotationX = Functions.vp_float(sender, Attribute.ObjectRotationX),
+                                   RotationY = Functions.vp_float(sender, Attribute.ObjectRotationY),
+                                   RotationZ = Functions.vp_float(sender, Attribute.ObjectRotationZ),
+                                   Time =
+                                       new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Functions.vp_int(sender,
+                                                                                                     Attribute.
+                                                                                                         ObjectTime)),
+                                   ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
+                                   Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
+                                   X = Functions.vp_float(sender, Attribute.ObjectX),
+                                   Y = Functions.vp_float(sender, Attribute.ObjectY),
+                                   Z = Functions.vp_float(sender, Attribute.ObjectZ),
+                                   Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle)
+                               };
+                sessionId = Functions.vp_int(sender, Attribute.AvatarSession);
             }
+            EventObjectCreate(this, sessionId, vpObject);
         }
-
 
         private void OnObjectChange(IntPtr sender)
         {
-            var vpObject = new VpObject()
+            if (EventObjectChange == null) return; 
+            VpObject vpObject;
+            int sessionId;
+            lock (this)
+            {
+                vpObject = new VpObject()
                                {
-                                   Action =  Functions.vp_string(sender, Attribute.ObjectAction),
-                                   Description =  Functions.vp_string(sender, Attribute.ObjectDescription),
-                                   Id =  Functions.vp_int(sender, Attribute.ObjectId),
-                                   Model =  Functions.vp_string(sender, Attribute.ObjectModel),
-                                   RotationX =  Functions.vp_float(sender, Attribute.ObjectRotationX),
-                                   RotationY =  Functions.vp_float(sender, Attribute.ObjectRotationY),
-                                   RotationZ =  Functions.vp_float(sender, Attribute.ObjectRotationZ),
-                                   Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Functions.vp_int(sender, Attribute.ObjectTime)),/* TODO: should be a long, returns string VB_Build? */
-                                   ObjectType =  Functions.vp_int(sender, Attribute.ObjectType),
-                                   Owner =  Functions.vp_int(sender, Attribute.ObjectUserId),
-                                   X =  Functions.vp_float(sender, Attribute.ObjectX),
-                                   Y =  Functions.vp_float(sender, Attribute.ObjectY),
-                                   Z =  Functions.vp_float(sender, Attribute.ObjectZ),
+                                   Action = Functions.vp_string(sender, Attribute.ObjectAction),
+                                   Description = Functions.vp_string(sender, Attribute.ObjectDescription),
+                                   Id = Functions.vp_int(sender, Attribute.ObjectId),
+                                   Model = Functions.vp_string(sender, Attribute.ObjectModel),
+                                   RotationX = Functions.vp_float(sender, Attribute.ObjectRotationX),
+                                   RotationY = Functions.vp_float(sender, Attribute.ObjectRotationY),
+                                   RotationZ = Functions.vp_float(sender, Attribute.ObjectRotationZ),
+                                   Time =
+                                       new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
+                                           Functions.vp_int(sender, Attribute.ObjectTime)),
+                                   /* TODO: should be a long, returns string VB_Build? */
+                                   ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
+                                   Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
+                                   X = Functions.vp_float(sender, Attribute.ObjectX),
+                                   Y = Functions.vp_float(sender, Attribute.ObjectY),
+                                   Z = Functions.vp_float(sender, Attribute.ObjectZ),
                                    Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle),
 
                                };
-
-            EventObjectChange(this, vpObject);
+                sessionId = Functions.vp_int(sender, Attribute.AvatarSession);
+            }
+            EventObjectChange(this, sessionId, vpObject);
         }
 
         private void OnWorldList(IntPtr sender)
         {
-            var worldName = Functions.vp_string(_instance, Attribute.WorldName);
-            var data = new World
-            {
-                Name = worldName,
-                State = (World.WorldState)Functions.vp_int(_instance, Attribute.WorldState),
-                UserCount = Functions.vp_int(_instance, Attribute.WorldUsers)
-            };
+            if (EventWorldList == null)
+                return;
 
-            if (EventWorldList != null)
+            string worldName;
+            World data;
+            lock (this)
             {
-                EventWorldList(this, data);
+                worldName = Functions.vp_string(_instance, Attribute.WorldName);
+                data = new World
+                               {
+                                   Name = worldName,
+                                   State = (World.WorldState) Functions.vp_int(_instance, Attribute.WorldState),
+                                   UserCount = Functions.vp_int(_instance, Attribute.WorldUsers)
+                               };
             }
-
+            EventWorldList(this, data);
         }
 
         private void OnUniverseDisconnect(IntPtr sender)
         {
-            if (EventUniverseDisconnect != null)
-            {
-                EventUniverseDisconnect(this);
-            }
+            if (EventUniverseDisconnect == null) return;
+            EventUniverseDisconnect(this);
         }
 
         private void OnWorldDisconnect(IntPtr sender)
         {
-            if (EventWorldDisconnect != null)
-            {
-                EventWorldDisconnect(this);
-            }
+            if (EventWorldDisconnect == null) return;
+            EventWorldDisconnect(this);
         }
 
         #endregion

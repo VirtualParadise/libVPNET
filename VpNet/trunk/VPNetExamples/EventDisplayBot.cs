@@ -29,12 +29,12 @@ namespace VPNetExamples
             Instance.EventWorldDisconnect += EventWorldDisconnect;
         }
 
-        void EventObjectCreate(Instance sender, VpObject objectData)
+        void EventObjectCreate(Instance sender, int sessionId, VpObject objectData)
         {
             Console.WriteLine("Created Object {0}", objectData.Id);
         }
 
-        void EventObjectChange(Instance sender, VpObject objectData)
+        void EventObjectChange(Instance sender, int sessionId, VpObject objectData)
         {
             Console.WriteLine("Changed Object {0}", objectData.Id);
         }
@@ -44,9 +44,9 @@ namespace VPNetExamples
             Console.WriteLine("World List {0}, {1} users.",eventData.Name,eventData.UserCount);
         }
 
-        void EventObjectDelete(Instance sender, int id)
+        void EventObjectDelete(Instance sender, int sessionId, int objectId)
         {
-            Console.WriteLine("Delete Object. {0}",id);
+            Console.WriteLine("Delete Object. {0}",objectId);
         }
 
         void EventObjectClick(Instance sender, int sessionId, int objectId)

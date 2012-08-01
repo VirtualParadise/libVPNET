@@ -30,7 +30,7 @@ namespace VPNetExamples.TextRotatorBot
             Instance.ChangeObject(_billBoard);    
         }
 
-        void EventObjectChange(Instance sender, VpObject objectData)
+        void EventObjectChange(Instance sender, int sessionId, VpObject objectData)
         {
             if (objectData.Id == _config.Config.ObjectId)
             {
