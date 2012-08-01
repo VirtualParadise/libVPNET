@@ -12,6 +12,8 @@ namespace VPNetExamples.TextRotatorBot
         private int _rotationIndex = 0;
         private bool _isRotationStarted;
         private VpObject _billBoard;
+        private Timer _timer;
+
 
         public TextRotatorBot(){}
 
@@ -39,18 +41,20 @@ namespace VPNetExamples.TextRotatorBot
                 {
                     _isRotationStarted = true;
                     SetSign(_config.Config.TextItems[0]);
-                    new Timer(RotationCallback, null, _config.Config.TextItems[0].Delay, 0);
+                    _timer = new Timer(RotationCallback, null, _config.Config.TextItems[0].Delay, 0);
                 }
             }
         }
 
         private void RotationCallback(object state)
         {
+            _timer.Dispose();
+            _timer = new Timer(RotationCallback, null, _config.Config.TextItems[_rotationIndex].Delay, 0);
             _rotationIndex++;
             if (_rotationIndex >= _config.Config.TextItems.Count)
                 _rotationIndex = 0;
             SetSign(_config.Config.TextItems[_rotationIndex]);
-            new Timer(RotationCallback, null, _config.Config.TextItems[_rotationIndex].Delay, 0);
+            
         }
 
         void _config_OnConfigChanged(object sender, System.EventArgs e)
