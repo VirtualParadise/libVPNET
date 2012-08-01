@@ -119,6 +119,13 @@ namespace VpNet.Core
             }
         }
 
+        public void QueryCell(int cellX, int cellZ)
+        {
+            int rc = Functions.vp_query_cell(_instance, cellX, cellZ);
+            if (rc != 0)
+                throw new VpException((ReasonCode)rc);
+        }
+
         public void Say(string message)
         {
             int rc = Functions.vp_say(_instance, message);
