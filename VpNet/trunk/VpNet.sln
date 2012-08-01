@@ -7,8 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPNetExamples", "VPNetExamp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{C5B15F27-C604-4D10-A432-6E4486A42077}"
 	ProjectSection(SolutionItems) = preProject
+		Dependencies\nunit.framework.dll = Dependencies\nunit.framework.dll
 		Dependencies\vpsdk.dll = Dependencies\vpsdk.dll
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.UnitTests", "VpNet.UnitTests\VpNet.UnitTests.csproj", "{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -44,6 +47,16 @@ Global
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Release|Mixed Platforms.Build.0 = Release|x86
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Release|x86.ActiveCfg = Release|x86
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Release|x86.Build.0 = Release|x86
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

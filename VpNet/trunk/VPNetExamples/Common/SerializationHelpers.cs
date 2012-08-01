@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace VPNetExamples.Common
 {
-    internal sealed class SerializationHelpers
+    public sealed class SerializationHelpers
     {
         public static T Deserialize<T>(FileInfo fi) where T : new()
         {

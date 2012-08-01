@@ -54,12 +54,6 @@ namespace VPNetExamples
             Console.WriteLine("Avatar with session ID {0} clicked on object {1}.",sessionId, objectId);
         }
 
-        void EventObject(Instance sender)
-        {
-            // currently not supported.
-            Console.WriteLine("New Object.");
-        }
-
         void EventFriend(Instance sender)
         {
             // currently not supported.

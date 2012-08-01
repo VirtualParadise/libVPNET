@@ -8,7 +8,8 @@ namespace VPNetExamples.KeywordBot
 {
     internal class KeywordBot : BaseExampleBot
     {
-        public List<KeywordItem> _keywordItems;
+ 
+        private ActiveConfig<List<KeywordItem>> _keywordItems; 
 
         public KeywordBot(Instance instance) : base(instance) {}
 
@@ -19,8 +20,10 @@ namespace VPNetExamples.KeywordBot
 
         void EventChat(Instance sender, Chat eventData)
         {
+            if (eventData.Username.StartsWith("["))
+                return;
             var message = eventData.Message.ToLower();
-            foreach (var item in _keywordItems)
+            foreach (var item in _keywordItems.Config)
             {
                 if (message.ToLower().Contains(item.Keyword))
                 {
@@ -29,25 +32,10 @@ namespace VPNetExamples.KeywordBot
             }
         }
 
-        void LoadConfig(FileInfo fi)
-        {
-            _keywordItems = SerializationHelpers.Deserialize<List<KeywordItem>>(fi);
-        }
-
         public override void Initialize()
         {
-            var config = new FileInfo(@".\KeywordBot\KeywordBotData.xml");
-            
-            var watcher = new FileSystemWatcher(config.Directory.FullName,config.Name);
-            LoadConfig(config);
-            watcher.Changed += new FileSystemEventHandler(watcher_Changed);
-            watcher.EnableRaisingEvents = true;
+            _keywordItems = new ActiveConfig<List<KeywordItem>>(new FileInfo(@".\KeywordBot\KeywordBotData.xml"));
             Instance.EventChat += EventChat;
-        }
-
-        void watcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            LoadConfig(new FileInfo(e.FullPath));
         }
     }
 }

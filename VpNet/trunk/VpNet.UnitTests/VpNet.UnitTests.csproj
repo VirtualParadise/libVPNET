@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VPNetExamples</RootNamespace>
-    <AssemblyName>VPNetExamples</AssemblyName>
+    <RootNamespace>VpNet.UnitTests</RootNamespace>
+    <AssemblyName>VpNet.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,9 +21,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,8 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\Dependencies\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,42 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\ActiveConfig.cs" />
-    <Compile Include="Common\BaseExampleBot.cs" />
-    <Compile Include="Common\SerializationHelpers.cs" />
-    <Compile Include="EventDisplayBot.cs" />
-    <Compile Include="GreeterBot.cs" />
-    <Compile Include="HelloWorldBot.cs" />
-    <Compile Include="KeywordBot\KeywordBot.cs" />
-    <Compile Include="KeywordBot\KeywordItem.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ActiveConfigurationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextRotatorBot\TextRotatorBot.cs" />
-    <Compile Include="TextRotatorBot\TextRotatorConfig.cs" />
-    <Compile Include="TextRotatorBot\TextRotatorConfigItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VPNet.csproj">
       <Project>{DBE501A7-0176-473F-B2E8-F4ADA721917F}</Project>
       <Name>VPNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VPNetExamples\VPNetExamples.csproj">
+      <Project>{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}</Project>
+      <Name>VPNetExamples</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\Dependencies\vpsdk.dll">
-      <Link>vpsdk.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="KeywordBot\KeywordBotData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TextRotatorBot\TextRotatorBotData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

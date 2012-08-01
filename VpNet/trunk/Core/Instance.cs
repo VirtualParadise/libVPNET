@@ -127,6 +127,27 @@ namespace VpNet.Core
                 throw new VpException((ReasonCode)rc);
             }
         }
+
+        public void ChangeObject(VpObject vpObject)
+        {
+            Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
+            Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
+            Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
+            Functions.vp_string_set(_instance,Attribute.ObjectModel, vpObject.Model);
+            Functions.vp_float_set(_instance, Attribute.ObjectRotationX,  vpObject.RotationX);
+            Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.RotationY);
+            Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.RotationZ);
+            Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.X);
+            Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Y);
+            Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Z);
+
+            int rc = Functions.vp_object_change(_instance);
+            if (rc != 0)
+            {
+                throw new VpException((ReasonCode)rc);
+            }
+        }
+
         #endregion
         #region Events
         
@@ -249,7 +270,7 @@ namespace VpNet.Core
                                        RotationX = Functions.vp_float(sender, Attribute.ObjectRotationX),
                                        RotationY = Functions.vp_float(sender, Attribute.ObjectRotationY),
                                        RotationZ = Functions.vp_float(sender, Attribute.ObjectRotationZ),
-                                       Time = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Functions.vp_int(sender, Attribute.ObjectTime)),/* TODO: should be a long, returns string VB_Build? */
+                                       Time = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Functions.vp_int(sender, Attribute.ObjectTime)),
                                        ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
                                        Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
                                        X = Functions.vp_float(sender, Attribute.ObjectX),

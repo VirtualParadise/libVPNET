@@ -1,0 +1,7 @@
+﻿<?xml version="1.0"?>
+<TextRotatorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ObjectId="774137"> <!-- please change object id, to a sign object that you own. -->
+  <TextItems>
+    <TextRotatorConfigItem Text="\r\nWelcome to VP-Build\r\n\r\nPlease build on your own land,\r\nThere is plenty of space :-)" Delay="8000" />
+    <TextRotatorConfigItem Text="Latest version:\r\n0.3.22\r\n\r\nEvents:\r\nNone" Delay="5000" />
+  </TextItems>
+</TextRotatorConfig>
