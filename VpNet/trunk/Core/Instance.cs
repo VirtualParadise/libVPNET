@@ -145,7 +145,7 @@ namespace VpNet.Core
         public delegate void ObjectChangeEvent(Instance sender, VpObject objectData);
         public delegate void ObjectCreateEvent(Instance sender, VpObject objectData);
         public delegate void ObjectDeleteEvent(Instance sender, int id);
-        public delegate void ObjectClickEvent(Instance sender, int id);
+        public delegate void ObjectClickEvent(Instance sender, int sessionID, int objectId);
 
 
         public event ChatEvent EventChat;
@@ -224,7 +224,9 @@ namespace VpNet.Core
         private void OnObjectClick(IntPtr sender)
         {
             if (EventObjectClick != null)
-                EventObjectClick(this, Functions.vp_int(sender, Attribute.ObjectId));
+                EventObjectClick(this,
+                    Functions.vp_int(sender, Attribute.AvatarSession),
+                    Functions.vp_int(sender, Attribute.ObjectId));
         }
 
         private void OnObjectDelete(IntPtr sender)

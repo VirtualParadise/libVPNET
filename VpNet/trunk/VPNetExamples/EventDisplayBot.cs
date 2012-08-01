@@ -49,10 +49,9 @@ namespace VPNetExamples
             Console.WriteLine("Delete Object. {0}",id);
         }
 
-        void EventObjectClick(Instance sender, int id)
+        void EventObjectClick(Instance sender, int sessionId, int objectId)
         {
-            // TODO: currently not unmanaged SDK / Server.
-            Console.WriteLine("Click on object. {0}",id);
+            Console.WriteLine("Avatar with session ID {0} clicked on object {1}.",sessionId, objectId);
         }
 
         void EventObject(Instance sender)
