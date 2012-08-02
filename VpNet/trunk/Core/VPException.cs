@@ -3,7 +3,7 @@ using VpNet.NativeApi;
 
 namespace VpNet.Core
 {
-    class VpException : Exception
+    public sealed class VpException : Exception
     {
         public ReasonCode Reason;
 

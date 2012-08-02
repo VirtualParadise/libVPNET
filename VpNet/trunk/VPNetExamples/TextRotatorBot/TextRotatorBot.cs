@@ -61,5 +61,10 @@ namespace VPNetExamples.TextRotatorBot
         {
             _rotationIndex = -1;
         }
+
+        public override void Disconnect()
+        {
+            _timer.Dispose();
+        }
     }
 }

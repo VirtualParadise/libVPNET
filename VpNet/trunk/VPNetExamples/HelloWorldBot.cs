@@ -13,5 +13,10 @@ namespace VPNetExamples
         {
             Instance.Say("Hello World!");
         }
+
+        public override void Disconnect()
+        {
+            // no cleanup needed.
+        }
     }
 }

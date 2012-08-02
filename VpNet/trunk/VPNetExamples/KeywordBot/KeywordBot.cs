@@ -37,5 +37,10 @@ namespace VPNetExamples.KeywordBot
             _keywordItems = new ActiveConfig<List<KeywordItem>>(new FileInfo(@".\KeywordBot\KeywordBotData.xml"));
             Instance.EventChat += EventChat;
         }
+
+        public override void Disconnect()
+        {
+            // no cleanup needed.
+        }
     }
 }

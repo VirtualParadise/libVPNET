@@ -85,5 +85,10 @@ namespace VPNetExamples
         {
             Console.WriteLine("World disconnected.");
         }
+
+        public override void Disconnect()
+        {
+           // no cleanup needed.
+        }
     }
 }
