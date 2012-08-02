@@ -40,7 +40,7 @@ namespace VPNetExamples.KeywordBot
 
         public override void Disconnect()
         {
-            // no cleanup needed.
+            Instance.EventChat -= EventChat;
         }
     }
 }

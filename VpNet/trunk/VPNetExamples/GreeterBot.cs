@@ -29,7 +29,8 @@ namespace VPNetExamples
 
         public override void Disconnect()
         {
-            // no cleanup needed.
+            Instance.EventAvatarAdd -= EventAvatarAdd;
+            Instance.EventAvatarDelete -= EventAvatarDelete;
         }
     }
 }
