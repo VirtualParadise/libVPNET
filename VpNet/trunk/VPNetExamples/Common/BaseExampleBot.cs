@@ -169,6 +169,7 @@ namespace VPNetExamples.Common
         public virtual void Dispose()
         {
             _timer.Dispose();
+            DisconnectBots();
             _instance.Dispose();
         }
 

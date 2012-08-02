@@ -67,7 +67,7 @@ namespace VPNetExamples.TextRotatorBot
         public override void Disconnect()
         {
             Instance.EventObjectChange -= EventObjectChange;
-            _timer.Dispose();
+            if (_timer != null) _timer.Dispose();
         }
     }
 }
