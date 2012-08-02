@@ -24,6 +24,8 @@ namespace VPNetExamples.TextRotatorBot
             _config = new ActiveConfig<TextRotatorConfig>(new FileInfo(@".\TextRotatorBot\TextRotatorBotData.xml"));
             _config.OnConfigChanged += new ActiveConfig<TextRotatorConfig>.ConfigChanged(_config_OnConfigChanged);
             Instance.EventObjectChange += EventObjectChange;
+            if (_billBoard != null)
+                RotationCallback(null);
         }
 
         void SetSign(TextRotatorConfigItem item)
@@ -48,7 +50,7 @@ namespace VPNetExamples.TextRotatorBot
 
         private void RotationCallback(object state)
         {
-            _timer.Dispose();
+            if (_timer != null) _timer.Dispose();
             _timer = new Timer(RotationCallback, null, _config.Config.TextItems[_rotationIndex].Delay, 0);
             _rotationIndex++;
             if (_rotationIndex >= _config.Config.TextItems.Count)
@@ -64,6 +66,7 @@ namespace VPNetExamples.TextRotatorBot
 
         public override void Disconnect()
         {
+            Instance.EventObjectChange -= EventObjectChange;
             _timer.Dispose();
         }
     }

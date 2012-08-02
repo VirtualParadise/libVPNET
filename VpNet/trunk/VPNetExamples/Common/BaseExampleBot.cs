@@ -32,7 +32,8 @@ namespace VPNetExamples.Common
 
         void EnterUniverse()
         {
-            _instance = new Instance();
+            if (_instance==null)
+                _instance = new Instance();
             _instance.Connect(ConfigurationManager.AppSettings["server"], ushort.Parse(ConfigurationManager.AppSettings["serverPort"]));
             _instance.Login(ConfigurationManager.AppSettings["user"], ConfigurationManager.AppSettings["password"], ConfigurationManager.AppSettings["botName"]);
             _instance.EventUniverseDisconnect += EventUniverseDisconnect;
@@ -133,8 +134,6 @@ namespace VPNetExamples.Common
         void EventWorldDisconnect(Instance sender)
         {
             DisconnectBots();
-            sender.Dispose();
-            _instance = new Instance();
             Console.WriteLine("World connection lost, trying to re-enter world.");
             Reconnect(ReconnectionType.World);
         }
@@ -142,8 +141,6 @@ namespace VPNetExamples.Common
         void EventUniverseDisconnect(Instance sender)
         {
             DisconnectBots(); 
-            sender.Dispose();
-            _instance = new Instance();
             Console.WriteLine("Universe connection lost, trying to reconnect.");
             Reconnect(ReconnectionType.Universe);
         }

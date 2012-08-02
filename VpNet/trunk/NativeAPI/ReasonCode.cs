@@ -68,6 +68,10 @@
         /// <summary>
         /// No such user exists
         /// </summary>
-        NoSuchUser=15
+        NoSuchUser=15,
+        /// <summary>
+        /// Timeout
+        /// </summary>
+        Timeout=16
     }
 }
