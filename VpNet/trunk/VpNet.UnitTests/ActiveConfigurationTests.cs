@@ -11,11 +11,11 @@ namespace VpNet.UnitTests
         [Test]
         public void TextRotatorConfigTest()
         {
-            var config = new TextRotatorConfig {ObjectId = int.MaxValue};
+            var config = new TextRotatorConfig {Name = "objectname"};
             config.TextItems.Add(new TextRotatorConfigItem(){Delay=1000,Text="Hello world!\r\n"});
             SerializationHelpers.Serialize<TextRotatorConfig>(config, new FileInfo("TextRotatorConfigTest.xml"));
             var target = SerializationHelpers.Deserialize<TextRotatorConfig>(new FileInfo("TextRotatorConfigTest.xml"));
-            Assert.AreEqual(config.ObjectId, target.ObjectId);
+            Assert.AreEqual(config.Name, target.Name);
         }
     }
 }

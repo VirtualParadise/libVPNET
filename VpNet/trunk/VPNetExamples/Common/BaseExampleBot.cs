@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.Reflection;
 using System.Threading;
+using VPNetExamples.Common.ActionInterpreter;
 using VpNet.Core;
 using VpNet.NativeApi;
 
@@ -17,16 +19,26 @@ namespace VPNetExamples.Common
         }
 
         private Instance _instance;
+
+        public Interpreter Interpreter
+        {
+            get { return _interpreter; }
+        }
+
         internal Instance Instance { get { return _instance; } }
         private Timer _timer;
 
         private List<BaseExampleBot> _attachedBots;
+
+        private Interpreter _interpreter;
+
 
         public abstract void Initialize();
 
 
         protected BaseExampleBot()
         {
+            _interpreter = new Interpreter(Assembly.GetAssembly(typeof(Interpreter)));
             EnterUniverse();
         }
 
@@ -133,6 +145,8 @@ namespace VPNetExamples.Common
 
         void EventWorldDisconnect(Instance sender)
         {
+            // remove all events.
+            Instance.ReleaseEvents();
             DisconnectBots();
             Console.WriteLine("World connection lost, trying to re-enter world.");
             Reconnect(ReconnectionType.World);
@@ -140,6 +154,7 @@ namespace VPNetExamples.Common
 
         void EventUniverseDisconnect(Instance sender)
         {
+            Instance.ReleaseEvents();
             DisconnectBots(); 
             Console.WriteLine("Universe connection lost, trying to reconnect.");
             Reconnect(ReconnectionType.Universe);
@@ -156,6 +171,8 @@ namespace VPNetExamples.Common
                 _attachedBots = new List<BaseExampleBot>();
 
             var botInstance = (T) Activator.CreateInstance(typeof (T), new object[] {_instance});
+            // share the action interpreter
+            botInstance._interpreter = this._interpreter;
             botInstance.Initialize();
             _attachedBots.Add(botInstance);
         }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0"?>
-<TextRotatorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ObjectId="774166">
-  <!-- please change object id, to a sign object that you own. 
+<TextRotatorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="dev1" CellX="-2" CellY="-1">
+  <!-- please change object name and cell location, to a sign object that you own. 
 
 -->
   <TextItems>

@@ -5,8 +5,12 @@ namespace VPNetExamples.TextRotatorBot
 {
     public class TextRotatorConfig
     {
+        [XmlAttributeAttribute]
+        public int CellX { get; set; }
+        [XmlAttributeAttribute]
+        public int CellY { get; set; }
         [XmlAttribute]
-        public int ObjectId { get; set; }
+        public string Name { get; set; }
         public List<TextRotatorConfigItem> TextItems { get; set; }
 
         public TextRotatorConfig()

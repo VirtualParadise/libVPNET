@@ -214,6 +214,7 @@ namespace VpNet.Core
         public delegate void ObjectDeleteEvent(Instance sender, int sessionId, int objectId);
         public delegate void ObjectClickEvent(Instance sender, int sessionId, int objectId);
 
+        public delegate void QueryCellResult(Instance sender, VpObject objectData);
 
         public event ChatEvent EventChat;
         public event AvatarEvent EventAvatarAdd;
@@ -231,6 +232,9 @@ namespace VpNet.Core
         public event Event EventWorldDisconnect;
         public event Event EventUniverseDisconnect;
         public event Event EventUserAttributes;
+
+        public event QueryCellResult EventQueryCellResult;
+
         #endregion
         #region Event handlers
         private void OnChat(IntPtr sender)
@@ -324,11 +328,12 @@ namespace VpNet.Core
 
         private void OnObjectCreate(IntPtr sender)
         {
-            if (EventObjectCreate == null) return;
+            if (EventObjectCreate == null && EventQueryCellResult == null) return;
             VpObject vpObject;
             int sessionId;
             lock (this)
             {
+                sessionId = Functions.vp_int(sender, Attribute.AvatarSession);
                 vpObject = new VpObject()
 
                                {
@@ -350,9 +355,13 @@ namespace VpNet.Core
                                    Z = Functions.vp_float(sender, Attribute.ObjectZ),
                                    Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle)
                                };
-                sessionId = Functions.vp_int(sender, Attribute.AvatarSession);
+                
             }
-            EventObjectCreate(this, sessionId, vpObject);
+            if (sessionId == -1 && EventQueryCellResult != null)
+                EventQueryCellResult(this, vpObject);
+            else
+                if (EventObjectCreate != null)
+                    EventObjectCreate(this, sessionId, vpObject);
         }
 
         private void OnObjectChange(IntPtr sender)
@@ -421,6 +430,29 @@ namespace VpNet.Core
         }
 
         #endregion
+
+        public void ReleaseEvents()
+        {
+            lock (this)
+            {
+                EventChat = null;
+                EventAvatarAdd = null;
+                EventAvatarChange = null;
+                EventAvatarDelete = null;
+                EventObjectCreate = null;
+                EventObjectChange = null;
+                EventObjectDelete = null;
+                EventObjectClick = null;
+                EventWorldList = null;
+                EventWorldSetting = null;
+                EventWorldSettingsChanged = null;
+                EventFriend = null;
+                EventWorldDisconnect = null;
+                EventUniverseDisconnect = null;
+                EventUserAttributes = null;
+                EventQueryCellResult = null;
+            }
+        }
 
         public void Dispose()
         {

@@ -88,17 +88,6 @@ namespace VPNetExamples
 
         public override void Disconnect()
         {
-            Instance.EventAvatarAdd -= EventAvatarAdd;
-            Instance.EventAvatarDelete -= EventAvatarDelete;
-            Instance.EventChat -= EventChat;
-            Instance.EventFriend -= EventFriend;
-            Instance.EventObjectClick -= EventObjectClick;
-            Instance.EventObjectDelete -= EventObjectDelete;
-            Instance.EventObjectChange -= EventObjectChange;
-            Instance.EventObjectCreate -= EventObjectCreate;
-            Instance.EventWorldList -= EventWorldList;
-            Instance.EventUniverseDisconnect -= EventUniverseDisconnect;
-            Instance.EventWorldDisconnect -= EventWorldDisconnect;
         }
     }
 }

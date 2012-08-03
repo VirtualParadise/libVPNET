@@ -33,6 +33,7 @@ menu:
                         _bot.AttachBot<KeywordBot.KeywordBot>();
                         _bot.AttachBot<EventDisplayBot>();
                         _bot.AttachBot<TextRotatorBot.TextRotatorBot>();
+                        _bot.AttachBot<QueryBot>();
                         break;
                     case "1":
                         _bot = new HelloWorldBot();
@@ -48,6 +49,9 @@ menu:
                         break;
                     case "5":
                         _bot = new TextRotatorBot.TextRotatorBot();
+                        break;
+                    case "6":
+                        _bot = new QueryBot();
                         break;
                     default:
                         Console.WriteLine("Please enter an existing number");
