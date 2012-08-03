@@ -33,7 +33,7 @@ menu:
                         _bot.AttachBot<KeywordBot.KeywordBot>();
                         _bot.AttachBot<EventDisplayBot>();
                         _bot.AttachBot<TextRotatorBot.TextRotatorBot>();
-                        _bot.AttachBot<QueryBot>();
+                        //_bot.AttachBot<QueryBot>();
                         break;
                     case "1":
                         _bot = new HelloWorldBot();
