@@ -32,7 +32,7 @@ namespace VPNetExamples
 
         void Instance_EventAvatarAdd(Instance sender, Avatar eventData)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("{0} enters world.", eventData.Name);
         }
 
         void EventObjectCreate(Instance sender, int sessionId, VpObject objectData)
