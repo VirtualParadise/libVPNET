@@ -49,13 +49,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VPNet.csproj">
-      <Project>{DBE501A7-0176-473F-B2E8-F4ADA721917F}</Project>
-      <Name>VPNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VPNetExamples\VPNetExamples.csproj">
       <Project>{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}</Project>
       <Name>VPNetExamples</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VpNetPlus\VpNetPlus.csproj">
+      <Project>{5460279F-5B9B-4270-ADA6-41CE45C567EB}</Project>
+      <Name>VpNetPlus</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

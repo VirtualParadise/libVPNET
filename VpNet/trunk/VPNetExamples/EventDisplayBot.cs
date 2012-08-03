@@ -1,5 +1,6 @@
 ﻿using System;
 using VPNetExamples.Common;
+using VpNet;
 using VpNet.Core;
 using VpNet.Core.EventData;
 
@@ -16,7 +17,7 @@ namespace VPNetExamples
 
         public override void Initialize()
         {
-            Instance.EventAvatarAdd += EventAvatarAdd;
+            Instance.EventAvatarAdd += Instance_EventAvatarAdd;
             Instance.EventAvatarDelete += EventAvatarDelete;
             Instance.EventChat += EventChat;
             Instance.EventFriend += EventFriend;
@@ -27,6 +28,11 @@ namespace VPNetExamples
             Instance.EventWorldList += EventWorldList;
             Instance.EventUniverseDisconnect += EventUniverseDisconnect;
             Instance.EventWorldDisconnect += EventWorldDisconnect;
+        }
+
+        void Instance_EventAvatarAdd(Instance sender, Avatar eventData)
+        {
+            throw new NotImplementedException();
         }
 
         void EventObjectCreate(Instance sender, int sessionId, VpObject objectData)

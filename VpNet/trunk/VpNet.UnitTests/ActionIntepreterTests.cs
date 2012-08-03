@@ -14,7 +14,7 @@ namespace VpNet.UnitTests
         {
             const string action = "create name prod1, sign bcolor=00CC00 shadow";
             var interpreter = new Interpreter(Assembly.GetAssembly(typeof(Interpreter)));
-            var interpreted = interpreter.Interpret(action).ToList();
+            var interpreted = interpreter.Interpret(action);
             string name = string.Empty;
 
             foreach (ACName command in interpreter.Interpret(action).SelectMany(trigger => trigger.Commands).OfType<ACName>())

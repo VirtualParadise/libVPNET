@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -145,12 +146,6 @@
     <Compile Include="TextRotatorBot\TextRotatorConfigItem.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VPNet.csproj">
-      <Project>{DBE501A7-0176-473F-B2E8-F4ADA721917F}</Project>
-      <Name>VPNet</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\Dependencies\vpsdk.dll">
       <Link>vpsdk.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -167,7 +162,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\VpNetPlus\VpNetPlus.csproj">
+      <Project>{5460279F-5B9B-4270-ADA6-41CE45C567EB}</Project>
+      <Name>VpNetPlus</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
