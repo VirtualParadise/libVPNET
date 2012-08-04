@@ -21,8 +21,10 @@ menu:
                 Console.WriteLine("2. Greeter Bot");
                 Console.WriteLine("3. Keyword Bot");
                 Console.WriteLine("4. Event Display Bot");
-                Console.WriteLine("5. Text Rotator Bot"); 
-                Console.Write("Please enter a numer (0-5): ");
+                Console.WriteLine("5. Text Rotator Bot");
+                Console.WriteLine("6. Query Bot");
+                Console.WriteLine("7. Weather Bot"); 
+                Console.Write("Please enter a numer (0-7): ");
                 string read = Console.ReadLine();
 
                 switch (read)
@@ -33,7 +35,7 @@ menu:
                         _bot.AttachBot<KeywordBot.KeywordBot>();
                         _bot.AttachBot<EventDisplayBot>();
                         _bot.AttachBot<TextRotatorBot.TextRotatorBot>();
-                        //_bot.AttachBot<QueryBot>();
+                        _bot.AttachBot<WeatherBot.WeatherBot>();
                         break;
                     case "1":
                         _bot = new HelloWorldBot();
@@ -52,6 +54,9 @@ menu:
                         break;
                     case "6":
                         _bot = new QueryBot();
+                        break;
+                    case "7":
+                        _bot = new WeatherBot.WeatherBot();
                         break;
                     default:
                         Console.WriteLine("Please enter an existing number");

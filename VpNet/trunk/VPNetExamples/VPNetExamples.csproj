@@ -38,6 +38,8 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -142,9 +144,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryBot.cs" />
+    <Compile Include="Service References\GlobalWeatherService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="TextRotatorBot\TextRotatorBot.cs" />
     <Compile Include="TextRotatorBot\TextRotatorConfig.cs" />
     <Compile Include="TextRotatorBot\TextRotatorConfigItem.cs" />
+    <Compile Include="WeatherBot\CurrentWeather.cs" />
+    <Compile Include="WeatherBot\WeatherBot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\Dependencies\vpsdk.dll">
@@ -154,6 +163,12 @@
     <Content Include="KeywordBot\KeywordBotData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Service References\GlobalWeatherService\configuration91.svcinfo" />
+    <None Include="Service References\GlobalWeatherService\configuration.svcinfo" />
+    <None Include="Service References\GlobalWeatherService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="TextRotatorBot\TextRotatorBotData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -162,12 +177,19 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\GlobalWeatherService\globalweather.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VpNetPlus\VpNetPlus.csproj">
       <Project>{5460279F-5B9B-4270-ADA6-41CE45C567EB}</Project>
       <Name>VpNetPlus</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\GlobalWeatherService\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

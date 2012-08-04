@@ -27,6 +27,28 @@ namespace VPNetExamples.Common.ActionInterpreter
         }
 
         /// <summary>
+        /// Finds the specified non interpreted action of specified trigger type and command type.
+        /// Please use overloaded method which searches a interpreted action for speed if you are executing multiple queries
+        /// for optimized speed.
+        /// </summary>
+        /// <typeparam name="TTrigger">The type of the trigger.</typeparam>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <returns></returns>
+        /// <Author>8/4/2012 4:15 AM cube3</Author>
+        public TCommand Find<TTrigger, TCommand>(string action)
+            where TCommand : class, IActionCommand, new()
+            where TTrigger : class, ICommandGroup, new()
+        {
+            var interpreter = new Interpreter(Assembly.GetAssembly(typeof(Interpreter)));
+            return (from trigger in interpreter.Interpret(action)
+                    from command in trigger.Commands
+                    where
+                        command is TCommand && trigger is TTrigger
+                    select command as TCommand).FirstOrDefault();
+        }
+
+        /// <summary>
         /// Inteprets the specified action string, and returns a collection of ActionTrigger with for each trigger, 
         /// the command sets and their object types containing the reflected .NET runtime properties.
         /// 

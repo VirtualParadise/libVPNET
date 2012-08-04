@@ -23,7 +23,7 @@ namespace VPNetExamples.Common
                 message = "<?xml version=\"1.0\"?>" + message;
             using (var mem = new MemoryStream())
             {
-                byte[] a = System.Text.Encoding.UTF8.GetBytes(message);
+                byte[] a = System.Text.Encoding.Unicode.GetBytes(message);
                 mem.Write(a, 0, a.Length);
                 mem.Position = 0;
                 var ser = new XmlSerializer(typeof(T));
