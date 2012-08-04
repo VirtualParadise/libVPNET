@@ -133,6 +133,7 @@
     <Compile Include="Common\ActionInterpreter\Interfaces\IActionInterpreter.cs" />
     <Compile Include="Common\ActionInterpreter\Interfaces\ICommandGroup.cs" />
     <Compile Include="Common\ActionInterpreter\Interfaces\ILiteralAction.cs" />
+    <Compile Include="Common\TimerT.cs" />
     <Compile Include="EventDisplayBot.cs" />
     <Compile Include="GreeterBot.cs" />
     <Compile Include="HelloWorldBot.cs" />

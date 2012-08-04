@@ -31,7 +31,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
         /// <Author>8/4/2012 3:35 AM cube3</Author>
         [Browsable(true)]
         [Description("The texture argument specifies the name of the texture to apply. The texture can reside on the world's object path or an external url can be specified")]
-        [ACItemBinding("", CommandInterpretType.SingleArgument)]
+        [ACItemBinding("_______", CommandInterpretType.SingleArgument)]
         public string Texture { get; set; }
 
         /// <summary>

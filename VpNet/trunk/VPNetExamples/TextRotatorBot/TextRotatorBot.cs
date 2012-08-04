@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using VPNetExamples.Common;
-using System.Threading;
 using VPNetExamples.Common.ActionInterpreter.Commands;
 using VpNet.Core;
 using VpNet.Core.EventData;
@@ -14,7 +13,7 @@ namespace VPNetExamples.TextRotatorBot
         private ActiveConfig<TextRotatorConfig> _config;
         private int _rotationIndex;
         private VpObject _billBoard;
-        private Timer _timer;
+        private TimerT<TextRotatorBot> _timer;
         private const string ConfigFile = @".\TextRotatorBot\TextRotatorBotData.xml";
 
         public TextRotatorBot(){}
@@ -25,8 +24,6 @@ namespace VPNetExamples.TextRotatorBot
         {
             _config = new ActiveConfig<TextRotatorConfig>(new FileInfo(ConfigFile));
             _config.OnConfigChanged += OnConfigChanged;
-            if (_billBoard != null)
-                RotationCallback(null);
             Instance.EventQueryCellResult += EventQueryCellResult;
             Instance.QueryCell(_config.Config.CellX, _config.Config.CellY);
         }
@@ -37,7 +34,8 @@ namespace VPNetExamples.TextRotatorBot
             {
                 _billBoard = objectData;
                 SetSign(_config.Config.TextItems[0]);
-                _timer = new Timer(RotationCallback, null, _config.Config.TextItems[0].Delay, 0);
+                _timer = AddTimer(new TimerT<TextRotatorBot>(RotationCallback, this, _config.Config.TextItems[0].Delay, 0));
+                _timer.Start();
             }
         }
 
@@ -47,10 +45,9 @@ namespace VPNetExamples.TextRotatorBot
             Instance.ChangeObject(_billBoard);    
         }
 
-        private void RotationCallback(object state)
+        private void RotationCallback(TextRotatorBot state)
         {
-            if (_timer != null) _timer.Dispose();
-            _timer = new Timer(RotationCallback, null, _config.Config.TextItems[_rotationIndex].Delay, 0);
+            _timer.Change(_config.Config.TextItems[_rotationIndex].Delay, 0);
             _rotationIndex++;
             if (_rotationIndex >= _config.Config.TextItems.Count)
                 _rotationIndex = 0;
@@ -65,7 +62,8 @@ namespace VPNetExamples.TextRotatorBot
 
         public override void Disconnect()
         {
-            if (_timer != null) _timer.Dispose();
+            // note that as we added the timer using the add timer method, from the base class we do not need to cleanup the timer.
+            // it is handled by that base class.
         }
     }
 }

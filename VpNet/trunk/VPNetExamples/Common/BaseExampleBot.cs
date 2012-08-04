@@ -29,6 +29,15 @@ namespace VPNetExamples.Common
         private Timer _timer;
 
         private List<BaseExampleBot> _attachedBots;
+        private List<ITimerT> _timers;
+ 
+        public TimerT<TState> AddTimer<TState>(TimerT<TState> timer)
+        {
+            if (_timers == null)
+                _timers = new List<ITimerT>();
+            _timers.Add(timer);
+            return timer;
+        }
 
         private Interpreter _interpreter;
 
@@ -143,17 +152,28 @@ namespace VPNetExamples.Common
             this.Initialize();
         }
 
+        void DisposeTimers()
+        {
+            foreach (var timer in _timers)
+            {
+                timer.Dispose();
+            }
+            _timers.Clear();
+        }
+
         void EventWorldDisconnect(Instance sender)
         {
-            // remove all events.
-            Instance.ReleaseEvents();
+            DisposeTimers();
             DisconnectBots();
+            Instance.ReleaseEvents();
             Console.WriteLine("World connection lost, trying to re-enter world.");
             Reconnect(ReconnectionType.World);
         }
 
         void EventUniverseDisconnect(Instance sender)
         {
+            DisposeTimers();
+            DisconnectBots();
             Instance.ReleaseEvents();
             DisconnectBots(); 
             Console.WriteLine("Universe connection lost, trying to reconnect.");

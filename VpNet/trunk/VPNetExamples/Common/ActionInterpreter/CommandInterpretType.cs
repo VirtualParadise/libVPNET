@@ -7,7 +7,7 @@
  * included in this distribution.
  *
  * You must not remove this notice, or any other, from this software.
- *
+ *j
  * **********************************************************************************/
 namespace VPNetExamples.Common.ActionInterpreter
 {
