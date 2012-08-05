@@ -40,12 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\EventData\Color.cs" />
-    <Compile Include="Core\EventData\VpObject.cs" />
+    <Compile Include="Core\Structs\Color.cs" />
+    <Compile Include="Core\Structs\VpObject.cs" />
     <Compile Include="Core\EventData\World.cs" />
     <Compile Include="Core\Instance.cs" />
+    <Compile Include="Core\Structs\WorldAttributes.cs" />
     <Compile Include="Core\VPException.cs" />
-    <Compile Include="Core\EventData\Avatar.cs" />
+    <Compile Include="Core\Structs\Avatar.cs" />
     <Compile Include="Core\EventData\Chat.cs" />
     <Compile Include="Core\Structs\IVector3.cs" />
     <Compile Include="NativeApi\Attribute.cs" />

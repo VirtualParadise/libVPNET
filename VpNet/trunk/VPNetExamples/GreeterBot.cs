@@ -1,6 +1,7 @@
 ﻿using VPNetExamples.Common;
 using VpNet.Core;
 using VpNet.Core.EventData;
+using VpNet.Core.Structs;
 
 namespace VPNetExamples
 {

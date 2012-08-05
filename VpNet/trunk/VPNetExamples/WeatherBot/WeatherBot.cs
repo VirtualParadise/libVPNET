@@ -5,6 +5,7 @@ using VPNetExamples.Common.ActionInterpreter.Commands;
 using VPNetExamples.Common.ActionInterpreter.Triggers;
 using VpNet.Core;
 using VpNet.Core.EventData;
+using VpNet.Core.Structs;
 
 namespace VPNetExamples.WeatherBot
 {

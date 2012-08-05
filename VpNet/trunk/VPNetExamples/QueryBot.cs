@@ -5,6 +5,7 @@ using VPNetExamples.Common;
 using VPNetExamples.Common.ActionInterpreter.Commands;
 using VpNet.Core;
 using VpNet.Core.EventData;
+using VpNet.Core.Structs;
 
 namespace VPNetExamples
 {

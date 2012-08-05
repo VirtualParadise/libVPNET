@@ -8,6 +8,7 @@ using VPNetExamples.Common.ActionInterpreter.Attributes;
 using VPNetExamples.Common.ActionInterpreter.Interfaces;
 using VPNetExamples.Common.Reflection;
 using VpNet.Core.EventData;
+using VpNet.Core.Structs;
 
 namespace VPNetExamples.Common.ActionInterpreter
 {

@@ -272,7 +272,7 @@ namespace VpNet.Core
         private void OnAvatarChange(IntPtr sender)
         {
             if (EventAvatarChange == null) return;
-            Avatar data = null;
+            Avatar data;
             lock (this)
             {
                 data = new Avatar(Functions.vp_string(_instance, Attribute.AvatarName),

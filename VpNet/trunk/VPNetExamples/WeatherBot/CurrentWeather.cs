@@ -1,4 +1,5 @@
 ﻿using VpNet.Core.EventData;
+using VpNet.Core.Structs;
 
 namespace VPNetExamples.WeatherBot
 {

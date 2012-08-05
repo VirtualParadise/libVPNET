@@ -42,17 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Core\EventData\Avatar.cs">
-      <Link>Core\EventData\Avatar.cs</Link>
-    </Compile>
     <Compile Include="..\Core\EventData\Chat.cs">
       <Link>Core\EventData\Chat.cs</Link>
-    </Compile>
-    <Compile Include="..\Core\EventData\Color.cs">
-      <Link>Core\EventData\Color.cs</Link>
-    </Compile>
-    <Compile Include="..\Core\EventData\VpObject.cs">
-      <Link>Core\EventData\VpObject.cs</Link>
     </Compile>
     <Compile Include="..\Core\EventData\World.cs">
       <Link>Core\EventData\World.cs</Link>
@@ -60,8 +51,17 @@
     <Compile Include="..\Core\Instance.cs">
       <Link>Core\Instance.cs</Link>
     </Compile>
+    <Compile Include="..\Core\Structs\Avatar.cs">
+      <Link>Structs\Avatar.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Structs\Color.cs">
+      <Link>Structs\Color.cs</Link>
+    </Compile>
     <Compile Include="..\Core\Structs\IVector3.cs">
       <Link>Structs\IVector3.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Structs\VpObject.cs">
+      <Link>Structs\VpObject.cs</Link>
     </Compile>
     <Compile Include="..\Core\VPException.cs">
       <Link>Core\VPException.cs</Link>

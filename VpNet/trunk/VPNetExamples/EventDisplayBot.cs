@@ -3,6 +3,7 @@ using VPNetExamples.Common;
 using VpNet;
 using VpNet.Core;
 using VpNet.Core.EventData;
+using VpNet.Core.Structs;
 
 namespace VPNetExamples
 {
@@ -77,7 +78,7 @@ namespace VPNetExamples
         }
 
 
-        void EventAvatarAdd(Instance sender, VpNet.Core.EventData.Avatar eventData)
+        void EventAvatarAdd(Instance sender, Avatar eventData)
         {
             Console.WriteLine("{0} entered world.",eventData.Name);
         }

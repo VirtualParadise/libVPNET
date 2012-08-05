@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using VPNetExamples.Common.ActionInterpreter.Interfaces;
 using VpNet.Core.EventData;
+using VpNet.Core.Structs;
 
 namespace VPNetExamples.Common.ActionInterpreter.Commands
 {
