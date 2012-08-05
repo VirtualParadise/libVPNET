@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -12,6 +13,7 @@ namespace VPNetExamples.Common.ActionInterpreter
 {
     public class Interpreter
     {
+        private CultureInfo ci = new CultureInfo("en-US");
         private readonly Assembly _assembly;
         private readonly ReflectionCache<ACEnumTypeAttribute, ACEnumBindingAttribute> _cache;
 
@@ -141,7 +143,7 @@ namespace VPNetExamples.Common.ActionInterpreter
 
                         foreach (string item in uncastedValue.Split(attribute.Delimiter))
                         {
-                            list.Add(int.Parse(item));
+                            list.Add(int.Parse(item,ci));
                         }
                         property.SetValue(instance, list, null);
                         return true;
@@ -159,12 +161,12 @@ namespace VPNetExamples.Common.ActionInterpreter
 
             if (property.PropertyType == typeof(int))
             {
-                property.SetValue(instance, int.Parse(uncastedValue), null);
+                property.SetValue(instance, int.Parse(uncastedValue,ci), null);
                 return true;
             }
-            if (property.PropertyType == typeof(float))
+            if (property.PropertyType == typeof(float) || property.PropertyType == typeof(Single))
             {
-                property.SetValue(instance, float.Parse(uncastedValue), null);
+                property.SetValue(instance, float.Parse(uncastedValue,ci), null);
                 return true;
             }
             if (property.PropertyType == typeof(string))

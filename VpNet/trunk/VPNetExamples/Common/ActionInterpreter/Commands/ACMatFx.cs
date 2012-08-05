@@ -22,6 +22,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// Material effects (matfx) are visual effects that can be applied to object surfaces. Different types of material effects are available.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACMatFx : IActionCommand
     {
         private MatFxType _type;

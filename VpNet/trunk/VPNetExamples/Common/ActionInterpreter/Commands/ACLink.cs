@@ -23,6 +23,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// Note that the linked object and the mover must be built using the same object owner.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACLink : IActionCommand
     {
         private string _moverName;

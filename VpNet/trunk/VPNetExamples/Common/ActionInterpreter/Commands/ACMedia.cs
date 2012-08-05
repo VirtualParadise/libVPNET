@@ -25,6 +25,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// The create trigger only works with the media command, if "Disable create url" is not checked in the world features settings. Other options that affect the media command are in the General tab and in the Downloads tab of the browser option settings.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACMedia : IActionCommand
     {
         private Uri _url;

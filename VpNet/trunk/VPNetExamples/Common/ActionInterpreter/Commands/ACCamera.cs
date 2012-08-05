@@ -19,6 +19,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// The camera command can be used to place the camera within the scene. Note that this command will move the camera, but there is nothing to prevent the user from simply switching back to their desired view. Also, this command does not offer the ability to adjust the field of view. If you need to lock the user into a given view, or if you need to adjust the field of view (FOV), then you should use a camera object. Also it should be noted the user's controls do not change if the camera view shifts. This can make it very hard for users to navigate if they find the view suddenly looking down on themselves from one side. For this reason, this is a special command and a user must have the rights to use special commands in order to construct an object that uses the camera command.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACCamera : IActionCommand
     {
         private string _location;

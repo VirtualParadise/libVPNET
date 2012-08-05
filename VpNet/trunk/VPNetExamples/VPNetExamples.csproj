@@ -94,6 +94,10 @@
     <Compile Include="Common\ActionInterpreter\Commands\ACUrl.cs" />
     <Compile Include="Common\ActionInterpreter\Commands\ACWarp.cs" />
     <Compile Include="Common\ActionInterpreter\Commands\ACWeb.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\Extended\ACAmbient.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\Extended\ACNormalMap.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\Extended\ACSpecular.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\Extended\ACSpecularMap.cs" />
     <Compile Include="Common\ActionInterpreter\Interpreter.cs" />
     <Compile Include="Common\ActionInterpreter\Types\AnimationFlagType.cs" />
     <Compile Include="Common\ActionInterpreter\Triggers\ATActivate.cs" />

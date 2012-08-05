@@ -26,6 +26,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// Using the animate command as a timer
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACAnimate : IActionCommand
     {
         private readonly string _tag;

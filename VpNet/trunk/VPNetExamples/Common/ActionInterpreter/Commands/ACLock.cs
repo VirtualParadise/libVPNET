@@ -26,6 +26,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// Only object owners and citizens listed can execute the action command global, even if the global statement is listed before the lock statement.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACLock : IActionCommand
     {
         private List<int> _owners;

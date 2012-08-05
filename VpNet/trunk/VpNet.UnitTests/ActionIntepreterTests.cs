@@ -4,6 +4,7 @@ using System.Reflection;
 using NUnit.Framework;
 using VPNetExamples.Common.ActionInterpreter;
 using VPNetExamples.Common.ActionInterpreter.Commands;
+using VPNetExamples.Common.ActionInterpreter.Commands.Extended;
 using VPNetExamples.Common.ActionInterpreter.Interfaces;
 using VPNetExamples.Common.ActionInterpreter.Triggers;
 
@@ -26,6 +27,18 @@ namespace VpNet.UnitTests
             const string action = "create name prod1, sign bcolor=00CC00 shadow";
             var interpreted = _interpreter.Interpret(action);
             Assert.AreEqual(Find<ATCreate, ACName>(interpreted).Name, "prod1");
+        }
+        
+        [Test]
+        public void CreateExtendedMaterialTest()
+        {
+            //const string action = "create ambient 0.1";
+            const string action = "create ambient 0.1, specular 0.2, normalmap http://objectpath.com/textures/nmap.jpg, specularmap http://objectpath.com/textures/smap.jpg";
+            var interpreted = _interpreter.Interpret(action);
+            Assert.AreEqual(Find<ATCreate, ACNormalMap>(interpreted).Url, "http://objectpath.com/textures/nmap.jpg");
+            Assert.AreEqual(Find<ATCreate, ACSpecularMap>(interpreted).Url, "http://objectpath.com/textures/smap.jpg");
+            Assert.AreEqual(Find<ATCreate, ACSpecular>(interpreted).Specular, 0.2f);
+            Assert.AreEqual(Find<ATCreate, ACAmbient>(interpreted).Ambient, 0.1f);
         }
 
         /// <summary>

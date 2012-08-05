@@ -22,6 +22,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// All arguments to the envi action command are optional.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACEnvi : IActionCommand, IActionCommandGlobal, IActionCommandName
     {
         private EnviType _type;

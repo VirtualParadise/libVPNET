@@ -14,44 +14,43 @@ using System;
 using VPNetExamples.Common.ActionInterpreter.Attributes;
 using VPNetExamples.Common.ActionInterpreter.Interfaces;
 
-namespace VPNetExamples.Common.ActionInterpreter.Commands
+namespace VPNetExamples.Common.ActionInterpreter.Commands.Extended
 {
-    /// <summary>
-    /// The group command is used to load an Object Group from the object path.
-    /// </summary>
     [Serializable]
-    [Obsolete("Currently not implemented in this VPNet implementation.")]
-    public sealed class ACGroup : IActionCommand
+    public sealed class ACSpecular : IActionCommand
     {
-        private string _name;
+        private float _specular;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ActionCommandGroup"/> class.
+        /// Initializes a new instance of the <see cref="ACSpecular"/> class.
         /// </summary>
-        /// <param name="name">The name.</param>
-        public ACGroup(string name)
+        /// <param name="specular">The specular.</param>
+        /// <Author>8/5/2012 3:01 AM cube3</Author>
+        public ACSpecular(float specular)
         {
-            _name = name;
+            _specular = specular;
         }
 
-        public ACGroup(){}
+        public ACSpecular(){}
 
         /// <summary>
-        /// The name argument is the filename of a zipped AWG file located on the object path in the groups subfolder. Note that no encroachment will be determined for the group's children, nor do these children objects increase the cell data limit.
+        /// This command sets the specular component of the current surface lighting properties.
         /// </summary>
-        /// <value>The name.</value>
-        [ACItemBinding(CommandInterpretType.SingleArgument)]
-        public string Name
+        /// <value>
+        /// The specular
+        /// </value>
+        [ACItemBinding("", CommandInterpretType.SingleArgument)]
+        public float Specular
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return _specular; }
+            set { _specular = value; }
         }
 
         #region ILiteralAction Members
 
         public string LiteralAction
         {
-            get { return "group"; }
+            get { return "specular"; }
         }
 
         public string LiteralPart { get; set; }

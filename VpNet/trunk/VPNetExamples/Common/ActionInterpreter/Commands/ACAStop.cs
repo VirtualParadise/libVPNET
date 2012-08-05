@@ -19,6 +19,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// The astop command stops a running animation.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACAStop : IActionCommand
     {
         private string _name;

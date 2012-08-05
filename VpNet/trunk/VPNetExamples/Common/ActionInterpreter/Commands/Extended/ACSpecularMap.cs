@@ -14,44 +14,38 @@ using System;
 using VPNetExamples.Common.ActionInterpreter.Attributes;
 using VPNetExamples.Common.ActionInterpreter.Interfaces;
 
-namespace VPNetExamples.Common.ActionInterpreter.Commands
+namespace VPNetExamples.Common.ActionInterpreter.Commands.Extended
 {
-    /// <summary>
-    /// The group command is used to load an Object Group from the object path.
-    /// </summary>
     [Serializable]
-    [Obsolete("Currently not implemented in this VPNet implementation.")]
-    public sealed class ACGroup : IActionCommand
+    public sealed class ACSpecularMap : IActionCommand
     {
-        private string _name;
+        private string _url;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ActionCommandGroup"/> class.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        public ACGroup(string name)
+        public ACSpecularMap(string url)
         {
-            _name = name;
+            _url = url;
         }
 
-        public ACGroup(){}
+        public ACSpecularMap() { }
 
         /// <summary>
-        /// The name argument is the filename of a zipped AWG file located on the object path in the groups subfolder. Note that no encroachment will be determined for the group's children, nor do these children objects increase the cell data limit.
+        /// This command sets the specular component of the current surface lighting properties.
         /// </summary>
-        /// <value>The name.</value>
-        [ACItemBinding(CommandInterpretType.SingleArgument)]
-        public string Name
+        /// <value>
+        /// The specular
+        /// </value>
+        [ACItemBinding("", CommandInterpretType.SingleArgument)]
+        public string Url
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return _url; }
+            set { _url = value; }
         }
 
         #region ILiteralAction Members
 
         public string LiteralAction
         {
-            get { return "group"; }
+            get { return "specularmap"; }
         }
 
         public string LiteralPart { get; set; }

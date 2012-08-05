@@ -5,6 +5,7 @@ using VPNetExamples.Common.ActionInterpreter.Interfaces;
 namespace VPNetExamples.Common.ActionInterpreter.Triggers
 {
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ATUnknown : ICommandGroup
     {
         #region IActionTrigger Members

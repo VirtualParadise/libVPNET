@@ -21,6 +21,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// The cursor command specifies whether or not the mouse cursor should be displayed.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACCursor : IActionCommand
     {
         private AwBooleanType _flag;

@@ -15,6 +15,7 @@ using System;
 namespace VPNetExamples.Common.ActionInterpreter.Commands
 {
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACShadow
     {
         public ACShadow(){}

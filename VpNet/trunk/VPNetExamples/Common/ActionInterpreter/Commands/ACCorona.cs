@@ -21,6 +21,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// A corona is a transparent image that is stamped on to the 3D scene on top of an object whenever that object is visible to the user. Although similar in some ways to sprites, they differ in that their size does not vary with distance from the camera, and the entire corona is either visible or not visible depending on whether the corona's source object is currently visible (i.e. not obscured by any other object.) The primary purpose of coronas is for creating "halo" effects around local light sources.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACCorona : IActionCommand, IActionCommandName
     {
         private string _texture;

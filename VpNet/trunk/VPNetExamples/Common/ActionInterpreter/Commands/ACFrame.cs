@@ -19,6 +19,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// The frame command sets the current frame of an animation that has been set up using the animate command.
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACFrame : IActionCommand
     {
         private string _name;

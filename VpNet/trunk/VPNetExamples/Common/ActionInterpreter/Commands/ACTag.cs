@@ -21,6 +21,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// 
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACTag : IActionCommand, IActionCommandName /*, IActionCommandGlobal*/
     {
         private AwBooleanType _flag;

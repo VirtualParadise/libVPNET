@@ -20,6 +20,7 @@ namespace VPNetExamples.Common.ActionInterpreter.Commands
     /// The astart command starts an animation that has been set up using the animate command and sets it in either looping or non-looping mode. The default is for the astart command to start the animation in non-looping mode. 
     /// </summary>
     [Serializable]
+    [Obsolete("Currently not implemented in this VPNet implementation.")]
     public sealed class ACAStart : IActionCommand
     {
         private string _name;
