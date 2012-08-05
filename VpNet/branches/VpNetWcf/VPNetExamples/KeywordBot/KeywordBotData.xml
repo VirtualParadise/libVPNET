@@ -1,0 +1,5 @@
+﻿<?xml version="1.0"?>
+<ArrayOfKeywordItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <KeywordItem Keyword="hello" Response="Well hello to you too." />
+  <KeywordItem Keyword="beer" Response="I poor a beer for you." />
+</ArrayOfKeywordItem>
