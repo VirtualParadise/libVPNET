@@ -18,14 +18,14 @@ namespace VPNetExamples.Common
             Universe
         }
 
-        private Instance _instance;
+        private IInstance _instance;
 
         public Interpreter Interpreter
         {
             get { return _interpreter; }
         }
 
-        internal Instance Instance { get { return _instance; } }
+        internal IInstance Instance { get { return _instance; } }
         private Timer _timer;
 
         private List<BaseExampleBot> _attachedBots;
@@ -161,7 +161,7 @@ namespace VPNetExamples.Common
             _timers.Clear();
         }
 
-        void EventWorldDisconnect(Instance sender)
+        void EventWorldDisconnect(IInstance sender)
         {
             DisposeTimers();
             DisconnectBots();
@@ -170,7 +170,7 @@ namespace VPNetExamples.Common
             Reconnect(ReconnectionType.World);
         }
 
-        void EventUniverseDisconnect(Instance sender)
+        void EventUniverseDisconnect(IInstance sender)
         {
             DisposeTimers();
             DisconnectBots();
@@ -180,7 +180,7 @@ namespace VPNetExamples.Common
             Reconnect(ReconnectionType.Universe);
         }
 
-        protected BaseExampleBot(Instance instance)
+        protected BaseExampleBot(IInstance instance)
         {
             _instance = instance;
         }

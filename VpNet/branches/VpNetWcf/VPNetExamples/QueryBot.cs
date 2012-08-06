@@ -28,7 +28,7 @@ namespace VPNetExamples
             Instance.QueryCell(x,y);
         }
 
-        void EventQueryCellResult(Instance sender, VpObject objectData)
+        void EventQueryCellResult(IInstance sender, VpObject objectData)
         {
             Console.WriteLine("{0} {1} {2} name: {3}", objectData.Id, objectData.Model, objectData.Owner, Name(objectData));
         }

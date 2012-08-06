@@ -28,7 +28,7 @@ namespace VPNetExamples.TextRotatorBot
             Instance.QueryCell(_config.Config.CellX, _config.Config.CellY);
         }
 
-        void EventQueryCellResult(Instance sender, VpObject objectData)
+        void EventQueryCellResult(IInstance sender, VpObject objectData)
         {
             if (Interpreter.Interpret(objectData).SelectMany(trigger => trigger.Commands).OfType<ACName>().Any(command => command.Name == _config.Config.Name))
             {

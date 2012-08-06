@@ -31,64 +31,64 @@ namespace VPNetExamples
             Instance.EventWorldDisconnect += EventWorldDisconnect;
         }
 
-        void Instance_EventAvatarAdd(Instance sender, Avatar eventData)
+        void Instance_EventAvatarAdd(IInstance sender, Avatar eventData)
         {
             Console.WriteLine("{0} enters world.", eventData.Name);
         }
 
-        void EventObjectCreate(Instance sender, int sessionId, VpObject objectData)
+        void EventObjectCreate(IInstance sender, int sessionId, VpObject objectData)
         {
             Console.WriteLine("Created Object {0}", objectData.Id);
         }
 
-        void EventObjectChange(Instance sender, int sessionId, VpObject objectData)
+        void EventObjectChange(IInstance sender, int sessionId, VpObject objectData)
         {
             Console.WriteLine("Changed Object {0}", objectData.Id);
         }
 
-        void EventWorldList(Instance sender, World eventData)
+        void EventWorldList(IInstance sender, World eventData)
         {
             Console.WriteLine("World List {0}, {1} users.",eventData.Name,eventData.UserCount);
         }
 
-        void EventObjectDelete(Instance sender, int sessionId, int objectId)
+        void EventObjectDelete(IInstance sender, int sessionId, int objectId)
         {
             Console.WriteLine("Delete Object. {0}",objectId);
         }
 
-        void EventObjectClick(Instance sender, int sessionId, int objectId)
+        void EventObjectClick(IInstance sender, int sessionId, int objectId)
         {
             Console.WriteLine("Avatar with session ID {0} clicked on object {1}.",sessionId, objectId);
         }
 
-        void EventFriend(Instance sender)
+        void EventFriend(IInstance sender)
         {
             // currently not supported.
             Console.WriteLine("Friend event.");
         }
 
-        void EventChat(Instance sender, Chat eventData)
+        void EventChat(IInstance sender, Chat eventData)
         {
             Console.WriteLine("{0} says {1}",eventData.Username,eventData.Message);
         }
 
-        void EventAvatarDelete(Instance sender, Avatar eventData)
+        void EventAvatarDelete(IInstance sender, Avatar eventData)
         {
             Console.WriteLine("{0} left world.", eventData.Name);
         }
 
 
-        void EventAvatarAdd(Instance sender, Avatar eventData)
+        void EventAvatarAdd(IInstance sender, Avatar eventData)
         {
             Console.WriteLine("{0} entered world.",eventData.Name);
         }
 
-        void EventUniverseDisconnect(Instance sender)
+        void EventUniverseDisconnect(IInstance sender)
         {
             Console.WriteLine("Universe disconnected.");
         }
-        
-        void EventWorldDisconnect(Instance sender)
+
+        void EventWorldDisconnect(IInstance sender)
         {
             Console.WriteLine("World disconnected.");
         }

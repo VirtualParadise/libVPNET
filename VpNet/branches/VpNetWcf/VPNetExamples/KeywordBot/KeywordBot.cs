@@ -8,17 +8,16 @@ namespace VPNetExamples.KeywordBot
 {
     internal class KeywordBot : BaseExampleBot
     {
- 
-        private ActiveConfig<List<KeywordItem>> _keywordItems; 
+         private ActiveConfig<List<KeywordItem>> _keywordItems;
 
-        public KeywordBot(Instance instance) : base(instance) {}
+        public KeywordBot(IInstance instance) : base(instance) { }
 
         public KeywordBot()
         {
           
         }
 
-        void EventChat(Instance sender, Chat eventData)
+        void EventChat(IInstance sender, Chat eventData)
         {
             if (eventData.Username.StartsWith("["))
                 return;

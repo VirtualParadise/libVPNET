@@ -13,7 +13,7 @@ namespace VPNetExamples.WeatherBot
     {
         public WeatherBot(){}
 
-        public WeatherBot(Instance instance): base(instance){}
+        public WeatherBot(IInstance instance) : base(instance) { }
 
         private List<CurrentWeather> _locations;
         private VpObject _display;
@@ -39,7 +39,7 @@ namespace VPNetExamples.WeatherBot
             }
         }
 
-        void Instance_EventQueryCellResult(Instance sender, VpObject objectData)
+        void Instance_EventQueryCellResult(IInstance sender, VpObject objectData)
         {
             var result = Interpreter.Find<ATCreate, ACName>(objectData.Action);
             if (result !=null && result.Name.StartsWith("ws-"))
@@ -75,7 +75,7 @@ namespace VPNetExamples.WeatherBot
         }
 
 
-        void EventObjectClick(Instance sender, int sessionId, int objectId)
+        void EventObjectClick(IInstance sender, int sessionId, int objectId)
         {
             var o = _locations.Find(p => p.VpObject.Id == objectId);
             if (o != null)

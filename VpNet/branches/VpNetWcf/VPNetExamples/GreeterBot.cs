@@ -1,26 +1,24 @@
 ﻿using VPNetExamples.Common;
 using VpNet.Core;
-using VpNet.Core.EventData;
 using VpNet.Core.Structs;
 
 namespace VPNetExamples
 {
     internal class GreeterBot : BaseExampleBot
     {
-        public GreeterBot(Instance instance) : base(instance){}
+        public GreeterBot(IInstance instance) : base(instance) { }
 
         public GreeterBot(){}
 
-        void EventAvatarDelete(Instance sender, Avatar eventData)
+        void EventAvatarDelete(IInstance sender, Avatar eventData)
         {
             sender.Say(string.Format("{0} has left.", eventData.Name));
         }
 
-        void EventAvatarAdd(Instance sender, Avatar eventData)
+        void EventAvatarAdd(IInstance sender, Avatar eventData)
         {
             sender.Say(string.Format("Hello {0}.",eventData.Name));
         }
-
 
         public override void Initialize()
         {
@@ -30,8 +28,6 @@ namespace VPNetExamples
 
         public override void Disconnect()
         {
-            //Instance.EventAvatarAdd -= EventAvatarAdd;
-            //Instance.EventAvatarDelete -= EventAvatarDelete;
         }
     }
 }

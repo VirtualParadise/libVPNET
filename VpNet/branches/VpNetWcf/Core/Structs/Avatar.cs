@@ -1,21 +1,43 @@
-﻿namespace VpNet.Core.Structs
+﻿using System.Runtime.Serialization;
+
+namespace VpNet.Core.Structs
 {
+#if (WCF)
+[DataContract]
+#endif
     public struct Avatar
     {
-        public string Name;
-        public int Session;
-        public int AvatarType;
-        public float X, Y, Z;
-        public float Yaw, Pitch;
+#if (WCF)
+    [DataMember]
+#endif
+    public string Name { get; set; }
+#if (WCF)
+    [DataMember]
+#endif
+    public int Session { get; set; }
+#if (WCF)
+    [DataMember]
+#endif
+    public int AvatarType { get; set; }
+#if (WCF)
+    [DataMember]
+#endif
+    public Vector3 Position { get; set; }
+#if (WCF)
+    [DataMember]
+#endif
+        public float Yaw { get; set; }
+#if (WCF)
+    [DataMember]
+#endif
+    public float Pitch { get; set; }
 
-        public Avatar(string name,int session,int avatarType,float x,float y,float z,float yaw,float pitch)
+    public Avatar(string name,int session,int avatarType,float x,float y,float z,float yaw,float pitch) : this()
         {
             Name = name;
             Session = session;
             AvatarType = avatarType;
-            X = x;
-            Y = y;
-            Z = z;
+            Position = new Vector3(x, y, z);
             Yaw = yaw;
             Pitch = pitch;
         }

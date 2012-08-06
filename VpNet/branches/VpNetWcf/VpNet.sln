@@ -15,12 +15,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.UnitTests", "VpNet.Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNetPlus", "VpNetPlus\VpNetPlus.csproj", "{5460279F-5B9B-4270-ADA6-41CE45C567EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VPNetWcf", "VPNetWcf", "{92F73185-E063-42E0-8171-81D4497AEBB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNetWcfHostConsole", "VpNetWcfHostConsole\VpNetWcfHostConsole.csproj", "{2E07312E-272D-41F5-BE28-DC9F8B39F52A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNetWcfTestClient", "VpNetWcfTestClient\VpNetWcfTestClient.csproj", "{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
 		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug (WCF support)|Any CPU = Debug (WCF support)|Any CPU
+		Debug (WCF support)|Mixed Platforms = Debug (WCF support)|Mixed Platforms
+		Debug (WCF support)|x86 = Debug (WCF support)|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
@@ -29,6 +38,11 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Debug (WCF support)|Any CPU.ActiveCfg = Debug (WCF support)|Any CPU
+		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Debug (WCF support)|Any CPU.Build.0 = Debug (WCF support)|Any CPU
+		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Debug (WCF support)|Mixed Platforms.ActiveCfg = Debug (WCF support)|Any CPU
+		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Debug (WCF support)|Mixed Platforms.Build.0 = Debug (WCF support)|Any CPU
+		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Debug (WCF support)|x86.ActiveCfg = Debug (WCF support)|Any CPU
 		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -39,6 +53,11 @@ Global
 		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DBE501A7-0176-473F-B2E8-F4ADA721917F}.Release|x86.ActiveCfg = Release|Any CPU
+		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Debug (WCF support)|Any CPU.ActiveCfg = Debug (WCF support)|x86
+		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Debug (WCF support)|Mixed Platforms.ActiveCfg = Debug (WCF support)|x86
+		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Debug (WCF support)|Mixed Platforms.Build.0 = Debug (WCF support)|x86
+		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Debug (WCF support)|x86.ActiveCfg = Debug (WCF support)|x86
+		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Debug (WCF support)|x86.Build.0 = Debug (WCF support)|x86
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -49,6 +68,11 @@ Global
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Release|Mixed Platforms.Build.0 = Release|x86
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Release|x86.ActiveCfg = Release|x86
 		{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}.Release|x86.Build.0 = Release|x86
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug (WCF support)|Any CPU.ActiveCfg = Debug (WCF support)|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug (WCF support)|Any CPU.Build.0 = Debug (WCF support)|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug (WCF support)|Mixed Platforms.ActiveCfg = Debug (WCF support)|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug (WCF support)|Mixed Platforms.Build.0 = Debug (WCF support)|Any CPU
+		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug (WCF support)|x86.ActiveCfg = Debug (WCF support)|Any CPU
 		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -59,6 +83,11 @@ Global
 		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}.Release|x86.ActiveCfg = Release|Any CPU
+		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Debug (WCF support)|Any CPU.ActiveCfg = Debug (WCF support)|Any CPU
+		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Debug (WCF support)|Any CPU.Build.0 = Debug (WCF support)|Any CPU
+		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Debug (WCF support)|Mixed Platforms.ActiveCfg = Debug (WCF support)|Any CPU
+		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Debug (WCF support)|Mixed Platforms.Build.0 = Debug (WCF support)|Any CPU
+		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Debug (WCF support)|x86.ActiveCfg = Debug (WCF support)|Any CPU
 		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -69,8 +98,41 @@ Global
 		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5460279F-5B9B-4270-ADA6-41CE45C567EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug (WCF support)|Any CPU.ActiveCfg = Debug (WCF support)|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug (WCF support)|Mixed Platforms.ActiveCfg = Debug (WCF support)|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug (WCF support)|Mixed Platforms.Build.0 = Debug (WCF support)|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug (WCF support)|x86.ActiveCfg = Debug (WCF support)|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug (WCF support)|x86.Build.0 = Debug (WCF support)|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug|x86.ActiveCfg = Debug|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Debug|x86.Build.0 = Debug|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Release|Any CPU.ActiveCfg = Release|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Release|x86.ActiveCfg = Release|x86
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A}.Release|x86.Build.0 = Release|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug (WCF support)|Any CPU.ActiveCfg = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug (WCF support)|Mixed Platforms.ActiveCfg = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug (WCF support)|Mixed Platforms.Build.0 = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug (WCF support)|x86.ActiveCfg = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug (WCF support)|x86.Build.0 = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug|x86.ActiveCfg = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Debug|x86.Build.0 = Debug|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Release|Any CPU.ActiveCfg = Release|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Release|x86.ActiveCfg = Release|x86
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E07312E-272D-41F5-BE28-DC9F8B39F52A} = {92F73185-E063-42E0-8171-81D4497AEBB5}
+		{C3FB40F8-1E82-46C3-BEE0-602B191A1FF2} = {92F73185-E063-42E0-8171-81D4497AEBB5}
 	EndGlobalSection
 EndGlobal

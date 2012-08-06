@@ -7,10 +7,21 @@ using Attribute = VpNet.NativeApi.Attribute;
 
 namespace VpNet.Core
 {
-    public class Instance : IDisposable
+    public class Instance : IDisposable, IInstance
     {
         static bool _isInitialized;
         readonly IntPtr _instance;
+
+#if (WCF)
+        /// <summary>
+        /// On the client, we are not interested in an actual contract.
+        /// </summary>
+        /// <param name="isNativeContextUnavailable"></param>
+        public Instance(bool isNativeContextUnavailable)
+        {
+            // no _instance creation on client
+        }
+#endif
 
         public Instance()
         {
@@ -204,18 +215,18 @@ namespace VpNet.Core
             Functions.vp_event_set(_instance, (int)eventType, eventFunction);
         }
 
-        public delegate void Event(Instance sender);
-        public delegate void ChatEvent(Instance sender, Chat eventData);
-        public delegate void AvatarEvent(Instance sender, Avatar eventData);
+        public delegate void Event(IInstance sender);
+        public delegate void ChatEvent(IInstance sender, Chat eventData);
+        public delegate void AvatarEvent(IInstance sender, Avatar eventData);
         //public delegate void AvatarDeleteEvent(Instance sender, EventData.AvatarDelete eventData);
-        public delegate void WorldListEvent(Instance sender, World eventData);
+        public delegate void WorldListEvent(IInstance sender, World eventData);
 
-        public delegate void ObjectChangeEvent(Instance sender, int sessionId, VpObject objectData);
-        public delegate void ObjectCreateEvent(Instance sender, int sessionId, VpObject objectData);
-        public delegate void ObjectDeleteEvent(Instance sender, int sessionId, int objectId);
-        public delegate void ObjectClickEvent(Instance sender, int sessionId, int objectId);
+        public delegate void ObjectChangeEvent(IInstance sender, int sessionId, VpObject objectData);
+        public delegate void ObjectCreateEvent(IInstance sender, int sessionId, VpObject objectData);
+        public delegate void ObjectDeleteEvent(IInstance sender, int sessionId, int objectId);
+        public delegate void ObjectClickEvent(IInstance sender, int sessionId, int objectId);
 
-        public delegate void QueryCellResult(Instance sender, VpObject objectData);
+        public delegate void QueryCellResult(IInstance sender, VpObject objectData);
 
         public event ChatEvent EventChat;
         public event AvatarEvent EventAvatarAdd;
@@ -454,5 +465,55 @@ namespace VpNet.Core
             }
             GC.SuppressFinalize(this);
         }
+
+#if (WCF)
+        public void ChatCallback(Instance sender, Chat eventData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AvatarCallback(Instance sender, Avatar eventData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WorldListCallback(Instance sender, World eventData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ObjectChangeCallback(Instance sender, int sessionId, VpObject objectData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ObjectCreateCallback(Instance sender, int sessionId, VpObject objectData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ObjectDeleteCallback(Instance sender, int sessionId, int objectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ObjectClickCallback(Instance sender, int sessionId, int objectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QueryCellResultCallback(Instance sender, VpObject objectData)
+        {
+            throw new NotImplementedException();
+        }
+#endif
+
+#if (WCF)
+        
+        public bool ConnectWcf()
+        {
+            throw new NotImplementedException("Connect WCF should be called from a WCF client only.");
+        }
+#endif
     }
 }

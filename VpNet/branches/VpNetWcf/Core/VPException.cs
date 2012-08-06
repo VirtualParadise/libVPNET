@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using VpNet.NativeApi;
 
 namespace VpNet.Core
 {
+#if (WCF)
+        [DataContract]
+#endif
     public sealed class VpException : Exception
     {
-        public ReasonCode Reason;
+#if (WCF)
+        [DataMember]
+#endif
+        public ReasonCode Reason { get; set; }
 
         public VpException(ReasonCode reason) : base(string.Format("VP SDK Error: {0}({1})", reason, (int)reason))
         {
