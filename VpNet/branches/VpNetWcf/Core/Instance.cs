@@ -7,7 +7,7 @@ using Attribute = VpNet.NativeApi.Attribute;
 
 namespace VpNet.Core
 {
-    public class Instance : IDisposable, IInstance
+    public class Instance : IInstance
     {
         static bool _isInitialized;
         readonly IntPtr _instance;
@@ -62,7 +62,11 @@ namespace VpNet.Core
         #region Methods
         public void Wait(int milliseconds)
         {
-            int rc = Functions.vp_wait(_instance, milliseconds);
+            int rc;
+            lock (this)
+            {
+                rc = Functions.vp_wait(_instance, milliseconds);
+            }
             if (rc != 0)
             {
                 throw new VpException((ReasonCode)rc);

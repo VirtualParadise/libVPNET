@@ -4,7 +4,7 @@ using VpNet.Core;
 
 namespace VpNetWcfTestClient
 {
-    internal class InstanceProxy : IInstanceEvents,IInstance
+    public class InstanceProxy : IInstanceEvents,IInstance
     {
         private IInstance _pipeProxy;
 
@@ -16,13 +16,16 @@ namespace VpNetWcfTestClient
                 new DuplexChannelFactory<IInstance>(
                     new InstanceContext(this),
                     new NetTcpBinding(),
-                    new EndpointAddress("net.tcp://127.0.0.1:8000/IInstance"));
+                    new EndpointAddress("net.tcp://platform3d.com:8000/IInstance"));
+
+            pipeFactory.Endpoint.Binding = new NetTcpBinding(SecurityMode.None);
+
             try
             {
                 //Open the channel to the server
                 _pipeProxy = pipeFactory.CreateChannel();
                 //Now tell the server who is connecting
-                _pipeProxy.Connect();
+              //  _pipeProxy.Connect();
                 return true;
             }
             catch (Exception e)
@@ -102,43 +105,43 @@ namespace VpNetWcfTestClient
 
         #region Callbacks to Proxied Events
 
-        public void ChatCallback(Instance sender, VpNet.Core.EventData.Chat eventData)
+        public void ChatCallback(VpNet.Core.EventData.Chat eventData)
         {
             if (EventChat != null)
                 EventChat(this, eventData);
         }
 
-        public void AvatarCallback(Instance sender, VpNet.Core.Structs.Avatar eventData)
+        public void AvatarCallback(VpNet.Core.Structs.Avatar eventData)
         {
             if (EventAvatarAdd != null)
                 EventAvatarAdd(this, eventData);
         }
 
-        public void WorldListCallback(Instance sender, VpNet.Core.EventData.World eventData)
+        public void WorldListCallback(VpNet.Core.EventData.World eventData)
         {
             if (EventWorldList != null)
                 EventWorldList(this, eventData);
         }
 
-        public void ObjectChangeCallback(Instance sender, int sessionId, VpNet.Core.Structs.VpObject objectData)
+        public void ObjectChangeCallback(int sessionId, VpNet.Core.Structs.VpObject objectData)
         {
             if (EventObjectChange != null)
                 EventObjectChange(this,sessionId, objectData);
         }
 
-        public void ObjectCreateCallback(Instance sender, int sessionId, VpNet.Core.Structs.VpObject objectData)
+        public void ObjectCreateCallback(int sessionId, VpNet.Core.Structs.VpObject objectData)
         {
             if (EventObjectCreate != null)
                 EventObjectCreate(this, sessionId, objectData);
         }
 
-        public void ObjectDeleteCallback(Instance sender, int sessionId, int objectId)
+        public void ObjectDeleteCallback(int sessionId, int objectId)
         {
             if (EventObjectDelete != null)
                 EventObjectDelete(this, sessionId, objectId);
         }
 
-        public void ObjectClickCallback(Instance sender, int sessionId, int objectId)
+        public void ObjectClickCallback(int sessionId, int objectId)
         {
             if (EventObjectClick != null)
             {
@@ -146,7 +149,7 @@ namespace VpNetWcfTestClient
             }
         }
 
-        public void QueryCellResultCallback(Instance sender, VpNet.Core.Structs.VpObject objectData)
+        public void QueryCellResultCallback(VpNet.Core.Structs.VpObject objectData)
         {
             if (EventQueryCellResult != null)
             {
@@ -214,5 +217,18 @@ namespace VpNetWcfTestClient
         }
 
         #endregion
+
+
+        public void WorldDisconnectCallback()
+        {
+            if (EventObjectChange != null)
+                EventWorldDisconnect(this);
+        }
+
+        public void UniverseDisconnectCallback()
+        {
+            if (EventUniverseDisconnect != null)
+                EventUniverseDisconnect(this);
+        }
     }
 }

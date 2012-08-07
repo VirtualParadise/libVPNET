@@ -20,15 +20,15 @@ namespace VpNet.Core.EventData
         public enum WorldState : int
         {
 #if (WCF)
-        [DataMember]
+        [EnumMember]
 #endif
             Online,
 #if (WCF)
-        [DataMember]
+        [EnumMember]
 #endif
             Stopped,
 #if (WCF)
-        [DataMember]
+        [EnumMember]
 #endif
             Unknown
         }

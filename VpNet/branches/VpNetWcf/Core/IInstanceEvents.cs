@@ -8,22 +8,26 @@ namespace VpNet.Core
     public interface IInstanceEvents
     {
 #if (WCF)
-        [OperationContract]
-        void ChatCallback(Instance sender, Chat eventData);
-        [OperationContract]
-        void AvatarCallback(Instance sender, Avatar eventData);
-        [OperationContract]
-        void WorldListCallback(Instance sender, World eventData);
-        [OperationContract]
-        void ObjectChangeCallback(Instance sender, int sessionId, VpObject objectData);
-        [OperationContract]
-        void ObjectCreateCallback(Instance sender, int sessionId, VpObject objectData);
-        [OperationContract]
-        void ObjectDeleteCallback(Instance sender, int sessionId, int objectId);
-        [OperationContract]
-        void ObjectClickCallback(Instance sender, int sessionId, int objectId);
-        [OperationContract]
-        void QueryCellResultCallback(Instance sender, VpObject objectData);
+        [OperationContract(IsOneWay = true)]
+        void ChatCallback(Chat eventData);
+        [OperationContract(IsOneWay = true)]
+        void AvatarCallback(Avatar eventData);
+        [OperationContract(IsOneWay = true)]
+        void WorldListCallback(World eventData);
+        [OperationContract(IsOneWay = true)]
+        void ObjectChangeCallback(int sessionId, VpObject objectData);
+        [OperationContract(IsOneWay = true)]
+        void ObjectCreateCallback(int sessionId, VpObject objectData);
+        [OperationContract(IsOneWay = true)]
+        void ObjectDeleteCallback(int sessionId, int objectId);
+        [OperationContract(IsOneWay = true)]
+        void ObjectClickCallback(int sessionId, int objectId);
+        [OperationContract(IsOneWay = true)]
+        void WorldDisconnectCallback();
+        [OperationContract(IsOneWay = true)]
+        void UniverseDisconnectCallback();
+        [OperationContract(IsOneWay = true)]
+        void QueryCellResultCallback(VpObject objectData);
 
 #endif
     }

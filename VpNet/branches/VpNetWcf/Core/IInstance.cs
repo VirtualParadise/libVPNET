@@ -5,7 +5,7 @@ using VpNet.Core.Structs;
 namespace VpNet.Core
 {
 #if (WCF)
-[ServiceContract(CallbackContract = typeof(IInstanceEvents))] 
+[ServiceContract(CallbackContract = typeof(IInstanceEvents),SessionMode = SessionMode.Required)] 
 #endif
     public interface IInstance : IDisposable
     {

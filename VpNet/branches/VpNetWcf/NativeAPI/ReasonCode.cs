@@ -12,66 +12,67 @@ namespace VpNet.NativeApi
         /// <summary>
         /// Operation Successfull
         /// </summary>
-        [DataMember] Success = 0,
+        [EnumMember]
+        Success = 0,
         /// <summary>
         /// Incorrect API Version
         /// </summary>
-        [DataMember]
+        [EnumMember]
         VersionMismatch = 1,
         /// <summary>
         /// Instance not initalized
         /// </summary>
-        [DataMember]
+        [EnumMember]
         NotInitialized = 2,
         /// <summary>
         /// Instance already initialized
         /// </summary>
-        [DataMember]
+        [EnumMember]
         AlreadyInitialized = 3,
         /// <summary>
         /// String too long
         /// </summary>
-        [DataMember]
+        [EnumMember]
         StringTooLong = 4,
         /// <summary>
         /// Invalid password
         /// </summary>
-        [DataMember]
+        [EnumMember]
         InvalidPassword = 5,
         /// <summary>
         /// World not found
         /// </summary>
-        [DataMember]
+        [EnumMember]
         WorldNotFound = 6,
         /// <summary>
         /// World login error
         /// </summary>
-        [DataMember]
+        [EnumMember]
         WorldLoginError = 7,
         /// <summary>
         /// Not in world
         /// </summary>
-        [DataMember]
+        [EnumMember]
         NotInWorld = 8,
         /// <summary>
         /// Connection error
         /// </summary>
-        [DataMember]
+        [EnumMember]
         ConnectionError = 9,
         /// <summary>
         /// No instance
         /// </summary>
-        [DataMember]
+        [EnumMember]
         NoInstance = 10,
         /// <summary>
         /// Not immplemented
         /// </summary>
-        [DataMember]
+        [EnumMember]
         NotImplemented = 11,
         /// <summary>
         /// No such attribute available
         /// </summary>
-        [DataMember]
+        [EnumMember]
         NoSuchAttribute = 12,
         /// <summary>
         /// Operation not allowed
@@ -81,17 +82,17 @@ namespace VpNet.NativeApi
         /// <summary>
         /// Universe database error
         /// </summary>
-        [DataMember]
+        [EnumMember]
         DatabaseError = 14,
         /// <summary>
         /// No such user exists
         /// </summary>
-        [DataMember]
+        [EnumMember]
         NoSuchUser = 15,
         /// <summary>
         /// Timeout
         /// </summary>
-        [DataMember]
+        [EnumMember]
         Timeout = 16
     }
 #endif
