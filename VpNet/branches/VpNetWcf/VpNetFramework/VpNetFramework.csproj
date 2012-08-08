@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BotEngine.cs" />
     <Compile Include="BotEngineConfiguration.cs" />
     <Compile Include="Common\ActionInterpreter\ActionException.cs" />
     <Compile Include="Common\ActionInterpreter\Attributes\ACEnumBindingAttribute.cs" />
