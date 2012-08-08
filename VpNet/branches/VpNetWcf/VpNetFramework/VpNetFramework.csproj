@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{68B8F63B-EFA3-4AC5-8960-8376DD0C5E5D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VpNetFramework</RootNamespace>
+    <AssemblyName>VpNetFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BotEngineConfiguration.cs" />
+    <Compile Include="Common\ActionInterpreter\ActionException.cs" />
+    <Compile Include="Common\ActionInterpreter\Attributes\ACEnumBindingAttribute.cs" />
+    <Compile Include="Common\ActionInterpreter\Attributes\ACEnumTypeAttribute.cs" />
+    <Compile Include="Common\ActionInterpreter\Attributes\ACItemBindingAttribute.cs" />
+    <Compile Include="Common\ActionInterpreter\CommandArgument.cs" />
+    <Compile Include="Common\ActionInterpreter\CommandExecutionResult.cs" />
+    <Compile Include="Common\ActionInterpreter\CommandFlag.cs" />
+    <Compile Include="Common\ActionInterpreter\CommandIndexedItem.cs" />
+    <Compile Include="Common\ActionInterpreter\CommandInterpretType.cs" />
+    <Compile Include="Common\ActionInterpreter\CommandLine.cs" />
+    <Compile Include="Common\ActionInterpreter\CommandNameValuePair.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACAnimate.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACAStart.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACAStop.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACCamera.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACColor.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACCorona.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACCursor.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACEnvi.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACExamine.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACFrame.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACGroup.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACLight.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACLink.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACLock.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACMatFx.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACMedia.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACMidi.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACMove.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACName.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACNoise.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACPicture.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACRotate.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACSay.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACScale.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACSeq.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACShadow.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACSolid.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACTag.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACTeleport.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACTeleportX.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACTexture.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ActionCommands.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACUnknown.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACUrl.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACWarp.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\ACWeb.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\Extended\ACAmbient.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\Extended\ACNormalMap.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\Extended\ACSpecular.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\Extended\ACSpecularMap.cs" />
+    <Compile Include="Common\ActionInterpreter\Commands\TriggerCommands.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\IACLiteralNames.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\IACName.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\IActionCommand.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\IActionCommandGlobal.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\IActionCommandName.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\IActionInterpreter.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\ICommandExecute.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\ICommandExecutionResult.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\ICommandGroup.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\ICommandItemBindingAttribute.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\ICommandPart.cs" />
+    <Compile Include="Common\ActionInterpreter\Interfaces\ILiteralAction.cs" />
+    <Compile Include="Common\ActionInterpreter\Interpreter.cs" />
+    <Compile Include="Common\ActionInterpreter\Triggers\ATActivate.cs" />
+    <Compile Include="Common\ActionInterpreter\Triggers\ATAdone.cs" />
+    <Compile Include="Common\ActionInterpreter\Triggers\ATBump.cs" />
+    <Compile Include="Common\ActionInterpreter\Triggers\AtCreate.cs" />
+    <Compile Include="Common\ActionInterpreter\Triggers\ATEnterZone.cs" />
+    <Compile Include="Common\ActionInterpreter\Triggers\ATExitZone.cs" />
+    <Compile Include="Common\ActionInterpreter\Triggers\ATSDone.cs" />
+    <Compile Include="Common\ActionInterpreter\Triggers\ATUnknown.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\AnimationFlagType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\AwBooleanType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\EnviType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\GlobalType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\LightFxType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\LightType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\MatFxType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\MediaPlayType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\MediaSoundFx.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\ResType.cs" />
+    <Compile Include="Common\ActionInterpreter\Types\TextureBlendType.cs" />
+    <Compile Include="Common\ActiveConfig.cs" />
+    <Compile Include="Common\Reflection\ReflectionCache.cs" />
+    <Compile Include="Common\Reflection\ReflectionEnumCache.cs" />
+    <Compile Include="Common\Reflection\ReflectionEnumCacheItem.cs" />
+    <Compile Include="Common\Reflection\ReflectionEnumCacheItemField.cs" />
+    <Compile Include="Common\Reflection\ReflectionHelpers.cs" />
+    <Compile Include="Common\SerializationHelpers.cs" />
+    <Compile Include="Common\TimerT.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReconnectSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VpNetPlus\VpNetPlus.csproj">
+      <Project>{5460279F-5B9B-4270-ADA6-41CE45C567EB}</Project>
+      <Name>VpNetPlus</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
