@@ -13,7 +13,7 @@
 using System;
 using VpNetFramework.Common.ActionInterpreter.Interfaces;
 
-namespace VPNetExamples.Common.ActionInterpreter.Attributes
+namespace VpNetFramework.Common.ActionInterpreter.Attributes
 {
     public sealed class ACEnumBindingAttribute : Attribute, IACLiteralNames
     {
