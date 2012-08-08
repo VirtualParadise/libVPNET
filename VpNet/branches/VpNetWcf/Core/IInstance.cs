@@ -1,5 +1,7 @@
 using System;
+#if (WCF)
 using System.ServiceModel;
+#endif
 using VpNet.Core.Structs;
 
 namespace VpNet.Core

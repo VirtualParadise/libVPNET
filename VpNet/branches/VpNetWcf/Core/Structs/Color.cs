@@ -1,5 +1,7 @@
 ﻿using System;
+#if (WCF)
 using System.Runtime.Serialization;
+#endif
 
 namespace VpNet.Core.Structs
 {

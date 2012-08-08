@@ -1,5 +1,6 @@
-﻿
+﻿#if (WCF)
 using System.Runtime.Serialization;
+#endif
 
 namespace VpNet.Core.EventData
 {

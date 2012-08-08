@@ -1,4 +1,6 @@
+#if (WCF)
 using System.ServiceModel;
+#endif
 using VpNet.Core.EventData;
 using VpNet.Core.Structs;
 

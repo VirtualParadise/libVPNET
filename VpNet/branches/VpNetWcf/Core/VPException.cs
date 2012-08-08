@@ -1,5 +1,7 @@
 ﻿using System;
+#if (WCF)
 using System.Runtime.Serialization;
+#endif
 using VpNet.NativeApi;
 
 namespace VpNet.Core
