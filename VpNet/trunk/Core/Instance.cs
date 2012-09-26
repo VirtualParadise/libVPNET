@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using VpNet.Core.EventData;
+using VpNet.Core.Interfaces;
 using VpNet.Core.Structs;
 using VpNet.NativeApi;
 using Attribute = VpNet.NativeApi.Attribute;
 
 namespace VpNet.Core
 {
-    public class Instance : IDisposable
+    public class Instance : IDisposable, IInstance
     {
         static bool _isInitialized;
         readonly IntPtr _instance;

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Interfaces\IInstance.cs" />
     <Compile Include="Core\Structs\Color.cs" />
     <Compile Include="Core\Structs\VpObject.cs" />
     <Compile Include="Core\EventData\World.cs" />

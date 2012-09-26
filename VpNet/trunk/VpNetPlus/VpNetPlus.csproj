@@ -51,6 +51,9 @@
     <Compile Include="..\Core\Instance.cs">
       <Link>Core\Instance.cs</Link>
     </Compile>
+    <Compile Include="..\Core\Interfaces\IInstance.cs">
+      <Link>Core\Interfaces\IInstance.cs</Link>
+    </Compile>
     <Compile Include="..\Core\Structs\Avatar.cs">
       <Link>Structs\Avatar.cs</Link>
     </Compile>
