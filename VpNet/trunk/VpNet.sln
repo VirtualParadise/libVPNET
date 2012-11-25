@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{C5B15F27-C604-4D10-A432-6E4486A42077}"
 	ProjectSection(SolutionItems) = preProject
 		Dependencies\nunit.framework.dll = Dependencies\nunit.framework.dll
+		Dependencies\rc.h = Dependencies\rc.h
+		Dependencies\VP.h = Dependencies\VP.h
 		Dependencies\vpsdk.dll = Dependencies\vpsdk.dll
 	EndProjectSection
 EndProject

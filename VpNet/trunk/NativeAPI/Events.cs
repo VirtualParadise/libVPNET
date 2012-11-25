@@ -64,6 +64,18 @@
         /// <summary>
         /// User attributes event
         /// </summary>
-        UserAttributes=14
+        UserAttributes=14,
+        /// <summary>
+        /// Cell query end event
+        /// </summary>
+        QueryCellEnd=15,
+        /// <summary>
+        /// Terrain node event
+        /// </summary>
+        TerrainNode=16,
+        /// <summary>
+        /// Highest event
+        /// </summary>
+        Highest
     }
 }

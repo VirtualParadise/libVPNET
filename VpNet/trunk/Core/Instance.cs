@@ -34,6 +34,7 @@ namespace VpNet.Core
             SetNativeEvent(Events.Object, OnObjectCreate);
             SetNativeEvent(Events.ObjectClick, OnObjectClick);
             SetNativeEvent(Events.ObjectDelete, OnObjectDelete);
+            SetNativeEvent(Events.QueryCellEnd, OnQueryCellEnd);
             SetNativeEvent(Events.UniverseDisconnect, OnUniverseDisconnect);
             SetNativeEvent(Events.WorldDisconnect, OnWorldDisconnect);
         }
@@ -217,6 +218,7 @@ namespace VpNet.Core
         public delegate void ObjectClickEvent(Instance sender, int sessionId, int objectId);
 
         public delegate void QueryCellResult(Instance sender, VpObject objectData);
+        public delegate void QueryCellEnd(Instance sender, int x, int z);
 
         public event ChatEvent EventChat;
         public event AvatarEvent EventAvatarAdd;
@@ -236,6 +238,7 @@ namespace VpNet.Core
         public event Event EventUserAttributes;
 
         public event QueryCellResult EventQueryCellResult;
+        public event QueryCellEnd EventQueryCellEnd;
 
         #endregion
         #region Event handlers
@@ -390,6 +393,14 @@ namespace VpNet.Core
             EventObjectChange(this, sessionId, vpObject);
         }
 
+        private void OnQueryCellEnd(IntPtr sender)
+        {
+            if (EventQueryCellEnd == null) return;
+            var x = Functions.vp_int(sender, Attribute.CellX);
+            var z = Functions.vp_int(sender, Attribute.CellZ);
+            EventQueryCellEnd(this, x, z);
+        }
+
         private void OnWorldList(IntPtr sender)
         {
             if (EventWorldList == null)
@@ -444,6 +455,7 @@ namespace VpNet.Core
                 EventUniverseDisconnect = null;
                 EventUserAttributes = null;
                 EventQueryCellResult = null;
+                EventQueryCellEnd = null;
             }
         }
 

@@ -82,6 +82,42 @@
         /// </summary>
         MyUserId,
         /// <summary>
+        /// Proxy server type
+        /// </summary>
+        ProxyType,
+        /// <summary>
+        /// Proxy server port
+        /// </summary>
+        ProxyPort,
+        /// <summary>
+        /// Cell X
+        /// </summary>
+        CellX,
+        /// <summary>
+        /// Cell Z
+        /// </summary>
+        CellZ,
+        /// <summary>
+        /// Terrain tile X
+        /// </summary>
+        TerrainTileX,
+        /// <summary>
+        /// Terrain tile Z
+        /// </summary>
+        TerrainTileZ,
+        /// <summary>
+        /// Terrain node X
+        /// </summary>
+        TerrainNodeX,
+        /// <summary>
+        /// Terrain node Z
+        /// </summary>
+        TerrainNodeZ,
+        /// <summary>
+        /// Terrain node revision
+        /// </summary>
+        TerrainNodeRevision,
+        /// <summary>
         /// Integer attribute highest
         /// </summary>
         IntegerAttributeHighest,
