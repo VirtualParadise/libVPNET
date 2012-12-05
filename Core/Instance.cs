@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading
 using VpNet.Core.EventData;
 using VpNet.Core.Interfaces;
 using VpNet.Core.Structs;
@@ -177,18 +178,7 @@ namespace VpNet.Core
             int rc;
             lock (this)
             {
-                Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
-                Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
-                Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
-                Functions.vp_string_set(_instance, Attribute.ObjectModel, vpObject.Model);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
-                Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.Position.X);
-                Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
-                Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
-
+                vpObject.ToNative(_instance);
                 rc = Functions.vp_object_change(_instance);
             }
             if (rc != 0)
@@ -197,6 +187,91 @@ namespace VpNet.Core
             }
         }
 
+        public async void AddObjectAsync()
+        {
+        }
+
+        /// <summary>
+        /// Adds a raw vpObject to the world
+        /// </summary>
+        /// <param name="vpObject">New instance of vpObject with model and position set</param>
+        public void AddObject(VpObject vpObject)
+        {
+            int rc;
+            lock (this)
+            {
+                vpObject.ToNative(_instance);
+                rc = Functions.vp_object_add(_instance);
+            }
+            if (rc != 0)
+            {
+                throw new VpException((ReasonCode)rc);
+            }
+        }
+
+        /// <summary>
+        /// Creates and adds a new vpObject
+        /// </summary>
+        /// <param name="model">Model name</param>
+        /// <param name="position">Vector3 position</param>
+        /// <param name="rotation">Vector3 rotation</param>
+        /// <param name="angle">Rotational angle</param>
+        public void AddObject(string model, Vector3 position, Vector3 rotation, float angle)
+        {
+            AddObject(new VpObject
+            {
+                Model = model,
+                Position = position,
+                Rotation = rotation,
+                Angle = angle
+            });
+        }
+
+        /// <summary>
+        /// Creates and adds a new vpObject with default rotation
+        /// </summary>
+        /// <param name="model">Model name</param>
+        /// <param name="position">Vector3 position</param>
+        public void AddObject(string model, Vector3 position)
+        {
+            AddObject(model, position, Vector3.Zero, 0);
+        }
+
+        /// <summary>
+        /// Deletes a given object
+        /// </summary>
+        /// <param name="vpObject">Object to delete</param>
+        public void DeleteObject(VpObject vpObject)
+        {
+            int rc;
+            lock (this)
+            {
+                vpObject.Target(_instance);
+                rc = Functions.vp_object_delete(_instance);
+            }
+            if (rc != 0)
+            {
+                throw new VpException((ReasonCode)rc);
+            }
+        }
+
+        /// <summary>
+        /// Sends a click event on a given object
+        /// </summary>
+        /// <param name="vpObject">Object to click</param>
+        public void ClickObject(VpObject vpObject)
+        {
+            int rc;
+            lock (this)
+            {
+                vpObject.Target(_instance);
+                rc = Functions.vp_object_click(_instance);
+            }
+            if (rc != 0)
+            {
+                throw new VpException((ReasonCode)rc);
+            }
+        }
         #endregion
         #region Events
         
@@ -431,6 +506,45 @@ namespace VpNet.Core
         {
             if (EventWorldDisconnect == null) return;
             EventWorldDisconnect(this);
+        }
+
+        #endregion
+
+        #region Callbacks
+        private void SetNativeCallback(Callbacks callbackType, CallbackDelegate callbackFunction)
+        {
+            Functions.vp_int_set(_instance, Attribute.ReferenceNumber, 69);
+            Functions.vp_callback_set(_instance, (int)callbackType, callbackFunction);
+        }
+
+        private void ClearNativeCallback(Callbacks callbackType)
+        {
+            Functions.vp_callback_set(_instance, (int)callbackType, null);
+        }
+
+        public delegate void ObjectAddCallback(Instance sender, int id);
+
+        event ObjectAddCallback _callbackObjectAdd;
+        public event ObjectAddCallback CallbackObjectAdd
+        {
+            add
+            {
+                if (_callbackObjectAdd != null)
+                    throw new InvalidOperationException("Callback already set for AddObject");
+
+                _callbackObjectAdd += value;
+                SetNativeCallback(Callbacks.ObjectAdd, (sender, rc, rn) =>
+                {
+                    var id = Functions.vp_int(sender, Attribute.ObjectId);
+                    _callbackObjectAdd(this, id);
+                });
+            }
+
+            remove
+            {
+                _callbackObjectAdd -= value;
+                ClearNativeCallback(Callbacks.ObjectAdd);
+            }
         }
 
         #endregion
