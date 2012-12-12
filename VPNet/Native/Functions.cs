@@ -5,7 +5,6 @@ namespace VP.Native
 {
     public class Functions
     {
-        
         [DllImport("vpsdk", CallingConvention=CallingConvention.Cdecl)]
         public static extern int vp_init(int build);
 
@@ -120,6 +119,23 @@ namespace VP.Native
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_friend_delete(IntPtr instance, int friendId);
+
+        //[DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        //public static extern int vp_terrain_query(IntPtr instance, int tile_x, int tile_z, int[,] revision);
+
+        //[DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        //public static extern int vp_terrain_node_set(IntPtr instance, int tile_x, int tile_z, int[,] revision);
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int vp_avatar_click(IntPtr instance, int session);
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int vp_teleport_avatar(
+            IntPtr instance,
+            int session,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string world,
+            float x, float y, float z,
+            float yaw, float pitch);
 
         public static byte[] GetData(IntPtr instance, VPAttribute attribute)
         {

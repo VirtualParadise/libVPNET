@@ -82,6 +82,9 @@ namespace VP
                 Current = null;
         }
 
+        /// <summary>
+        /// Updates the bot's own position and rotation
+        /// </summary>
         public void UpdateAvatar(float x = 0.0f, float y = 0.0f, float z = 0.0f,
             float yaw = 0.0f, float pitch = 0.0f)
         {
@@ -95,6 +98,32 @@ namespace VP
                 Functions.vp_float_set(instance.pointer, VPAttribute.MyPitch, pitch);
                 rc = Functions.vp_state_change(instance.pointer);
             }
+
+            if (rc != 0) throw new VPException((ReasonCode)rc);
+        }
+
+        /// <summary>
+        /// Sends a click event to an avatar by session number
+        /// </summary>
+        public void ClickAvatar(int session)
+        {
+            int rc;
+            lock (instance)
+                rc = Functions.vp_avatar_click(instance.pointer, session);
+
+            if (rc != 0) throw new VPException((ReasonCode)rc);
+        }
+
+        public void TeleportAvatar(int session, string world, Vector3 pos, float yaw, float pitch)
+        {
+            int rc;
+            lock (instance)
+                rc = Functions.vp_teleport_avatar(
+                    instance.pointer,
+                    session,
+                    world,
+                    pos.X, pos.Y, pos.Z,
+                    yaw, pitch);
 
             if (rc != 0) throw new VPException((ReasonCode)rc);
         }
