@@ -67,6 +67,20 @@ namespace VP
             if (rc != 0) throw new VPException((ReasonCode)rc);
         }
 
+        /// <summary>
+        /// Logs into the default Virtual Paradise universe with pre-set authentication
+        /// details (clears UserName and Password) and automatically enters the preset
+        /// world. Chainable.
+        /// </summary>
+        public Instance Login()
+        {
+            Universe.Login(UserName, Password, Name);
+            UserName = null;
+            Password = null;
+
+            return this;
+        }
+
         public void Dispose()
         {
             if (pointer != IntPtr.Zero)
