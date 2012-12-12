@@ -72,6 +72,10 @@
         /// <summary>
         /// Timeout
         /// </summary>
-        Timeout=16
+        Timeout=16,
+        /// <summary>
+        /// Currently not in universe
+        /// </summary>
+        NotInUniverse
     }
 }

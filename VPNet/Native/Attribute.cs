@@ -117,10 +117,14 @@
         /// Terrain node revision
         /// </summary>
         TerrainNodeRevision,
+        ClickedSession,
         /// <summary>
         /// Integer attribute highest
         /// </summary>
         IntegerAttributeHighest,
+
+        // Floats
+
         /// <summary>
         /// Avatar x
         /// </summary>
@@ -204,7 +208,15 @@
         /// <summary>
         /// Float attribute highest
         /// </summary>
+        TeleportX,
+        TeleportY,
+        TeleportZ,
+        TeleportYaw,
+        TeleportPitch,
         FloatAttributeHighest,
+
+        // STRINGS
+
         /// <summary>
         /// Avatar name
         /// </summary>
@@ -249,10 +261,15 @@
         /// Friend name
         /// </summary>
 	    FriendName,
+        ProxyHost,
+        TeleportWorld,
         /// <summary>
         /// String attribute highest
         /// </summary>
 	    StringAttributeHighest,
+
+        // Data
+
         /// <summary>
         /// Object data
         /// </summary>

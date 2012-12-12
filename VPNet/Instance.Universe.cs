@@ -44,12 +44,14 @@ namespace VP
         /// </summary>
         public void Login(Uniserver universe, string username, string password, string botname)
         {
-            int rc, rc2;
+            int rc;
             lock (instance)
-            {
                 rc = Functions.vp_connect_universe(instance.pointer, universe.Host, universe.Port);
-                rc2 = Functions.vp_login(instance.pointer, username, password, botname);
-            }
+
+            if (rc != 0) throw new VPException((ReasonCode)rc);
+
+            lock (instance)
+                rc = Functions.vp_login(instance.pointer, username, password, botname);
 
             if (rc != 0) throw new VPException((ReasonCode)rc);
         }
@@ -60,17 +62,6 @@ namespace VP
         /// </summary>
         public void Login(string username, string password, string botname)
         { Login(Uniserver.VirtualParadise, username, password, botname); }
-
-        /// <summary>
-        /// Logs into the default Virtual Paradise universe with pre-set authentication
-        /// details (clears UserName and Password) and automatically enters the preset world
-        /// </summary>
-        public void Login()
-        {
-            Login(instance.UserName, instance.Password, instance.Name);
-            instance.UserName = null;
-            instance.Password = null;
-        }
 
         public void ListWorlds()
         {

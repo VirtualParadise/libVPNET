@@ -52,10 +52,10 @@ namespace VP
 
         #region Methods
         /// <summary>
-        /// Enters a given world
+        /// Enters a given world, chainable
         /// TODO: check if leaves current world
         /// </summary>
-        public void Enter(string worldname)
+        public Instance Enter(string worldname)
         {
             int rc;
             lock (instance)
@@ -65,6 +65,8 @@ namespace VP
                 throw new VPException((ReasonCode)rc);
             else
                 Current = worldname;
+
+            return instance;
         }
 
         /// <summary>
