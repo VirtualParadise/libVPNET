@@ -5,56 +5,74 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F9B6BBB6-ED9C-498A-9EF3-A350C0BAD947}</ProjectGuid>
+    <ProjectGuid>{DBE501A7-0176-473F-B2E8-F4ADA721917F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VpNet.UnitTests</RootNamespace>
-    <AssemblyName>VpNet.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>VP</RootNamespace>
+    <AssemblyName>VPNet</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NUnit.Framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Build\NUnit.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionIntepreterTests.cs" />
-    <Compile Include="ActiveConfigurationTests.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Instance.Comms.cs" />
+    <Compile Include="Instance.World.cs" />
+    <Compile Include="Instance.Universe.cs" />
+    <Compile Include="Instance.Property.cs" />
+    <Compile Include="Interfaces\IInstanceContainer.cs" />
+    <Compile Include="Instance.cs" />
+    <Compile Include="Types\Avatar.cs" />
+    <Compile Include="Types\Callbacks.cs" />
+    <Compile Include="Types\Chat.cs" />
+    <Compile Include="Types\Universe.cs" />
+    <Compile Include="Types\User.cs" />
+    <Compile Include="Types\VPObject.cs" />
+    <Compile Include="Types\World.cs" />
+    <Compile Include="Types\WorldAttributes.cs" />
+    <Compile Include="VPException.cs" />
+    <Compile Include="Types\Quaternion.cs" />
+    <Compile Include="Types\Vector2.cs" />
+    <Compile Include="Types\Vector3.cs" />
+    <Compile Include="Native\Attribute.cs" />
+    <Compile Include="Native\Callbacks.cs" />
+    <Compile Include="Native\Delegates.cs" />
+    <Compile Include="Native\Events.cs" />
+    <Compile Include="Native\Functions.cs" />
+    <Compile Include="Native\ReasonCode.cs" />
+    <Compile Include="Native\Utf8Marshaler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VPNet.Examples\VPNet.Examples.csproj">
-      <Project>{546b2d02-1a97-4cb4-b0a7-d3970fb4decb}</Project>
-      <Name>VPNet.Examples</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
