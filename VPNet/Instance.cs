@@ -11,27 +11,30 @@ namespace VP
 
         #region Member containers
         /// <summary>
-        /// Methods, events and properties related to universe connectivity,
-        /// authentication and metadata
+        /// Methods, events and properties related to metadata collection
         /// </summary>
-        public InstanceUniverse Universe;
+        public InstanceData Data;
         /// <summary>
-        /// Methods, events and properties related to world connectivity
+        /// Methods, events and properties related to users and avatars
         /// </summary>
-        public InstanceWorld World;
-        /// <summary>
-        /// Methods, events and properties related to communications
-        /// </summary>
-        public InstanceComms Comms;
+        public InstanceAvatars Avatars;
         /// <summary>
         /// Methods, events and properties related to property and object handling,
         /// including queries
         /// </summary>
         public InstanceProperty Property;
+        /// <summary>
+        /// Methods, events and properties related to terrain modificaton and queries
+        /// </summary>
+        public InstanceTerrain Terrain;
         #endregion
 
+        #region Constructor, setup & deconstructor
         internal readonly IntPtr pointer;
 
+        /// <summary>
+        /// Creates a bot instance, initializing the SDK automatically
+        /// </summary>
         public Instance()
         {
             if (!_isInitialized)
@@ -45,6 +48,16 @@ namespace VP
 
             pointer = Functions.vp_create();
             setup();
+            setupEvents();
+        }
+
+        /// <summary>
+        /// Creates a bot instance with a given name, initializing the SDK automatically
+        /// </summary>
+        public Instance(string name)
+            : base()
+        {
+            this.Name = name;
         }
 
         ~Instance()
@@ -54,79 +67,34 @@ namespace VP
                     Functions.vp_destroy(pointer);
         }
 
-        #region Public instantation properties
-        public string Name;
-        public string UserName;
-        public string Password; 
-        #endregion
-
-        #region Public SDK methods
-        public void Wait(int milliseconds)
-        {
-            int rc = Functions.vp_wait(pointer, milliseconds);
-            if (rc != 0) throw new VPException((ReasonCode)rc);
-        }
-
         /// <summary>
-        /// Logs into the default Virtual Paradise universe with pre-set authentication
-        /// details (clears UserName and Password) and automatically enters the preset
-        /// world. Chainable.
+        /// Disposes of the bot by destorying it natively, then disposes of all
+        /// containers.
         /// </summary>
-        public Instance Login()
-        {
-            Universe.Login(UserName, Password, Name);
-            UserName = null;
-            Password = null;
-
-            return this;
-        }
-
         public void Dispose()
         {
             if (pointer != IntPtr.Zero)
                 Functions.vp_destroy(pointer);
 
-            Universe.Dispose();
-            World.Dispose();
-            Comms.Dispose();
+            Data.Dispose();
+            Avatars.Dispose();
             Property.Dispose();
+            disposeEvents();
             GC.SuppressFinalize(this);
         }
-        #endregion
 
         void setup()
         {
-            this.Universe = new InstanceUniverse { instance = this };
-            this.World = new InstanceWorld { instance = this };
-            this.Comms = new InstanceComms { instance = this };
-            this.Property = new InstanceProperty { instance = this };
-
-            this.Universe.SetNativeEvents();
-            this.World.SetNativeEvents();
-            this.Comms.SetNativeEvents();
-            this.Property.SetNativeEvents();
+            this.Data = new InstanceData(this);
+            this.Avatars = new InstanceAvatars(this);
+            this.Property = new InstanceProperty(this);
+            this.Terrain = new InstanceTerrain(this);
         }
+        #endregion
 
-        #region Native events and callbacks
-        /// <summary>
-        /// Generic event for all containers
-        /// </summary>
-        public delegate void Event(Instance sender);
-
-        Dictionary<Events, EventDelegate> _nativeEvents = new Dictionary<Events, EventDelegate>();
-        Dictionary<Callbacks, CallbackDelegate> _nativeCallbacks = new Dictionary<Callbacks, CallbackDelegate>();
-        
-        internal void SetNativeEvent(Events eventType, EventDelegate eventFunction)
-        {
-            _nativeEvents[eventType] = eventFunction;
-            Functions.vp_event_set(pointer, (int)eventType, eventFunction);
-        }
-
-        internal void SetNativeCallback(Callbacks callbackType, CallbackDelegate callbackFunction)
-        {
-            _nativeCallbacks[callbackType] = callbackFunction;
-            Functions.vp_callback_set(pointer, (int)callbackType, callbackFunction);
-        }
+        #region Public properties
+        public string Name;
+        public string CurrentWorld;
         #endregion
     }
 }

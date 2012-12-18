@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VP.Native;
-using VP.Interfaces;
 
 namespace VP
 {
     /// <summary>
     /// Container class for Instance's property-related members
     /// </summary>
-    public class InstanceProperty : IInstanceContainer
+    public class InstanceProperty : IDisposable
     {
         internal Instance instance;
 
-        #region IInstanceContainer
-        public void SetNativeEvents()
+        public InstanceProperty(Instance instance)
         {
+            this.instance = instance;
             instance.SetNativeEvent(Events.Object, OnObjectCreate);
             instance.SetNativeEvent(Events.ObjectChange, OnObjectChange);
             instance.SetNativeEvent(Events.ObjectDelete, OnObjectDelete);
@@ -42,7 +38,6 @@ namespace VP
             CallbackObjectChange = null;
             CallbackObjectDelete = null;
         } 
-        #endregion
 
         #region Object references
         int _reference = int.MinValue;
@@ -111,7 +106,7 @@ namespace VP
             lock (instance)
             {
                 _objectReferences.Add(referenceNumber, vpObject);
-                vpObject.ToInstance(instance.pointer);
+                vpObject.ToNative(instance.pointer);
                 rc = Functions.vp_object_add(instance.pointer);
             }
             if (rc != 0)
@@ -177,7 +172,7 @@ namespace VP
             lock (instance)
             {
                 _objectReferences.Add(referenceNumber, vpObject);
-                vpObject.ToInstance(instance.pointer);
+                vpObject.ToNative(instance.pointer);
                 rc = Functions.vp_object_delete(instance.pointer);
             }
             if (rc != 0)
@@ -196,7 +191,7 @@ namespace VP
             int rc;
             lock (instance)
             {
-                vpObject.ToInstance(instance.pointer);
+                vpObject.ToNative(instance.pointer);
                 rc = Functions.vp_object_click(instance.pointer);
             }
 
@@ -283,28 +278,28 @@ namespace VP
         #region Callback handlers
         void OnObjectCreateCallback(IntPtr sender, int rc, int reference)
         {
+            if (CallbackObjectChange == null) return;
+
             lock (instance)
             {
                 var vpObject = _objectReferences[reference];
                 _objectReferences.Remove(reference);
 
-                if (CallbackObjectCreate != null)
-                {
-                    vpObject.Id = Functions.vp_int(sender, VPAttribute.ObjectId);
-                    CallbackObjectCreate(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
-                }
+                vpObject.Id = Functions.vp_int(sender, VPAttribute.ObjectId);
+                CallbackObjectCreate(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
             }
         }
 
         void OnObjectChangeCallback(IntPtr sender, int rc, int reference)
         {
+            if (CallbackObjectChange == null) return;
+
             lock (instance)
             {
                 var vpObject = _objectReferences[reference];
                 _objectReferences.Remove(reference);
 
-                if (CallbackObjectChange != null)
-                    CallbackObjectChange(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
+                CallbackObjectChange(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
             }
         }
 
