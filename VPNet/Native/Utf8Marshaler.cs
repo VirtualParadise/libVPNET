@@ -11,9 +11,8 @@ namespace VP.Native
         public static ICustomMarshaler GetInstance(string cookie)
         {
             if (_instance == null)
-            {
                 _instance = new Utf8StringToNative();
-            }
+            
             return _instance;
         }
 
@@ -53,9 +52,8 @@ namespace VP.Native
         public static ICustomMarshaler GetInstance(string cookie)
         {
             if (_instance == null)
-            {
                 _instance = new Utf8StringToManaged();
-            }
+
             return _instance;
         }
 
@@ -94,9 +92,7 @@ namespace VP.Native
         public object MarshalNativeToManaged(IntPtr pNativeData)
         {
             if (pNativeData == IntPtr.Zero)
-            {
                 return null;
-            }
 
             var buffer = new byte[GetStringLength(pNativeData)];
             Marshal.Copy(pNativeData, buffer, 0, buffer.Length);

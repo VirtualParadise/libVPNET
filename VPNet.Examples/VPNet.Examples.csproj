@@ -185,6 +185,12 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\GlobalWeatherService\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VPNet\VPNet.csproj">
+      <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
+      <Name>VPNet</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

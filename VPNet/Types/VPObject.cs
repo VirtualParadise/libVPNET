@@ -36,7 +36,7 @@ namespace VP
         public VPObject() { }
         
         /// <summary>
-        /// Creates a VPObject from a native instance
+        /// Creates a VPObject from a native instance's attributes
         /// </summary>
         internal VPObject (IntPtr pointer) {
             Action = Functions.vp_string(pointer, VPAttribute.ObjectAction);
@@ -82,16 +82,6 @@ namespace VP
             Functions.vp_float_set(pointer, Attribute.ObjectRotationZ, this.Rotation.Z);
             Functions.vp_float_set(pointer, Attribute.ObjectRotationAngle, this.Rotation.W);
             Functions.vp_float_set(pointer, Attribute.ObjectType, this.ObjectType);
-        }
-
-        /// <summary>
-        /// Sets the native object ID attribute to this object, targeting it for
-        /// object modification functions
-        /// </summary>
-        /// <param name="_instance"></param>
-        internal void ToInstance(IntPtr _instance)
-        {
-            Functions.vp_int_set(_instance, Attribute.ObjectId, this.Id);
         }
     }
 }

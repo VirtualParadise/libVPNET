@@ -8,71 +8,71 @@
         /// <summary>
         /// Operation Successfull
         /// </summary>
-        Success = 0,
+        Success,
         /// <summary>
         /// Incorrect API Version
         /// </summary>
-        VersionMismatch=1,
+        VersionMismatch,
         /// <summary>
         /// Instance not initalized
         /// </summary>
-        NotInitialized=2,
+        NotInitialized,
         /// <summary>
         /// Instance already initialized
         /// </summary>
-        AlreadyInitialized=3,
+        AlreadyInitialized,
         /// <summary>
         /// String too long
         /// </summary>
-        StringTooLong=4,
+        StringTooLong,
         /// <summary>
         /// Invalid password
         /// </summary>
-        InvalidPassword=5,
+        InvalidPassword,
         /// <summary>
         /// World not found
         /// </summary>
-        WorldNotFound=6,
+        WorldNotFound,
         /// <summary>
         /// World login error
         /// </summary>
-        WorldLoginError=7,
+        WorldLoginError,
         /// <summary>
         /// Not in world
         /// </summary>
-        NotInWorld=8,
+        NotInWorld,
         /// <summary>
         /// Connection error
         /// </summary>
-        ConnectionError=9,
+        ConnectionError,
         /// <summary>
         /// No instance
         /// </summary>
-        NoInstance=10,
+        NoInstance,
         /// <summary>
         /// Not immplemented
         /// </summary>
-        NotImplemented=11,
+        NotImplemented,
         /// <summary>
         /// No such attribute available
         /// </summary>
-        NoSuchAttribute=12,
+        NoSuchAttribute,
         /// <summary>
         /// Operation not allowed
         /// </summary>
-        NotAllowed=13,
+        NotAllowed,
         /// <summary>
         /// Universe database error
         /// </summary>
-        DatabaseError=14,
+        DatabaseError,
         /// <summary>
         /// No such user exists
         /// </summary>
-        NoSuchUser=15,
+        NoSuchUser,
         /// <summary>
         /// Timeout
         /// </summary>
-        Timeout=16,
+        Timeout,
         /// <summary>
         /// Currently not in universe
         /// </summary>

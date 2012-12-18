@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VP</RootNamespace>
     <AssemblyName>VP.NET</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -24,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DocumentationFile>..\Build\VP.NET.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +35,18 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DocumentationFile>..\Build\VP.NET.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug - Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug - Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>..\Build\VP.NET.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,16 +57,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Containers\Terrain.cs" />
+    <Compile Include="Instance.CoreEvents.cs" />
+    <Compile Include="Instance.CoreMethods.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Instance.Comms.cs" />
-    <Compile Include="Instance.World.cs" />
-    <Compile Include="Instance.Universe.cs" />
-    <Compile Include="Instance.Property.cs" />
-    <Compile Include="Interfaces\IInstanceContainer.cs" />
+    <Compile Include="Containers\Users.cs" />
+    <Compile Include="Containers\Data.cs" />
+    <Compile Include="Containers\Property.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Types\Avatar.cs" />
     <Compile Include="Types\Callbacks.cs" />
     <Compile Include="Types\Chat.cs" />
+    <Compile Include="Types\AvatarPosition.cs" />
+    <Compile Include="Types\TerrainNode.cs" />
     <Compile Include="Types\Universe.cs" />
     <Compile Include="Types\User.cs" />
     <Compile Include="Types\VPObject.cs" />
