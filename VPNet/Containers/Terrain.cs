@@ -33,18 +33,17 @@ namespace VP
         /// Sets a terrain node data to world
         /// HIGHLY UNSTABLE
         /// </summary>
-        public void SetNode(TerrainNode node)
+        public void SetNode(TerrainNode node, int tileX, int tileZ)
         {
             int rc;
-            node.Pack();
-            Console.WriteLine("Setting node: {0} {1} {2} {3}", node.Height, node.Texture, node.X, node.Z);
+            Console.WriteLine("Setting node: {0}x{1} at tile {2}x{3}", node.X, node.Z, tileX, tileZ);
 
             lock (instance)
                 rc = Functions.vp_terrain_node_set(
                     instance.pointer,
-                    node.TileX, node.TileZ,
+                    tileX, tileZ,
                     node.X, node.Z,
-                    ref node.Native);
+                    node.Cells);
 
             if (rc != 0)
                 throw new VPException((ReasonCode)rc);
@@ -79,7 +78,7 @@ namespace VP
             var revision = Functions.vp_int(sender, VPAttribute.TerrainNodeRevision);
 
             var terrainNode = Functions.GetData(sender, VPAttribute.TerrainNodeData);
-            var terr = (NativeTerrainNode) Marshal.PtrToStructure(data, typeof(NativeTerrainNode));
+            var terr = (TerrainCell) Marshal.PtrToStructure(data, typeof(TerrainCell));
             Console.WriteLine("Terrain: height: {0} attr: {1} x: {2} y: {3}", terr.Height, terr.Attributes, nodeX, nodeZ);
         }
         #endregion
