@@ -69,7 +69,8 @@
     <Compile Include="Types\Callbacks.cs" />
     <Compile Include="Types\Chat.cs" />
     <Compile Include="Types\AvatarPosition.cs" />
-    <Compile Include="Types\TerrainNode.cs" />
+    <Compile Include="Types\TerrainPosition.cs" />
+    <Compile Include="Types\Terrain.cs" />
     <Compile Include="Types\Universe.cs" />
     <Compile Include="Types\User.cs" />
     <Compile Include="Types\VPObject.cs" />
