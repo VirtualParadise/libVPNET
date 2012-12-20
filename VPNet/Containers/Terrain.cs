@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using VP.Native;
 
@@ -23,7 +24,7 @@ namespace VP
         } 
 
         #region Events
-        public delegate void TerrainNodeArgs(Instance sender);
+        public delegate void TerrainNodeArgs(Instance sender, TerrainNode node, int tileX, int tileZ);
 
         public event TerrainNodeArgs GetNode;
         #endregion
@@ -31,12 +32,10 @@ namespace VP
         #region Methods
         /// <summary>
         /// Sets a terrain node data to world
-        /// HIGHLY UNSTABLE
         /// </summary>
         public void SetNode(TerrainNode node, int tileX, int tileZ)
         {
             int rc;
-            Console.WriteLine("Setting node: {0}x{1} at tile {2}x{3}", node.X, node.Z, tileX, tileZ);
 
             lock (instance)
                 rc = Functions.vp_terrain_node_set(
@@ -50,10 +49,10 @@ namespace VP
         }
 
         /// <summary>
-        /// Queries a tile, using a 2 dimensional array of node revisions for versioning
-        /// INCOMPLETE EVENT; DO NOT USE
+        /// Queries a tile, using a 2 dimensional array of node revisions for versioning.
+        /// Fires the GetNode event after each node received
         /// </summary>
-        public void Query(int tileX, int tileZ, int[,] nodeRevision)
+        public void QueryTile(int tileX, int tileZ, int[,] nodeRevision)
         {
             int rc;
 
@@ -69,17 +68,11 @@ namespace VP
         internal void OnTerrainNode(IntPtr sender)
         {
             if (GetNode == null) return;
-            int dataLength;
-            var data = Functions.vp_data(sender, VPAttribute.TerrainNodeData, out dataLength);
             var tileX = Functions.vp_int(sender, VPAttribute.TerrainTileX);
             var tileZ = Functions.vp_int(sender, VPAttribute.TerrainTileZ);
-            var nodeX = Functions.vp_int(sender, VPAttribute.TerrainNodeX);
-            var nodeZ = Functions.vp_int(sender, VPAttribute.TerrainNodeZ);
-            var revision = Functions.vp_int(sender, VPAttribute.TerrainNodeRevision);
 
-            var terrainNode = Functions.GetData(sender, VPAttribute.TerrainNodeData);
-            var terr = (TerrainCell) Marshal.PtrToStructure(data, typeof(TerrainCell));
-            Console.WriteLine("Terrain: height: {0} attr: {1} x: {2} y: {3}", terr.Height, terr.Attributes, nodeX, nodeZ);
+            var node = new TerrainNode(sender);
+            GetNode(instance, node, tileX, tileZ);
         }
         #endregion
     }

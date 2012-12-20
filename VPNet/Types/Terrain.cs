@@ -1,5 +1,6 @@
-﻿using System.Runtime.InteropServices;
-using System;
+﻿using System;
+using System.Runtime.InteropServices;
+using VP.Native;
 
 namespace VP
 {
@@ -39,28 +40,43 @@ namespace VP
     public class TerrainNode
     {
         public TerrainTile Parent;
-        public TerrainCell[,] Cells = new TerrainCell[8,8];
+        public TerrainCell[,] Cells = new TerrainCell[8, 8];
         public int X;
         public int Z;
+        public int Revision;
+
+        public TerrainNode() { }
 
         /// <summary>
-        /// Gets or sets a TerrainCell value based on one-dimensional index, in row-major
-        /// order (e.g. TerrainNode[5] = col 5, row 0)
+        /// Creates a terrain node from an instances' attributes and byte array
+        /// </summary>
+        public TerrainNode(IntPtr pointer)
+        {
+            X = Functions.vp_int(pointer, VPAttribute.TerrainNodeX);
+            Z = Functions.vp_int(pointer, VPAttribute.TerrainNodeZ);
+            Revision = Functions.vp_int(pointer, VPAttribute.TerrainNodeRevision);
+            var data = Functions.GetData(pointer, VPAttribute.TerrainNodeData);
+            Cells = DataConverters.TerrainNodeData(data);
+        }
+
+        /// <summary>
+        /// Gets or sets a TerrainCell value based on one-dimensional index, in column-major
+        /// order (e.g. TerrainNode[5] = col 0, row 5)
         /// </summary>
         public TerrainCell this[int i]
         {
             get
             {
-                int col = i % 8;
-                int row = (i - col) / 8;
-                return Cells[col, row];
+                int row = i % 8;
+                int col = (i - row) / 8;
+                return this[col, row];
             }
 
             set
             {
-                int col = i % 8;
-                int row = (i - col) / 8;
-                Cells[col, row] = value;
+                int row = i % 8;
+                int col = (i - row) / 8;
+                this[col, row] = value;
             }
         }
 
@@ -76,8 +92,56 @@ namespace VP
 
     public class TerrainTile
     {
+        /// <summary>
+        /// A 2D array of revision numbers to force the server to send even unmodified
+        /// terrain nodes back
+        /// </summary>
+        public static int[,] BaseRevision = new int[4, 4]
+        {
+            { -1, -1, -1, -1 },
+            { -1, -1, -1, -1 },
+            { -1, -1, -1, -1 },
+            { -1, -1, -1, -1 }
+        };
+
         public TerrainNode[,] Nodes = new TerrainNode[4,4];
         public int X;
         public int Z;
+
+        /// <summary>
+        /// Gets or sets a TerrainNode object based on one-dimensional index, in column-major
+        /// order (e.g. TerrainTile[4] = col 1, row 0)
+        /// </summary>
+        public TerrainNode this[int i]
+        {
+            get
+            {
+                int row = i % 4;
+                int col = (i - row) / 4;
+                return this[col, row];
+            }
+
+            set
+            {
+                int row = i % 4;
+                int col = (i - row) / 4;
+                this[col, row] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a TerrainNode object based on two-dimensional index.
+        /// Automatically sets the node's X, Y and Parent value
+        /// </summary>
+        public TerrainNode this[int x, int z]
+        {
+            get { return Nodes[x, z]; }
+            set {
+                value.X = x;
+                value.Z = z;
+                value.Parent = this;
+                Nodes[x, z] = value;
+            }
+        }
     }
 }
