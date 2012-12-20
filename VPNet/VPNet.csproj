@@ -47,6 +47,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -61,10 +62,11 @@
     <Compile Include="Instance.CoreEvents.cs" />
     <Compile Include="Instance.CoreMethods.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Containers\Users.cs" />
+    <Compile Include="Containers\Avatars.cs" />
     <Compile Include="Containers\Data.cs" />
     <Compile Include="Containers\Property.cs" />
     <Compile Include="Instance.cs" />
+    <Compile Include="Native\DataConverters.cs" />
     <Compile Include="Types\Avatar.cs" />
     <Compile Include="Types\Callbacks.cs" />
     <Compile Include="Types\Chat.cs" />
