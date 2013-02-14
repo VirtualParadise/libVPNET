@@ -55,7 +55,7 @@ namespace VP
         /// Creates a bot instance with a given name, initializing the SDK automatically
         /// </summary>
         public Instance(string name)
-            : base()
+            : this()
         {
             this.Name = name;
         }
@@ -79,6 +79,7 @@ namespace VP
             Data.Dispose();
             Avatars.Dispose();
             Property.Dispose();
+            Terrain.Dispose();
             disposeEvents();
             GC.SuppressFinalize(this);
         }

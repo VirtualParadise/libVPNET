@@ -71,7 +71,7 @@ namespace VP
         public event ObjectChangeArgs ObjectCreate;
         public event ObjectChangeArgs ObjectChange;
         public event ObjectDeleteArgs ObjectDelete;
-        public event ObjectClickArgs ObjectClick;
+        public event ObjectClickArgs  ObjectClick;
 
         public event ObjectCallbackArgs CallbackObjectCreate;
         public event ObjectCallbackArgs CallbackObjectChange;
@@ -107,6 +107,7 @@ namespace VP
             {
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
+                Functions.vp_int_set(instance.pointer, VPAttribute.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_add(instance.pointer);
             }
             if (rc != 0)
@@ -151,6 +152,7 @@ namespace VP
             {
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
+                Functions.vp_int_set(instance.pointer, VPAttribute.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_change(instance.pointer);
             }
 
@@ -173,6 +175,7 @@ namespace VP
             {
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
+                Functions.vp_int_set(instance.pointer, VPAttribute.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_delete(instance.pointer);
             }
             if (rc != 0)
@@ -278,7 +281,7 @@ namespace VP
         #region Callback handlers
         void OnObjectCreateCallback(IntPtr sender, int rc, int reference)
         {
-            if (CallbackObjectChange == null) return;
+            if (CallbackObjectCreate == null) return;
 
             lock (instance)
             {
@@ -305,6 +308,8 @@ namespace VP
 
         void OnObjectDeleteCallback(IntPtr sender, int rc, int reference)
         {
+            if ( CallbackObjectDelete == null ) return;
+
             lock (instance)
             {
                 var vpObject = _objectReferences[reference];

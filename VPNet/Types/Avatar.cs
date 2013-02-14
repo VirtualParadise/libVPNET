@@ -4,7 +4,7 @@ using VP.Native;
 
 namespace VP
 {
-    public struct Avatar
+    public class Avatar
     {
         public string Name;
         public int Session;
@@ -19,6 +19,24 @@ namespace VP
         public bool IsBot
         {
             get { return Name.StartsWith("[") && Name.EndsWith("]"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the coordinates of this avatar as a Vector3
+        /// </summary>
+        public Vector3 Coordinates
+        {
+            get { return new Vector3(X, Y, Z); }
+            set { X = value.X; Y = value.Y; Z = value.Z; }
+        }
+
+        /// <summary>
+        /// Gets or sets the position of this avatar as an AvatarPosition
+        /// </summary>
+        public AvatarPosition Position
+        {
+            get { return new AvatarPosition(Coordinates, Pitch, Yaw); }
+            set { Coordinates = value.Coordinates; Pitch = value.Pitch; Yaw = value.Yaw; }
         }
 
         /// <summary>

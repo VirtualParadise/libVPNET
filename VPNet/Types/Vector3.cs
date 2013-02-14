@@ -1,4 +1,6 @@
-﻿namespace VP
+﻿using System;
+
+namespace VP
 {
     public struct Vector3
     {
@@ -20,6 +22,14 @@
             X = a;
             Y = a;
             Z = a;
+        }
+
+        public Vector3(string csv)
+        {
+            var parts = csv.Split(new[] { ',' }, 3, StringSplitOptions.RemoveEmptyEntries);
+            X = float.Parse(parts[0]);
+            Y = float.Parse(parts[1]);
+            Z = float.Parse(parts[2]);
         }
 
         /// <summary>

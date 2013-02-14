@@ -13,6 +13,20 @@ namespace VP
         public float Yaw;
 
         /// <summary>
+        /// Gets or sets a Vector3 value for coordinates
+        /// </summary>
+        public Vector3 Coordinates
+        {
+            get { return new Vector3(X, Y, Z); }
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+                Z = value.Z;
+            }
+        }
+
+        /// <summary>
         /// Creates an avatar position from a comma-seperated list
         /// </summary>
         public AvatarPosition(string csv)
