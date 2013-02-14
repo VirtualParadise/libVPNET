@@ -3,3 +3,4 @@ obj/
 *.suo
 Build/VP.NET.dll
 Build/VP.NET.pdb
+*.csproj.user

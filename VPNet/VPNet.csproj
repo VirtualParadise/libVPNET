@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Containers\Terrain.cs" />
+    <Compile Include="Instance.CoreProperties.cs" />
     <Compile Include="Instance.CoreEvents.cs" />
     <Compile Include="Instance.CoreMethods.cs" />
     <Compile Include="Extensions.cs" />

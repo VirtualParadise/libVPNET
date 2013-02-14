@@ -43,7 +43,14 @@ namespace VP
         /// details. Chainable.
         /// </summary>
         public Instance Login(string username, string password, string botname)
-        { return Login(Uniserver.VirtualParadise, username, password, botname); } 
+        { return Login(Uniserver.VirtualParadise, username, password, botname); }
+
+        /// <summary>
+        /// Logs into the default Virtual Paradise universe with the given authentication
+        /// details and initialized bot name. Chainable.
+        /// </summary>
+        public Instance Login(string username, string password)
+        { return Login(Uniserver.VirtualParadise, username, password, Name); }
         #endregion
 
         #region World
