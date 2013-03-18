@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace VP
 {
@@ -27,9 +28,9 @@ namespace VP
         public Vector3(string csv)
         {
             var parts = csv.Split(new[] { ',' }, 3, StringSplitOptions.RemoveEmptyEntries);
-            X = float.Parse(parts[0]);
-            Y = float.Parse(parts[1]);
-            Z = float.Parse(parts[2]);
+			X = float.Parse(parts[0], CultureInfo.InvariantCulture);
+			Y = float.Parse(parts[1], CultureInfo.InvariantCulture);
+			Z = float.Parse(parts[2], CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -37,7 +38,8 @@ namespace VP
         /// </summary>
         public override string ToString()
         {
-            return string.Format("{0},{1},{2}", X, Y, Z);
+			return string.Format(CultureInfo.InvariantCulture,
+			                     "{0},{1},{2}", X, Y, Z);
         }
     }
 }
