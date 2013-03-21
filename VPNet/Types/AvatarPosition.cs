@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace VP
 {
@@ -36,11 +37,11 @@ namespace VP
             if (parts.Length != 5)
                 throw new ArgumentException("Not a valid AvatarPosition CSV string");
 
-            X = float.Parse(parts[0]);
-            Y = float.Parse(parts[1]);
-            Z = float.Parse(parts[2]);
-            Pitch = float.Parse(parts[3]);
-            Yaw = float.Parse(parts[4]);
+			X = float.Parse(parts[0], CultureInfo.InvariantCulture);
+			Y = float.Parse(parts[1], CultureInfo.InvariantCulture);
+			Z = float.Parse(parts[2], CultureInfo.InvariantCulture);
+			Pitch = float.Parse(parts[3], CultureInfo.InvariantCulture);
+			Yaw = float.Parse(parts[4], CultureInfo.InvariantCulture);
         }
 
         public AvatarPosition(Vector3 pos, float pitch, float yaw)
@@ -66,7 +67,9 @@ namespace VP
         /// </summary>
         public override string ToString()
         {
-            return string.Format("{0},{1},{2},{3},{4}", X, Y, Z, Pitch, Yaw);
+			return string.Format(CultureInfo.InvariantCulture, 
+			                     "{0},{1},{2},{3},{4}", 
+			                     X, Y, Z, Pitch, Yaw);
         }
     }
 }
