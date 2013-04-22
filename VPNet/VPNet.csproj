@@ -16,9 +16,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>..\Build\VP.NET\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\Build\VP.NET.XML</DocumentationFile>
+    <DocumentationFile>..\Build\VP.NET\VP.NET.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -26,22 +26,11 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>..\Build\VP.NET\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>..\Build\VP.NET.XML</DocumentationFile>
+    <DocumentationFile>..\Build\VP.NET\VP.NET.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug - Test|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug - Test\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\Build\VP.NET.XML</DocumentationFile>
-    <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
@@ -50,26 +39,24 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Containers\Terrain.cs" />
-    <Compile Include="Instance.CoreProperties.cs" />
-    <Compile Include="Instance.CoreEvents.cs" />
-    <Compile Include="Instance.CoreMethods.cs" />
+    <Compile Include="Instance\Instance.Terrain.cs" />
+    <Compile Include="Instance\Instance.CoreProperties.cs" />
+    <Compile Include="Instance\Instance.CoreEvents.cs" />
+    <Compile Include="Instance\Instance.CoreMethods.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Containers\Avatars.cs" />
-    <Compile Include="Containers\Data.cs" />
-    <Compile Include="Containers\Property.cs" />
+    <Compile Include="Instance\Instance.Avatars.cs" />
+    <Compile Include="Instance\Instance.Data.cs" />
+    <Compile Include="Instance\Instance.Property.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Native\DataConverters.cs" />
     <Compile Include="Types\Avatar.cs" />
     <Compile Include="Types\Callbacks.cs" />
     <Compile Include="Types\Chat.cs" />
     <Compile Include="Types\AvatarPosition.cs" />
+    <Compile Include="Types\Color.cs" />
+    <Compile Include="Types\Click.cs" />
     <Compile Include="Types\TerrainPosition.cs" />
     <Compile Include="Types\Terrain.cs" />
     <Compile Include="Types\Universe.cs" />
@@ -81,7 +68,7 @@
     <Compile Include="Types\Quaternion.cs" />
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector3.cs" />
-    <Compile Include="Native\Attribute.cs" />
+    <Compile Include="Native\Attributes.cs" />
     <Compile Include="Native\Callbacks.cs" />
     <Compile Include="Native\Delegates.cs" />
     <Compile Include="Native\Events.cs" />
@@ -90,9 +77,13 @@
     <Compile Include="Native\Utf8Marshaler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\Libraries\vpsdk.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

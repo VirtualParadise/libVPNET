@@ -28,11 +28,11 @@ namespace VP
         public void Dispose()
         {
             QueryCellResult = null;
-            QueryCellEnd = null;
-            ObjectCreate = null;
-            ObjectChange = null;
-            ObjectDelete = null;
-            ObjectClick = null;
+            QueryCellEnd    = null;
+            ObjectCreate    = null;
+            ObjectChange    = null;
+            ObjectDelete    = null;
+            ObjectClick     = null;
 
             CallbackObjectCreate = null;
             CallbackObjectChange = null;
@@ -62,7 +62,7 @@ namespace VP
         public delegate void ObjectChangeArgs(Instance sender, int sessionId, VPObject objectData);
         public delegate void ObjectCreateArgs(Instance sender, int sessionId, VPObject objectData);
         public delegate void ObjectDeleteArgs(Instance sender, int sessionId, int objectId);
-        public delegate void ObjectClickArgs(Instance sender, int sessionId, int objectId);
+        public delegate void ObjectClickArgs(Instance sender, ObjectClick click);
 
         public delegate void ObjectCallbackArgs(Instance sender, ObjectCallbackData args);
 
@@ -107,7 +107,7 @@ namespace VP
             {
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
-                Functions.vp_int_set(instance.pointer, VPAttribute.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_add(instance.pointer);
             }
             if (rc != 0)
@@ -152,7 +152,7 @@ namespace VP
             {
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
-                Functions.vp_int_set(instance.pointer, VPAttribute.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_change(instance.pointer);
             }
 
@@ -175,7 +175,7 @@ namespace VP
             {
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
-                Functions.vp_int_set(instance.pointer, VPAttribute.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_delete(instance.pointer);
             }
             if (rc != 0)
@@ -206,24 +206,20 @@ namespace VP
         internal void OnQueryCellEnd(IntPtr sender)
         {
             if (QueryCellEnd == null) return;
-            var x = Functions.vp_int(sender, VPAttribute.CellX);
-            var z = Functions.vp_int(sender, VPAttribute.CellZ);
+            var x = Functions.vp_int(sender, IntAttributes.CellX);
+            var z = Functions.vp_int(sender, IntAttributes.CellZ);
             QueryCellEnd(instance, x, z);
         }
 
         internal void OnObjectClick(IntPtr sender)
         {
             if (ObjectClick == null) return;
-            int session;
-            int objectId;
+            ObjectClick click;
 
             lock (instance)
-            {
-                session = Functions.vp_int(sender, VPAttribute.AvatarSession);
-                objectId = Functions.vp_int(sender, VPAttribute.ObjectId);
-            }
+                click = new ObjectClick(sender);
 
-            ObjectClick(instance, session, objectId);
+            ObjectClick(instance, click);
         }
 
         /// <summary>
@@ -237,7 +233,7 @@ namespace VP
 
             lock (instance)
             {
-                sessionId = Functions.vp_int(sender, VPAttribute.AvatarSession);
+                sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
                 vpObject = new VPObject(instance.pointer);
             }
 
@@ -256,7 +252,7 @@ namespace VP
             lock (instance)
             {
                 vpObject = new VPObject(instance.pointer);
-                sessionId = Functions.vp_int(sender, VPAttribute.AvatarSession);
+                sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
             }
 
             ObjectChange(instance, sessionId, vpObject);
@@ -270,8 +266,8 @@ namespace VP
 
             lock (instance)
             {
-                session = Functions.vp_int(sender, VPAttribute.AvatarSession);
-                objectId = Functions.vp_int(sender, VPAttribute.ObjectId);
+                session = Functions.vp_int(sender, IntAttributes.AvatarSession);
+                objectId = Functions.vp_int(sender, IntAttributes.ObjectId);
             }
 
             ObjectDelete(instance, session, objectId);
@@ -288,7 +284,7 @@ namespace VP
                 var vpObject = _objectReferences[reference];
                 _objectReferences.Remove(reference);
 
-                vpObject.Id = Functions.vp_int(sender, VPAttribute.ObjectId);
+                vpObject.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
                 CallbackObjectCreate(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
             }
         }

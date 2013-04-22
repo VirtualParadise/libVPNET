@@ -68,8 +68,8 @@ namespace VP
         internal void OnTerrainNode(IntPtr sender)
         {
             if (GetNode == null) return;
-            var tileX = Functions.vp_int(sender, VPAttribute.TerrainTileX);
-            var tileZ = Functions.vp_int(sender, VPAttribute.TerrainTileZ);
+            var tileX = Functions.vp_int(sender, IntAttributes.TerrainTileX);
+            var tileZ = Functions.vp_int(sender, IntAttributes.TerrainTileZ);
 
             var node = new TerrainNode(sender);
             GetNode(instance, node, tileX, tileZ);

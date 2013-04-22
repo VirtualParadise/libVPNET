@@ -4,3 +4,4 @@ obj/
 Build/VP.NET.dll
 Build/VP.NET.pdb
 *.csproj.user
+Build/Examples/VPNetExamples.vshost.exe

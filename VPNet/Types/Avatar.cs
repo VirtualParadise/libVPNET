@@ -44,14 +44,14 @@ namespace VP
         /// </summary>
         internal Avatar (IntPtr pointer)
         {
-            Name = Functions.vp_string(pointer, VPAttribute.AvatarName);
-            Session = Functions.vp_int(pointer, VPAttribute.AvatarSession);
-            AvatarType = Functions.vp_int(pointer, VPAttribute.AvatarType);
-            X = Functions.vp_float(pointer, VPAttribute.AvatarX);
-            Y = Functions.vp_float(pointer, VPAttribute.AvatarY);
-            Z = Functions.vp_float(pointer, VPAttribute.AvatarZ);
-            Yaw = Functions.vp_float(pointer, VPAttribute.AvatarYaw);
-            Pitch = Functions.vp_float(pointer, VPAttribute.AvatarPitch);
+            Name       = Functions.vp_string(pointer, StringAttributes.AvatarName);
+            Session    = Functions.vp_int(pointer, IntAttributes.AvatarSession);
+            AvatarType = Functions.vp_int(pointer, IntAttributes.AvatarType);
+            X          = Functions.vp_float(pointer, FloatAttributes.AvatarX);
+            Y          = Functions.vp_float(pointer, FloatAttributes.AvatarY);
+            Z          = Functions.vp_float(pointer, FloatAttributes.AvatarZ);
+            Yaw        = Functions.vp_float(pointer, FloatAttributes.AvatarYaw);
+            Pitch      = Functions.vp_float(pointer, FloatAttributes.AvatarPitch);
         }
     }
 }

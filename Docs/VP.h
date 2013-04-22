@@ -282,6 +282,12 @@ typedef enum VPIntegerProperty
     VP_TERRAIN_NODE_REVISION,
     
     VP_CLICKED_SESSION,
+    
+    VP_CHAT_TYPE,
+    VP_CHAT_COLOR_RED,
+    VP_CHAT_COLOR_GREEN,
+    VP_CHAT_COLOR_BLUE,
+    VP_CHAT_EFFECTS,
 	
 	VP_HIGHEST_INT
 } VPIntegerProperty;
@@ -329,6 +335,10 @@ typedef enum VPFloatProperty
     VP_TELEPORT_Z,
     VP_TELEPORT_YAW,
     VP_TELEPORT_PITCH,
+    
+    VP_CLICK_HIT_X,
+    VP_CLICK_HIT_Y,
+    VP_CLICK_HIT_Z,
 	
 	VP_HIGHEST_FLOAT
 } VPFloatProperty;
@@ -404,6 +414,23 @@ struct vp_terrain_cell_t {
 #define VP_UNPACK_TERRAIN_TEXTURE(x) (x & 0x0FFF)
 
 /**
+ *  Chat message types. 
+ */
+enum VPChatType {
+    VP_CHAT_NORMAL,
+    VP_CHAT_CONSOLE_MESSAGE,
+    VP_CHAT_PRIVATE,
+};
+
+/**
+ *  Text effect flags. Can be combined with bitwise OR operator.
+ */
+enum VPTextEffect {
+    VP_TEXT_EFFECT_BOLD = 1,
+    VP_TEXT_EFFECT_ITALIC = 2
+};
+
+/**
  *  Initialize the Virtual Paradise SDK API
  */
 VPSDK_API int vp_init(int version);
@@ -458,11 +485,30 @@ VPSDK_API int vp_enter(VPInstance instance, const char * worldname);
 VPSDK_API int vp_leave(VPInstance instance);
 
 /**
- *  Send a message to everyone in the current world.
+ *  Send a simple message to everyone in the current world.
  *  \param message The message to send.
  *  \return Zero when successful, otherwise nonzero. See RC.h
  */
 VPSDK_API int vp_say(VPInstance instance, const char * message);
+
+/**
+ *  Send a console message.
+ *  \param session The session ID to send the message to. Zero to send to everyone
+ *  \param name The name to use for the chat message. Empty string to hide name.
+ *  \param message Chat message contents
+ *  \param effects Text effects (combination of #VPTextEffect flags)
+ *  \param red Red component of the text color(0-255)
+ *  \param green Green component of the text color(0-255)
+ *  \param blue Blue component of the text color(0-255)
+ */
+VPSDK_API int vp_console_message(VPInstance instance,
+                                 int session,
+                                 const char* name,
+                                 const char* message,
+                                 int effects,
+                                 unsigned char red,
+                                 unsigned char green,
+                                 unsigned char blue);
 
 /**
  *  Register an event handler.

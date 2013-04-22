@@ -21,9 +21,9 @@ namespace VP
 
         public void Dispose()
         {
-            Enter = null;
-            Change = null;
-            Leave = null;
+            Enter   = null;
+            Change  = null;
+            Leave   = null;
             Clicked = null;
         }
 
@@ -31,9 +31,9 @@ namespace VP
         public delegate void AvatarArgs(Instance sender, Avatar avatar);
         public delegate void AvatarClickedArgs(Instance sender, int sourceSession, int targetSession);
 
-        public event AvatarArgs Enter;
-        public event AvatarArgs Change;
-        public event AvatarArgs Leave;
+        public event AvatarArgs        Enter;
+        public event AvatarArgs        Change;
+        public event AvatarArgs        Leave;
         public event AvatarClickedArgs Clicked;
         #endregion
 
@@ -134,8 +134,8 @@ namespace VP
             int source, target;
             lock (instance)
             {
-                source = Functions.vp_int(instance.pointer, VPAttribute.AvatarSession);
-                target = Functions.vp_int(instance.pointer, VPAttribute.ClickedSession);
+                source = Functions.vp_int(instance.pointer, IntAttributes.AvatarSession);
+                target = Functions.vp_int(instance.pointer, IntAttributes.ClickedSession);
             }
                 
             Clicked(instance, source, target);

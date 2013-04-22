@@ -81,11 +81,11 @@ namespace VP
             int rc;
             lock (this)
             {
-                Functions.vp_float_set(pointer, VPAttribute.MyX, x);
-                Functions.vp_float_set(pointer, VPAttribute.MyY, y);
-                Functions.vp_float_set(pointer, VPAttribute.MyZ, z);
-                Functions.vp_float_set(pointer, VPAttribute.MyYaw, yaw);
-                Functions.vp_float_set(pointer, VPAttribute.MyPitch, pitch);
+                Functions.vp_float_set(pointer, FloatAttributes.MyX, x);
+                Functions.vp_float_set(pointer, FloatAttributes.MyY, y);
+                Functions.vp_float_set(pointer, FloatAttributes.MyZ, z);
+                Functions.vp_float_set(pointer, FloatAttributes.MyYaw, yaw);
+                Functions.vp_float_set(pointer, FloatAttributes.MyPitch, pitch);
                 rc = Functions.vp_state_change(pointer);
             }
 
@@ -124,7 +124,7 @@ namespace VP
             lock (this)
                 rc = Functions.vp_say(pointer, message);
 
-            if (rc != 0) throw new VPException((ReasonCode)rc);
+            if (rc != 0) throw new VPException( (ReasonCode) rc );
         }
 
         /// <summary>
@@ -132,6 +132,65 @@ namespace VP
         /// </summary>
         public void Say(string message, params object[] parts)
         { Say(string.Format(message, parts)); }  
+
+        /// <summary>
+        /// Sends a broadcast-like message with custom styling to a specific session
+        /// </summary>
+        public void ConsoleMessage(int session, ChatTextEffect effects, Color color, string name, string message)
+        {
+            int rc;
+            lock (this)
+                rc = Functions.vp_console_message(pointer, session, name, message, (int) effects,
+                    (byte) color.Red, (byte) color.Green, (byte) color.Blue);
+
+            if (rc != 0) throw new VPException( (ReasonCode) rc );
+        }
+
+        /// <summary>
+        /// Sends a formatted broadcast-like message with custom styling to a specific
+        /// session
+        /// </summary>
+        public void ConsoleMessage(int session, ChatTextEffect effects, Color color, string name, string message, params object[] parts)
+        { ConsoleMessage(session, effects, color, name, string.Format(message, parts)); }
+
+        /// <summary>
+        /// Sends a broadcast-like message with custom styling to everybody in-world
+        /// </summary>
+        public void ConsoleBroadcast(ChatTextEffect effects, Color color, string name, string message)
+        { ConsoleMessage(0, effects, color, name, message); }
+
+        /// <summary>
+        /// Sends a formatted broadcast-like message with custom styling to everybody
+        /// in-world
+        /// </summary>
+        public void ConsoleBroadcast(ChatTextEffect effects, Color color, string name, string message, params object[] parts)
+        { ConsoleMessage(0, effects, color, name, string.Format(message, parts)); }
+
+        /// <summary>
+        /// Sends a broadcast-like message with default styling to a specific session
+        /// </summary>
+        public void ConsoleMessage(int session, string name, string message)
+        { ConsoleMessage(session, ChatTextEffect.None, Color.Black, name, message); }
+
+        /// <summary>
+        /// Sends a formatted broadcast-like message with default styling to a specific
+        /// session
+        /// </summary>
+        public void ConsoleMessage(int session, string name, string message, params object[] parts)
+        { ConsoleMessage(session, ChatTextEffect.None, Color.Black, name, string.Format(message, parts)); }
+
+        /// <summary>
+        /// Sends a broadcast-like message with default styling to everybody in-world
+        /// </summary>
+        public void ConsoleBroadcast(string name, string message)
+        { ConsoleMessage(0, ChatTextEffect.None, Color.Black, name, message); }
+
+        /// <summary>
+        /// Sends a formatted broadcast-like message with default styling to everybody
+        /// in-world
+        /// </summary>
+        public void ConsoleBroadcast(string name, string message, params object[] parts)
+        { ConsoleMessage(0, ChatTextEffect.None, Color.Black, name, string.Format(message, parts)); }
         #endregion
     }
 }

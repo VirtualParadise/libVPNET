@@ -1,8 +1,7 @@
 ﻿namespace VP.Native
 {
-    public enum VPAttribute
+    public enum IntAttributes : int
     {
-        #region Integer attributes
         AvatarSession = 0,
         AvatarType,
         MyType,
@@ -32,10 +31,16 @@
         TerrainNodeZ,
         TerrainNodeRevision,
         ClickedSession,
+        ChatType,
+        ChatColorRed,
+        ChatColorGreen,
+        ChatColorBlue,
+        ChatEffects,
         IntegerAttributeHighest, 
-        #endregion
+    }
 
-        #region Float attributes
+    public enum FloatAttributes : int
+    {
         AvatarX = 0,
         AvatarY,
         AvatarZ,
@@ -52,19 +57,20 @@
         ObjectRotationX,
         ObjectRotationY,
         ObjectRotationZ,
-        ObjectYaw = ObjectRotationX,
-        ObjectPitch = ObjectRotationY,
-        ObjectRoll = ObjectRotationZ,
         ObjectRotationAngle,
         TeleportX,
         TeleportY,
         TeleportZ,
         TeleportYaw,
         TeleportPitch,
+        ClickHitX,
+        ClickHitY,
+        ClickHitZ,
         FloatAttributeHighest, 
-        #endregion
+    }
 
-        #region String attributes
+    public enum StringAttributes : int
+    {
         AvatarName = 0,
         ChatMessage,
         ObjectModel,
@@ -79,12 +85,12 @@
         ProxyHost,
         TeleportWorld,
         StringAttributeHighest,
-        #endregion
+    }
 
-        #region Data attributes
+    public enum DataAttributes : int
+    {
         ObjectData = 0,
         TerrainNodeData,
         VpHighestData 
-        #endregion
     }
 }

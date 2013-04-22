@@ -12,8 +12,8 @@ namespace VP
 
     public struct World
     {
-        public string Name;
-        public int UserCount;
+        public string     Name;
+        public int        UserCount;
         public WorldState State;
 
         /// <summary>
@@ -21,9 +21,9 @@ namespace VP
         /// </summary>
         internal World(IntPtr pointer)
         {
-            Name = Functions.vp_string(pointer, VPAttribute.WorldName);
-            State = (WorldState)Functions.vp_int(pointer, VPAttribute.WorldState);
-            UserCount = Functions.vp_int(pointer, VPAttribute.WorldUsers);
+            Name      = Functions.vp_string(pointer, StringAttributes.WorldName);
+            State     = (WorldState) Functions.vp_int(pointer, IntAttributes.WorldState);
+            UserCount = Functions.vp_int(pointer, IntAttributes.WorldUsers);
         }
     }
 }

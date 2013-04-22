@@ -47,8 +47,8 @@ namespace VP
             string key, value;
             lock (instance)
             {
-                key = Functions.vp_string(instance.pointer, VPAttribute.WorldSettingKey);
-                value = Functions.vp_string(instance.pointer, VPAttribute.WorldSettingValue);
+                key   = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingKey);
+                value = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingValue);
             }
 
             GetWorldSetting(instance, key, value);

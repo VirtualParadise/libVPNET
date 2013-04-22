@@ -1,7 +1,5 @@
 ﻿using System;
-using Attribute = VP.Native.VPAttribute;
 using VP.Native;
-using VP;
 
 namespace VP
 {
@@ -38,28 +36,29 @@ namespace VP
         /// <summary>
         /// Creates a VPObject from a native instance's attributes
         /// </summary>
-        internal VPObject (IntPtr pointer) {
-            Action      = Functions.vp_string(pointer, VPAttribute.ObjectAction);
-            Description = Functions.vp_string(pointer, VPAttribute.ObjectDescription);
-            Id          = Functions.vp_int(pointer, VPAttribute.ObjectId);
-            Model       = Functions.vp_string(pointer, VPAttribute.ObjectModel);
-            Time        = DateTimeExt.FromUnixTimestampUTC(Functions.vp_int(pointer, VPAttribute.ObjectTime));
-            ObjectType  = Functions.vp_int(pointer, VPAttribute.ObjectType);
-            Owner       = Functions.vp_int(pointer, VPAttribute.ObjectUserId);
+        internal VPObject (IntPtr pointer)
+        {
+            Action      = Functions.vp_string(pointer, StringAttributes.ObjectAction);
+            Description = Functions.vp_string(pointer, StringAttributes.ObjectDescription);
+            Id          = Functions.vp_int(pointer, IntAttributes.ObjectId);
+            Model       = Functions.vp_string(pointer, StringAttributes.ObjectModel);
+            Time        = DateTimeExt.FromUnixTimestampUTC(Functions.vp_int(pointer, IntAttributes.ObjectTime));
+            ObjectType  = Functions.vp_int(pointer, IntAttributes.ObjectType);
+            Owner       = Functions.vp_int(pointer, IntAttributes.ObjectUserId);
 
             Position = new Vector3
             {
-                X = Functions.vp_float(pointer, VPAttribute.ObjectX),
-                Y = Functions.vp_float(pointer, VPAttribute.ObjectY),
-                Z = Functions.vp_float(pointer, VPAttribute.ObjectZ)
+                X = Functions.vp_float(pointer, FloatAttributes.ObjectX),
+                Y = Functions.vp_float(pointer, FloatAttributes.ObjectY),
+                Z = Functions.vp_float(pointer, FloatAttributes.ObjectZ)
             };
 
             Rotation = new Quaternion
             {
-                W = Functions.vp_float(pointer, VPAttribute.ObjectRotationAngle),
-                X = Functions.vp_float(pointer, VPAttribute.ObjectRotationX),
-                Y = Functions.vp_float(pointer, VPAttribute.ObjectRotationY),
-                Z = Functions.vp_float(pointer, VPAttribute.ObjectRotationZ)
+                W = Functions.vp_float(pointer, FloatAttributes.ObjectRotationAngle),
+                X = Functions.vp_float(pointer, FloatAttributes.ObjectRotationX),
+                Y = Functions.vp_float(pointer, FloatAttributes.ObjectRotationY),
+                Z = Functions.vp_float(pointer, FloatAttributes.ObjectRotationZ)
             };
         }
 
@@ -68,20 +67,20 @@ namespace VP
         /// </summary>
         internal void ToNative(IntPtr pointer)
         {
-            Functions.vp_int_set   (pointer, Attribute.ObjectId,            this.Id);
-            Functions.vp_string_set(pointer, Attribute.ObjectAction,        this.Action);
-            Functions.vp_string_set(pointer, Attribute.ObjectDescription,   this.Description);
-            Functions.vp_string_set(pointer, Attribute.ObjectModel,         this.Model);
+            Functions.vp_int_set   (pointer, IntAttributes.ObjectId,             this.Id);
+            Functions.vp_string_set(pointer, StringAttributes.ObjectAction,      this.Action);
+            Functions.vp_string_set(pointer, StringAttributes.ObjectDescription, this.Description);
+            Functions.vp_string_set(pointer, StringAttributes.ObjectModel,       this.Model);
                                                                             
-            Functions.vp_float_set (pointer, Attribute.ObjectX,             this.Position.X);
-            Functions.vp_float_set (pointer, Attribute.ObjectY,             this.Position.Y);
-            Functions.vp_float_set (pointer, Attribute.ObjectZ,             this.Position.Z);
+            Functions.vp_float_set (pointer, FloatAttributes.ObjectX, this.Position.X);
+            Functions.vp_float_set (pointer, FloatAttributes.ObjectY, this.Position.Y);
+            Functions.vp_float_set (pointer, FloatAttributes.ObjectZ, this.Position.Z);
                                    
-            Functions.vp_float_set (pointer, Attribute.ObjectRotationX,     this.Rotation.X);
-            Functions.vp_float_set (pointer, Attribute.ObjectRotationY,     this.Rotation.Y);
-            Functions.vp_float_set (pointer, Attribute.ObjectRotationZ,     this.Rotation.Z);
-            Functions.vp_float_set (pointer, Attribute.ObjectRotationAngle, this.Rotation.W);
-            Functions.vp_int_set   (pointer, Attribute.ObjectType,          this.ObjectType);
+            Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationX,     this.Rotation.X);
+            Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationY,     this.Rotation.Y);
+            Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationZ,     this.Rotation.Z);
+            Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationAngle, this.Rotation.W);
+            Functions.vp_int_set   (pointer, IntAttributes.ObjectType,            this.ObjectType);
         }
     }
 }

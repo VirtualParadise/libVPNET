@@ -76,6 +76,10 @@
         /// <summary>
         /// Currently not in universe
         /// </summary>
-        NotInUniverse
+        NotInUniverse,
+        /// <summary>
+        /// Invalid arguments provided
+        /// </summary>
+        InvalidArguments
     }
 }

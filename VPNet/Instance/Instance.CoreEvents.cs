@@ -7,7 +7,7 @@ namespace VP
     public partial class Instance : IDisposable
     {
         #region Native events and callbacks
-        Dictionary<Events, EventDelegate> _nativeEvents = new Dictionary<Events, EventDelegate>();
+        Dictionary<Events, EventDelegate>       _nativeEvents    = new Dictionary<Events, EventDelegate>();
         Dictionary<Callbacks, CallbackDelegate> _nativeCallbacks = new Dictionary<Callbacks, CallbackDelegate>();
 
         internal void SetNativeEvent(Events eventType, EventDelegate eventFunction)
@@ -38,11 +38,10 @@ namespace VP
         #endregion
 
         public delegate void Event(Instance sender);
-
         public delegate void ChatEvent(Instance sender, Chat eventData);
 
-        public event Event UniverseDisconnect;
-        public event Event WorldDisconnect;
+        public event Event     UniverseDisconnect;
+        public event Event     WorldDisconnect;
         public event ChatEvent Chat;
 
         internal void OnUniverseDisconnect(IntPtr sender)
@@ -60,14 +59,10 @@ namespace VP
         internal void OnChat(IntPtr sender)
         {
             if (Chat == null) return;
+
             Chat data;
             lock (this)
-                data = new Chat
-                {
-                    Name = Functions.vp_string(pointer, VPAttribute.AvatarName),
-                    Message = Functions.vp_string(pointer, VPAttribute.ChatMessage),
-                    Session = Functions.vp_int(pointer, VPAttribute.AvatarSession)
-                };
+                data = new Chat(sender);
 
             Chat(this, data);
         } 

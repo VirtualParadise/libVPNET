@@ -39,6 +39,12 @@ namespace VP.Native
         public static extern int vp_say(IntPtr instance,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string message);
 
+        [DllImport("vpsdk", CallingConvention=CallingConvention.Cdecl)]
+        public static extern int vp_console_message(IntPtr instance, int session,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string name,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string message,
+            int effects, byte red, byte green, byte blue);
+
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_event_set(IntPtr instance, int eventName, [MarshalAs(UnmanagedType.FunctionPtr)]EventDelegate eventFunction);
 
@@ -57,31 +63,31 @@ namespace VP.Native
         public static extern int vp_state_change(IntPtr instance);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_int(IntPtr instance, [MarshalAs(UnmanagedType.I4)]VPAttribute name);
+        public static extern int vp_int(IntPtr instance, [MarshalAs(UnmanagedType.I4)]IntAttributes name);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float vp_float(IntPtr instance, [MarshalAs(UnmanagedType.I4)]VPAttribute name);
+        public static extern float vp_float(IntPtr instance, [MarshalAs(UnmanagedType.I4)]FloatAttributes name);
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToManaged))]
-        public static extern string vp_string(IntPtr instance, [MarshalAs(UnmanagedType.I4)]VPAttribute name);
+        public static extern string vp_string(IntPtr instance, [MarshalAs(UnmanagedType.I4)]StringAttributes name);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vp_data(IntPtr instance, [MarshalAs(UnmanagedType.I4)]VPAttribute name, out int length);
+        public static extern IntPtr vp_data(IntPtr instance, [MarshalAs(UnmanagedType.I4)]DataAttributes name, out int length);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_int_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]VPAttribute name, int value);
+        public static extern int vp_int_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]IntAttributes name, int value);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_float_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]VPAttribute name, float value);
+        public static extern int vp_float_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]FloatAttributes name, float value);
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern void vp_string_set(IntPtr instance, 
-            [MarshalAs(UnmanagedType.I4)] VPAttribute name,
+            [MarshalAs(UnmanagedType.I4)] StringAttributes name,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string value);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_data_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]VPAttribute name, int length, IntPtr data);
+        public static extern int vp_data_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]DataAttributes name, int length, IntPtr data);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_query_cell(IntPtr instance, int x, int z);
@@ -135,7 +141,7 @@ namespace VP.Native
             float x, float y, float z,
             float yaw, float pitch);
 
-        public static byte[] GetData(IntPtr instance, VPAttribute attribute)
+        public static byte[] GetData(IntPtr instance, DataAttributes attribute)
         {
             int length;
             var ptr = vp_data(instance, attribute, out length);

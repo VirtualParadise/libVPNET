@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Configuration;
-using System.Reflection;
 using System.Linq;
-using VP;
+using System.Reflection;
 
 namespace VPNetExamples
 {
@@ -19,18 +17,16 @@ namespace VPNetExamples
                 Console.WriteLine("VPNet SDK demo roll. To run: VPNetExamples.exe \"user name\" \"password\" \"world\"");
                 return;
             }
-            else
-            {
-                Username = args[0];
-                Password = args[1];
-                World = args[2];
-            }
 
-            var demos =
-                (from t in Assembly.GetExecutingAssembly().GetTypes()
-                where t.IsSubclassOf(typeof(BaseExampleBot))
-                select Activator.CreateInstance(t) as BaseExampleBot)
-                .ToArray<BaseExampleBot>();
+            Username = args[0];
+            Password = args[1];
+            World    = args[2];
+
+            var demoQuery =
+                from   t in Assembly.GetExecutingAssembly().GetTypes()
+                where  t.IsSubclassOf(typeof(BaseExampleBot))
+                select Activator.CreateInstance(t) as BaseExampleBot;
+            var demos = demoQuery.ToArray<BaseExampleBot>();
 
         menu:
             // Iterate choices

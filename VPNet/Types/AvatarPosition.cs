@@ -27,23 +27,6 @@ namespace VP
             }
         }
 
-        /// <summary>
-        /// Creates an avatar position from a comma-seperated list
-        /// </summary>
-        public AvatarPosition(string csv)
-        {
-            var parts = csv.Split(new[] { ',' }, 5, StringSplitOptions.RemoveEmptyEntries);
-
-            if (parts.Length != 5)
-                throw new ArgumentException("Not a valid AvatarPosition CSV string");
-
-			X = float.Parse(parts[0], CultureInfo.InvariantCulture);
-			Y = float.Parse(parts[1], CultureInfo.InvariantCulture);
-			Z = float.Parse(parts[2], CultureInfo.InvariantCulture);
-			Pitch = float.Parse(parts[3], CultureInfo.InvariantCulture);
-			Yaw = float.Parse(parts[4], CultureInfo.InvariantCulture);
-        }
-
         public AvatarPosition(Vector3 pos, float pitch, float yaw)
         {
             X = pos.X;
@@ -63,7 +46,7 @@ namespace VP
         }
 
         /// <summary>
-        /// Formats the position to a comma-seperated list
+        /// Formats the position to a pretty formatted comma-seperated list
         /// </summary>
         public override string ToString()
         {

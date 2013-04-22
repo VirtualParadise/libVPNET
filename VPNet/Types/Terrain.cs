@@ -15,7 +15,7 @@ namespace VP
     [StructLayout(LayoutKind.Sequential)]
     public struct TerrainCell
     {
-        public float Height;
+        public float  Height;
         public ushort Attributes;
 
         public bool Hole
@@ -52,11 +52,11 @@ namespace VP
         /// </summary>
         public TerrainNode(IntPtr pointer)
         {
-            X = Functions.vp_int(pointer, VPAttribute.TerrainNodeX);
-            Z = Functions.vp_int(pointer, VPAttribute.TerrainNodeZ);
-            Revision = Functions.vp_int(pointer, VPAttribute.TerrainNodeRevision);
-            var data = Functions.GetData(pointer, VPAttribute.TerrainNodeData);
-            Cells = DataConverters.TerrainNodeData(data);
+            X        = Functions.vp_int(pointer, IntAttributes.TerrainNodeX);
+            Z        = Functions.vp_int(pointer, IntAttributes.TerrainNodeZ);
+            Revision = Functions.vp_int(pointer, IntAttributes.TerrainNodeRevision);
+            var data = Functions.GetData(pointer, DataAttributes.TerrainNodeData);
+            Cells    = DataConverters.TerrainNodeData(data);
         }
 
         /// <summary>

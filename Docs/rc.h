@@ -21,6 +21,7 @@ enum VPReturnCode
 	VP_RC_NO_SUCH_USER,
 	VP_RC_TIMEOUT,
     VP_RC_NOT_IN_UNIVERSE,
+    VP_RC_INVALID_ARGUMENTS,
 };
 
 #endif
