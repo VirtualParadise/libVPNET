@@ -18,26 +18,36 @@ namespace VP
         Italic
     }
 
-    public class Chat
+    public class ChatMessage
     {
         public string         Name, Message;
         public int            Session;
-        public ChatType       Type = ChatType.Normal;
-        public ChatTextEffect Effect;
-        public Color          Color;
 
         /// <summary>
         /// Creates a Chat from a native instance's attributes
         /// </summary>
-        internal Chat (IntPtr pointer)
+        internal ChatMessage (IntPtr pointer)
         {
             Name    = Functions.vp_string(pointer, StringAttributes.AvatarName);
             Message = Functions.vp_string(pointer, StringAttributes.ChatMessage);
             Session = Functions.vp_int(pointer, IntAttributes.AvatarSession);
-            Color   = new Color(pointer);
+        }
+    }
 
-            Type   = (ChatType)       Functions.vp_int(pointer, IntAttributes.ChatType);
-            Effect = (ChatTextEffect) Functions.vp_int(pointer, IntAttributes.ChatType);
+    public class ConsoleMessage : ChatMessage
+    {
+        public ChatType       Type;
+        public ChatTextEffect Effect;
+        public Color          Color;
+
+        /// <summary>
+        /// Creates a ConsoleMessage from a native instance's attributes
+        /// </summary>
+        internal ConsoleMessage (IntPtr pointer) : base(pointer)
+        {
+            Color   = new Color(pointer);
+            Type    = (ChatType)       Functions.vp_int(pointer, IntAttributes.ChatType);
+            Effect  = (ChatTextEffect) Functions.vp_int(pointer, IntAttributes.ChatType);
         }
     }
 }

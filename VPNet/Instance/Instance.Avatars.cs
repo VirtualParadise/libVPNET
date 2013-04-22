@@ -29,7 +29,7 @@ namespace VP
 
         #region Events
         public delegate void AvatarArgs(Instance sender, Avatar avatar);
-        public delegate void AvatarClickedArgs(Instance sender, int sourceSession, int targetSession);
+        public delegate void AvatarClickedArgs(Instance sender, AvatarClick click);
 
         public event AvatarArgs        Enter;
         public event AvatarArgs        Change;
@@ -131,14 +131,11 @@ namespace VP
         internal void OnAvatarClicked(IntPtr sender)
         {
             if (Clicked == null) return;
-            int source, target;
+            AvatarClick click;
             lock (instance)
-            {
-                source = Functions.vp_int(instance.pointer, IntAttributes.AvatarSession);
-                target = Functions.vp_int(instance.pointer, IntAttributes.ClickedSession);
-            }
+                click = new AvatarClick(sender);
                 
-            Clicked(instance, source, target);
+            Clicked(instance, click);
         }
         #endregion
     }

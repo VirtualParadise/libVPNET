@@ -46,11 +46,13 @@
         AvatarZ,
         AvatarYaw,
         AvatarPitch,
+
         MyX,
         MyY,
         MyZ,
         MyYaw,
         MyPitch,
+
         ObjectX,
         ObjectY,
         ObjectZ,
@@ -58,14 +60,17 @@
         ObjectRotationY,
         ObjectRotationZ,
         ObjectRotationAngle,
+
         TeleportX,
         TeleportY,
         TeleportZ,
         TeleportYaw,
         TeleportPitch,
+
         ClickHitX,
         ClickHitY,
         ClickHitZ,
+
         FloatAttributeHighest, 
     }
 

@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Examples\BaseExampleBot.cs" />
     <Compile Include="Examples\ConsoleMessaging.cs" />
+    <Compile Include="Examples\ClickEvents.cs" />
     <Compile Include="Examples\SimpleHelloWorld.cs" />
     <Compile Include="VPNetExamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -38,11 +38,13 @@ namespace VP
         #endregion
 
         public delegate void Event(Instance sender);
-        public delegate void ChatEvent(Instance sender, Chat eventData);
+        public delegate void ChatEvent(Instance sender, ChatMessage chat);
+        public delegate void ConsoleEvent(Instance sender, ConsoleMessage console);
 
-        public event Event     UniverseDisconnect;
-        public event Event     WorldDisconnect;
-        public event ChatEvent Chat;
+        public event Event        UniverseDisconnect;
+        public event Event        WorldDisconnect;
+        public event ChatEvent    Chat;
+        public event ConsoleEvent Console;
 
         internal void OnUniverseDisconnect(IntPtr sender)
         {
@@ -58,13 +60,34 @@ namespace VP
 
         internal void OnChat(IntPtr sender)
         {
-            if (Chat == null) return;
+            if (Chat == null && Console == null) return;
 
-            Chat data;
+            ChatMessage chat;
+            ChatType type;
             lock (this)
-                data = new Chat(sender);
+            {
+                type = (ChatType) Functions.vp_int(pointer, IntAttributes.ChatType);
 
-            Chat(this, data);
+                if (type == ChatType.Normal)
+                {
+                    if (Chat == null)
+                        return;
+                    else
+                        chat = new ChatMessage(sender);
+                }
+                else
+                {
+                    if (Console == null)
+                        return;
+                    else
+                        chat = new ConsoleMessage(sender);
+                }
+            }
+
+            if (type == ChatType.Normal)
+                Chat(this, chat);
+            else
+                Console(this, (ConsoleMessage) chat);
         } 
     }
 }
