@@ -136,7 +136,7 @@ namespace VP
         /// <summary>
         /// Sends a broadcast-like message with custom styling to a specific session
         /// </summary>
-        public void ConsoleMessage(int session, ChatTextEffect effects, Color color, string name, string message)
+        public void ConsoleMessage(int session, ChatEffect effects, Color color, string name, string message)
         {
             int rc;
             lock (this)
@@ -150,47 +150,47 @@ namespace VP
         /// Sends a formatted broadcast-like message with custom styling to a specific
         /// session
         /// </summary>
-        public void ConsoleMessage(int session, ChatTextEffect effects, Color color, string name, string message, params object[] parts)
+        public void ConsoleMessage(int session, ChatEffect effects, Color color, string name, string message, params object[] parts)
         { ConsoleMessage(session, effects, color, name, string.Format(message, parts)); }
 
         /// <summary>
         /// Sends a broadcast-like message with custom styling to everybody in-world
         /// </summary>
-        public void ConsoleBroadcast(ChatTextEffect effects, Color color, string name, string message)
+        public void ConsoleBroadcast(ChatEffect effects, Color color, string name, string message)
         { ConsoleMessage(0, effects, color, name, message); }
 
         /// <summary>
         /// Sends a formatted broadcast-like message with custom styling to everybody
         /// in-world
         /// </summary>
-        public void ConsoleBroadcast(ChatTextEffect effects, Color color, string name, string message, params object[] parts)
+        public void ConsoleBroadcast(ChatEffect effects, Color color, string name, string message, params object[] parts)
         { ConsoleMessage(0, effects, color, name, string.Format(message, parts)); }
 
         /// <summary>
         /// Sends a broadcast-like message with default styling to a specific session
         /// </summary>
         public void ConsoleMessage(int session, string name, string message)
-        { ConsoleMessage(session, ChatTextEffect.None, Color.Black, name, message); }
+        { ConsoleMessage(session, ChatEffect.None, Color.Black, name, message); }
 
         /// <summary>
         /// Sends a formatted broadcast-like message with default styling to a specific
         /// session
         /// </summary>
         public void ConsoleMessage(int session, string name, string message, params object[] parts)
-        { ConsoleMessage(session, ChatTextEffect.None, Color.Black, name, string.Format(message, parts)); }
+        { ConsoleMessage(session, ChatEffect.None, Color.Black, name, string.Format(message, parts)); }
 
         /// <summary>
         /// Sends a broadcast-like message with default styling to everybody in-world
         /// </summary>
         public void ConsoleBroadcast(string name, string message)
-        { ConsoleMessage(0, ChatTextEffect.None, Color.Black, name, message); }
+        { ConsoleMessage(0, ChatEffect.None, Color.Black, name, message); }
 
         /// <summary>
         /// Sends a formatted broadcast-like message with default styling to everybody
         /// in-world
         /// </summary>
         public void ConsoleBroadcast(string name, string message, params object[] parts)
-        { ConsoleMessage(0, ChatTextEffect.None, Color.Black, name, string.Format(message, parts)); }
+        { ConsoleMessage(0, ChatEffect.None, Color.Black, name, string.Format(message, parts)); }
         #endregion
     }
 }

@@ -11,11 +11,13 @@ namespace VP
     }
 
     [Flags]
-    public enum ChatTextEffect : int
+    public enum ChatEffect : int
     {
-        None = 0,
-        Bold = 1,
-        Italic
+        None   = 0,
+        Bold   = 1,
+        Italic = 2,
+
+        BoldItalic = Bold | Italic
     }
 
     public class ChatMessage
@@ -37,7 +39,7 @@ namespace VP
     public class ConsoleMessage : ChatMessage
     {
         public ChatType       Type;
-        public ChatTextEffect Effect;
+        public ChatEffect Effect;
         public Color          Color;
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace VP
         {
             Color   = new Color(pointer);
             Type    = (ChatType)       Functions.vp_int(pointer, IntAttributes.ChatType);
-            Effect  = (ChatTextEffect) Functions.vp_int(pointer, IntAttributes.ChatType);
+            Effect  = (ChatEffect) Functions.vp_int(pointer, IntAttributes.ChatType);
         }
     }
 }
