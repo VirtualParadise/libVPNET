@@ -33,7 +33,7 @@ namespace VPNetExamples.Examples
             Thread.Sleep(1000);
 
             Console.WriteLine("Trying styled broadcast");
-            bot.ConsoleBroadcast(ChatTextEffect.Bold, new Color(128,0,0), "", "How are you?");
+            bot.ConsoleBroadcast(ChatEffect.Bold, new Color(128,0,0), "", "How are you?");
             bot.Wait(1000);
             bot2.Wait(1000);
             Thread.Sleep(1000);
@@ -58,7 +58,7 @@ namespace VPNetExamples.Examples
         void Avatars_Enter(Instance sender, Avatar avatar)
         {
             Console.WriteLine("Trying specific message");
-            bot.ConsoleMessage(avatar.Session, ChatTextEffect.Italic, new Color(128,0,0), "test", "Hello " + avatar.Name);
+            bot.ConsoleMessage(avatar.Session, ChatEffect.Italic, new Color(128,0,0), "test", "Hello " + avatar.Name);
         }
 
         public override void dispose()

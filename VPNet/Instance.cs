@@ -39,6 +39,10 @@ namespace VP
         {
             if (!_isInitialized)
             {
+                // Unpack DLL
+                DLLHandler.Unpack();
+
+                // Init SDK
                 int rc = Functions.vp_init(VPSDK_VERSION);
                 if (rc != 0)
                     throw new VPException((ReasonCode)rc);

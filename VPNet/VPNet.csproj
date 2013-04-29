@@ -51,6 +51,7 @@
     <Compile Include="Instance\Instance.Property.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Native\DataConverters.cs" />
+    <Compile Include="Native\DLLHandler.cs" />
     <Compile Include="Types\Avatar.cs" />
     <Compile Include="Types\Callbacks.cs" />
     <Compile Include="Types\Chat.cs" />
@@ -78,9 +79,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Libraries\vpsdk.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="..\Libraries\vpsdk.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
