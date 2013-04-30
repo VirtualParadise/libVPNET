@@ -7,10 +7,8 @@ namespace VP
     public class Avatar
     {
         public string Name;
-        public int Session;
-        public int AvatarType;
-        public float X, Y, Z;
-        public float Yaw, Pitch;
+        public int    Id, Session, Type;
+        public float  X, Y, Z, Yaw, Pitch;
 
         /// <summary>
         /// Checks if the avatar belongs to a bot instance, i.e. if the name is surrounded
@@ -44,14 +42,15 @@ namespace VP
         /// </summary>
         internal Avatar (IntPtr pointer)
         {
-            Name       = Functions.vp_string(pointer, StringAttributes.AvatarName);
-            Session    = Functions.vp_int(pointer, IntAttributes.AvatarSession);
-            AvatarType = Functions.vp_int(pointer, IntAttributes.AvatarType);
-            X          = Functions.vp_float(pointer, FloatAttributes.AvatarX);
-            Y          = Functions.vp_float(pointer, FloatAttributes.AvatarY);
-            Z          = Functions.vp_float(pointer, FloatAttributes.AvatarZ);
-            Yaw        = Functions.vp_float(pointer, FloatAttributes.AvatarYaw);
-            Pitch      = Functions.vp_float(pointer, FloatAttributes.AvatarPitch);
+            Name    = Functions.vp_string(pointer, StringAttributes.AvatarName);
+            Id      = Functions.vp_int(pointer, IntAttributes.UserId);
+            Session = Functions.vp_int(pointer, IntAttributes.AvatarSession);
+            Type    = Functions.vp_int(pointer, IntAttributes.AvatarType);
+            X       = Functions.vp_float(pointer, FloatAttributes.AvatarX);
+            Y       = Functions.vp_float(pointer, FloatAttributes.AvatarY);
+            Z       = Functions.vp_float(pointer, FloatAttributes.AvatarZ);
+            Yaw     = Functions.vp_float(pointer, FloatAttributes.AvatarYaw);
+            Pitch   = Functions.vp_float(pointer, FloatAttributes.AvatarPitch);
         }
     }
 }
