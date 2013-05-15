@@ -40,18 +40,19 @@ namespace VP
         } 
 
         #region Object references
-        int _reference = int.MinValue;
+        int                       _nextReference    = int.MinValue;
         Dictionary<int, VPObject> _objectReferences = new Dictionary<int, VPObject>();
         int nextReference
         {
             get
             {
                 lock (instance)
-                    if (_reference < int.MaxValue)
-                        _reference++;
+                    if (_nextReference < int.MaxValue)
+                        _nextReference++;
                     else
-                        _reference = int.MinValue;
-                return _reference;
+                        _nextReference = int.MinValue;
+
+                return _nextReference;
             }
         } 
         #endregion
@@ -102,14 +103,18 @@ namespace VP
         public void AddObject(VPObject vpObject)
         {
             int rc;
-            var referenceNumber = nextReference;
+            int referenceNumber;
+
             lock (instance)
             {
+                referenceNumber = nextReference;
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
+
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_add(instance.pointer);
             }
+
             if (rc != 0)
             {
                 _objectReferences.Remove(referenceNumber);
@@ -146,12 +151,14 @@ namespace VP
         public void ChangeObject(VPObject vpObject)
         {
             int rc;
-            var referenceNumber = nextReference;
+            int referenceNumber;
 
             lock (instance)
             {
+                referenceNumber = nextReference;
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
+
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_change(instance.pointer);
             }
@@ -170,11 +177,14 @@ namespace VP
         public void DeleteObject(VPObject vpObject)
         {
             int rc;
-            var referenceNumber = nextReference;
+            int referenceNumber;
+
             lock (instance)
             {
+                referenceNumber = nextReference;
                 _objectReferences.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
+
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
                 rc = Functions.vp_object_delete(instance.pointer);
             }

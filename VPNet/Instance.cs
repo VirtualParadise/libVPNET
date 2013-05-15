@@ -90,10 +90,10 @@ namespace VP
 
         void setup()
         {
-            this.Data = new InstanceData(this);
-            this.Avatars = new InstanceAvatars(this);
+            this.Data     = new InstanceData(this);
+            this.Avatars  = new InstanceAvatars(this);
             this.Property = new InstanceProperty(this);
-            this.Terrain = new InstanceTerrain(this);
+            this.Terrain  = new InstanceTerrain(this);
         }
         #endregion
 

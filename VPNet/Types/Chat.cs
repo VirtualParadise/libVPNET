@@ -38,9 +38,9 @@ namespace VP
 
     public class ConsoleMessage : ChatMessage
     {
-        public ChatType       Type;
+        public ChatType   Type;
         public ChatEffect Effect;
-        public Color          Color;
+        public Color      Color;
 
         /// <summary>
         /// Creates a ConsoleMessage from a native instance's attributes
@@ -48,7 +48,7 @@ namespace VP
         internal ConsoleMessage (IntPtr pointer) : base(pointer)
         {
             Color   = new Color(pointer);
-            Type    = (ChatType)       Functions.vp_int(pointer, IntAttributes.ChatType);
+            Type    = (ChatType)   Functions.vp_int(pointer, IntAttributes.ChatType);
             Effect  = (ChatEffect) Functions.vp_int(pointer, IntAttributes.ChatType);
         }
     }

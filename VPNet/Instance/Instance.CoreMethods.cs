@@ -34,8 +34,13 @@ namespace VP
             lock (this)
                 rc = Functions.vp_login(pointer, username, password, botname);
 
-            if (rc != 0) throw new VPException((ReasonCode)rc);
-            else return this;
+            if (rc != 0)
+                throw new VPException((ReasonCode)rc);
+            else
+            {
+                Name = botname;
+                return this;
+            }
         }
 
         /// <summary>
