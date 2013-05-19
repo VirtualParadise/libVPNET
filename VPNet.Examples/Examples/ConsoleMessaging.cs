@@ -52,7 +52,7 @@ namespace VPNetExamples.Examples
 
         void bot2_Console(Instance sender, ConsoleMessage console)
         {
-            Console.WriteLine("Message: {0}, Color: {1}, Style: {2}, Name: {3}", console.Message, console.Color, console.Effect, console.Name);
+            Console.WriteLine("Message: {0}, Color: {1}, Style: {2}, Name: {3}, Session: {4}", console.Message, console.Color, console.Effect, console.Name, console.Session);
         }
 
         void Avatars_Enter(Instance sender, Avatar avatar)
