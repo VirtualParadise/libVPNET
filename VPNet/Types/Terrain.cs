@@ -56,27 +56,27 @@ namespace VP
             Z        = Functions.vp_int(pointer, IntAttributes.TerrainNodeZ);
             Revision = Functions.vp_int(pointer, IntAttributes.TerrainNodeRevision);
             var data = Functions.GetData(pointer, DataAttributes.TerrainNodeData);
-            Cells    = DataConverters.TerrainNodeData(data);
+            Cells    = DataConverters.NodeDataTo2DArray(data);
         }
 
         /// <summary>
-        /// Gets or sets a TerrainCell value based on one-dimensional index, in column-major
-        /// order (e.g. TerrainNode[5] = col 0, row 5)
+        /// Gets or sets a TerrainCell value based on one-dimensional index, in X-major
+        /// order (e.g. TerrainNode[5] = col 5, row 0 or X5 Z0)
         /// </summary>
         public TerrainCell this[int i]
         {
             get
             {
-                int row = i % 8;
-                int col = (i - row) / 8;
-                return this[col, row];
+                int x = i % 8;
+                int z = (i - x) / 8;
+                return this[x, z];
             }
 
             set
             {
-                int row = i % 8;
-                int col = (i - row) / 8;
-                this[col, row] = value;
+                int x = i % 8;
+                int z = (i - x) / 8;
+                this[x, z] = value;
             }
         }
 

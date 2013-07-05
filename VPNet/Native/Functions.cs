@@ -128,7 +128,7 @@ namespace VP.Native
         public static extern int vp_terrain_query(IntPtr instance, int tile_x, int tile_z, int[,] nodes);
 
         [DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_terrain_node_set(IntPtr instance, int tile_x, int tile_z, int node_x, int node_z, TerrainCell[,] node);
+        public static extern int vp_terrain_node_set(IntPtr instance, int tile_x, int tile_z, int node_x, int node_z, byte[] node);
 
         [DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_avatar_click(IntPtr instance, int session);
