@@ -22,7 +22,8 @@ namespace VPNetExamples.Examples
                 .Enter(VPNetExamples.World);
 
             bot.Avatars.Enter += Avatars_Enter;
-            bot2.Console += bot2_Console;
+            bot.Console       += bot_Console;
+            bot2.Console      += bot2_Console;
             bot.GoTo();
             bot2.GoTo();
 
@@ -46,13 +47,18 @@ namespace VPNetExamples.Examples
             }
 
             bot.Avatars.Enter -= Avatars_Enter;
-            bot2.Console -= bot2_Console;
+            bot.Console       -= bot_Console;
+            bot2.Console      -= bot2_Console;
+        }
 
+        void bot_Console(Instance sender, ConsoleMessage console)
+        {
+            Console.WriteLine("#1 Message: {0}, Color: {1}, Style: {2}, Name: {3}, Session: {4}", console.Message, console.Color, console.Effect, console.Name, console.Session);
         }
 
         void bot2_Console(Instance sender, ConsoleMessage console)
         {
-            Console.WriteLine("Message: {0}, Color: {1}, Style: {2}, Name: {3}, Session: {4}", console.Message, console.Color, console.Effect, console.Name, console.Session);
+            Console.WriteLine("#2 Message: {0}, Color: {1}, Style: {2}, Name: {3}, Session: {4}", console.Message, console.Color, console.Effect, console.Name, console.Session);
         }
 
         void Avatars_Enter(Instance sender, Avatar avatar)
@@ -63,8 +69,8 @@ namespace VPNetExamples.Examples
 
         public override void dispose()
         {
-            bot.Dispose();
-            bot2.Dispose();
+            if (bot != null)  bot.Dispose();
+            if (bot2 != null) bot2.Dispose();
         }
     }
 }

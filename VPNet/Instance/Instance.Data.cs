@@ -22,9 +22,9 @@ namespace VP
 
         public void Dispose()
         {
-            GetWorldEntry = null;
-            GetWorldSetting = null;
-            GetUserAttributes = null;
+            WorldEntry     = null;
+            WorldSetting   = null;
+            UserAttributes = null;
 
             WorldSettingsChanged = null;
         }
@@ -35,29 +35,28 @@ namespace VP
         public delegate void WorldSettingArgs(Instance sender, string key, string value);
 
         public event Instance.Event WorldSettingsChanged;
-        public event WorldSettingArgs GetWorldSetting;
-        public event WorldListArgs GetWorldEntry;
-        public event UserAttributesArgs GetUserAttributes; 
+        public event WorldSettingArgs WorldSetting;
+        public event WorldListArgs WorldEntry;
+        public event UserAttributesArgs UserAttributes; 
         #endregion
 
         #region Methods
-        internal void OnWorldSetting(IntPtr sender)
+        public void GetUserAttributes(string name)
         {
-            if (GetWorldSetting == null) return;
-            string key, value;
+            int rc;
             lock (instance)
-            {
-                key   = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingKey);
-                value = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingValue);
-            }
+                rc = Functions.vp_user_attributes_by_name(instance.pointer, name);
 
-            GetWorldSetting(instance, key, value);
+            if (rc != 0) throw new VPException((ReasonCode)rc);
         }
 
-        internal void OnWorldSettingsChanged(IntPtr sender)
+        public void GetUserAttributes(int id)
         {
-            if (WorldSettingsChanged == null) return;
-            WorldSettingsChanged(instance);
+            int rc;
+            lock (instance)
+                rc = Functions.vp_user_attributes_by_id(instance.pointer, id);
+
+            if (rc != 0) throw new VPException((ReasonCode)rc);
         }
 
         public void ListWorlds()
@@ -71,26 +70,45 @@ namespace VP
         #endregion
 
         #region Event handlers
+        internal void OnWorldSetting(IntPtr sender)
+        {
+            if (WorldSetting == null) return;
+            string key, value;
+            lock (instance)
+            {
+                key   = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingKey);
+                value = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingValue);
+            }
+
+            WorldSetting(instance, key, value);
+        }
+
+        internal void OnWorldSettingsChanged(IntPtr sender)
+        {
+            if (WorldSettingsChanged == null) return;
+            WorldSettingsChanged(instance);
+        }
+
         internal void OnWorldList(IntPtr sender)
         {
-            if (GetWorldEntry == null) return;
+            if (WorldEntry == null) return;
             World data;
 
             lock (instance)
                 data = new World(instance.pointer);
 
-            GetWorldEntry(instance, data);
+            WorldEntry(instance, data);
         }
 
         internal void OnUserAttributes(IntPtr sender)
         {
-            if (GetWorldEntry == null) return;
+            if (UserAttributes == null) return;
             User data;
 
             lock (instance)
                 data = new User(instance.pointer);
 
-            GetUserAttributes(instance, data);
+            UserAttributes(instance, data);
         }
         #endregion
     }

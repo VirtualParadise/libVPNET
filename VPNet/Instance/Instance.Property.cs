@@ -183,16 +183,28 @@ namespace VP
             {
                 referenceNumber = nextReference;
                 _objectReferences.Add(referenceNumber, vpObject);
-                vpObject.ToNative(instance.pointer);
 
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(instance.pointer, IntAttributes.ObjectId, vpObject.Id);
                 rc = Functions.vp_object_delete(instance.pointer);
             }
+
             if (rc != 0)
             {
                 _objectReferences.Remove(referenceNumber);
                 throw new VPException((ReasonCode)rc);
             }
+        }
+
+        /// <summary>
+        /// Attempts to delete an object by ID
+        /// 
+        /// TODO: seems wasteful to create new VPObject; investigate nessecity
+        /// </summary>
+        /// <param name="id">ID of object to delete</param>
+        public void DeleteObject(int id)
+        {
+            DeleteObject( new VPObject { Id = id } );
         }
 
         /// <summary>
@@ -244,10 +256,10 @@ namespace VP
             lock (instance)
             {
                 sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
-                vpObject = new VPObject(instance.pointer);
+                vpObject  = new VPObject(instance.pointer);
             }
 
-            if (sessionId == -1 && QueryCellResult != null)
+            if      (sessionId == -1 && QueryCellResult != null)
                 QueryCellResult(instance, vpObject);
             else if (ObjectCreate != null)
                 ObjectCreate(instance, sessionId, vpObject);
@@ -261,7 +273,7 @@ namespace VP
 
             lock (instance)
             {
-                vpObject = new VPObject(instance.pointer);
+                vpObject  = new VPObject(instance.pointer);
                 sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
             }
 

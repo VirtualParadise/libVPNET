@@ -43,6 +43,10 @@
     <Compile Include="Examples\ConsoleMessaging.cs" />
     <Compile Include="Examples\ClickEvents.cs" />
     <Compile Include="Examples\AvatarEvents.cs" />
+    <Compile Include="Examples\ChatMessaging.cs" />
+    <Compile Include="Examples\UserData.cs" />
+    <Compile Include="Examples\Eject.cs" />
+    <Compile Include="Examples\TerrainClear.cs" />
     <Compile Include="Examples\Phantom.cs" />
     <Compile Include="Examples\SimpleHelloWorld.cs" />
     <Compile Include="VPNetExamples.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using VP.Native;
 
 namespace VP
 {
@@ -43,6 +44,18 @@ namespace VP
             Z     = z;
             Pitch = pitch;
             Yaw   = yaw;
+        }
+
+        internal static AvatarPosition FromTeleport (IntPtr pointer)
+        {
+            return new AvatarPosition
+            {
+                X     = Functions.vp_float(pointer, FloatAttributes.TeleportX),
+                Y     = Functions.vp_float(pointer, FloatAttributes.TeleportY),
+                Z     = Functions.vp_float(pointer, FloatAttributes.TeleportZ),
+                Pitch = Functions.vp_float(pointer, FloatAttributes.TeleportPitch),
+                Yaw   = Functions.vp_float(pointer, FloatAttributes.TeleportYaw),
+            };
         }
 
         /// <summary>

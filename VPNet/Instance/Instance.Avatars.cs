@@ -13,28 +13,32 @@ namespace VP
         public InstanceAvatars(Instance instance)
         {
             this.instance = instance;
-            instance.SetNativeEvent(Events.AvatarAdd, OnAvatarAdd);
+            instance.SetNativeEvent(Events.AvatarAdd,    OnAvatarAdd);
             instance.SetNativeEvent(Events.AvatarChange, OnAvatarChange);
             instance.SetNativeEvent(Events.AvatarDelete, OnAvatarDelete);
-            instance.SetNativeEvent(Events.AvatarClick, OnAvatarClicked);
+            instance.SetNativeEvent(Events.AvatarClick,  OnAvatarClicked);
+            instance.SetNativeEvent(Events.Teleport,     OnAvatarTeleported);
         }
 
         public void Dispose()
         {
-            Enter   = null;
-            Change  = null;
-            Leave   = null;
-            Clicked = null;
+            Enter      = null;
+            Change     = null;
+            Leave      = null;
+            Clicked    = null;
+            Teleported = null;
         }
 
         #region Events
         public delegate void AvatarArgs(Instance sender, Avatar avatar);
         public delegate void AvatarClickedArgs(Instance sender, AvatarClick click);
+        public delegate void AvatarTeleportedArgs(Instance sender, int session, AvatarPosition position, string world);
 
-        public event AvatarArgs        Enter;
-        public event AvatarArgs        Change;
-        public event AvatarArgs        Leave;
-        public event AvatarClickedArgs Clicked;
+        public event AvatarArgs           Enter;
+        public event AvatarArgs           Change;
+        public event AvatarArgs           Leave;
+        public event AvatarClickedArgs    Clicked;
+        public event AvatarTeleportedArgs Teleported;
         #endregion
 
         #region Methods
@@ -136,6 +140,25 @@ namespace VP
                 click = new AvatarClick(sender);
                 
             Clicked(instance, click);
+        }
+
+        internal void OnAvatarTeleported(IntPtr sender)
+        {
+            if (Teleported == null)
+                return;
+
+            AvatarPosition pos;
+            int            session;
+            string         world;
+
+            lock (instance)
+            {
+                pos = AvatarPosition.FromTeleport(sender);
+                session = Functions.vp_int(sender, IntAttributes.AvatarSession);
+                world   = Functions.vp_string(sender, StringAttributes.TeleportWorld);
+            }
+                
+            Teleported(instance, session, pos, world);
         }
         #endregion
     }
