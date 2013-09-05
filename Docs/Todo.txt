@@ -1,0 +1,1 @@
+- Add SDK-side protection against calling vp_wait within handler

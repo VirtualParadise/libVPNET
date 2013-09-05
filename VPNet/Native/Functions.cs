@@ -114,15 +114,18 @@ namespace VP.Native
         public static extern int vp_user_attributes_by_name(IntPtr instance,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string name);
 
-        [DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_friends_get(IntPtr instance);
+        // Unused
+        //[DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
+        //public static extern int vp_friends_get(IntPtr instance);
 
-        [DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_friend_add_by_name(IntPtr instance,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string name);
+        // Unused
+        //[DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
+        //public static extern int vp_friend_add_by_name(IntPtr instance,
+        //    [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string name);
         
-        [DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_friend_delete(IntPtr instance, int friendId);
+        // Unused
+        //[DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
+        //public static extern int vp_friend_delete(IntPtr instance, int friendId);
 
         [DllImport(DLLHandler.VPDLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_terrain_query(IntPtr instance, int tile_x, int tile_z, int[,] nodes);
@@ -144,7 +147,7 @@ namespace VP.Native
         public static byte[] GetData(IntPtr instance, DataAttributes attribute)
         {
             int length;
-            var ptr = vp_data(instance, attribute, out length);
+            var ptr    = vp_data(instance, attribute, out length);
             var result = new byte[length];
             Marshal.Copy(ptr, result, 0, length);
             return result;

@@ -4,8 +4,8 @@ using VP.Native;
 namespace VP
 {
     /// <summary>
-    /// Container for SDK methods and properties related to data collection, such as
-    /// world and user metadata
+    /// Container for SDK methods, events and properties related to data collection, such
+    /// as world and user metadata
     /// </summary>
     public class InstanceData : IDisposable
     {
@@ -16,7 +16,7 @@ namespace VP
             this.instance = instance;
             instance.SetNativeEvent(Events.WorldList, OnWorldList);
             instance.SetNativeEvent(Events.WorldSetting, OnWorldSetting);
-            instance.SetNativeEvent(Events.WorldSettingsChanged, OnWorldSettingsChanged);
+            instance.SetNativeEvent(Events.WorldSettingsDone, OnWorldSettingsDone);
             instance.SetNativeEvent(Events.UserAttributes, OnUserAttributes);
         }
 
@@ -34,9 +34,9 @@ namespace VP
         public delegate void UserAttributesArgs(Instance sender, User user);
         public delegate void WorldSettingArgs(Instance sender, string key, string value);
 
-        public event Instance.Event WorldSettingsChanged;
-        public event WorldSettingArgs WorldSetting;
-        public event WorldListArgs WorldEntry;
+        public event Instance.Event     WorldSettingsChanged;
+        public event WorldSettingArgs   WorldSetting;
+        public event WorldListArgs      WorldEntry;
         public event UserAttributesArgs UserAttributes; 
         #endregion
 
@@ -83,7 +83,7 @@ namespace VP
             WorldSetting(instance, key, value);
         }
 
-        internal void OnWorldSettingsChanged(IntPtr sender)
+        internal void OnWorldSettingsDone(IntPtr sender)
         {
             if (WorldSettingsChanged == null) return;
             WorldSettingsChanged(instance);
