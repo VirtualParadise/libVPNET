@@ -5,9 +5,11 @@ namespace VP
 {
     public class VPObject
     {
-        /// <summary>
-        /// ID number of the object in the world; automatically set by the server
-        /// </summary>
+        /// <summary>ID number of the object in the world</summary>
+        /// <remarks>
+        /// Automatically set by the server for new objects and is used to reference
+        /// existing objects for changes or deletions
+        /// </remarks>
         public int Id;
         /// <summary>
         /// Timestamp of the object's last modification
@@ -25,11 +27,25 @@ namespace VP
         /// Quaternion (3 axis + angle) rotation
         /// </summary>
         public Quaternion Rotation;
-
-        public string Action;
-        public string Description;
-        public int    ObjectType;
+        /// <summary>
+        /// Model file name
+        /// </summary>
         public string Model;
+        /// <summary>
+        /// Action script for client-side interactivity
+        /// </summary>
+        public string Action;
+        /// <summary>
+        /// Description text
+        /// </summary>
+        public string Description;
+        /// <summary>Object type</summary>
+        /// <remarks>Currently unused</remarks>
+        /// <value>0</value>
+        public int    Type;
+        /// <summary>Arbitary object data
+        /// </summary>
+        public byte[] Data;
 
         public VPObject() { }
         
@@ -43,8 +59,9 @@ namespace VP
             Id          = Functions.vp_int(pointer, IntAttributes.ObjectId);
             Model       = Functions.vp_string(pointer, StringAttributes.ObjectModel);
             Time        = DateTimeExt.FromUnixTimestampUTC(Functions.vp_int(pointer, IntAttributes.ObjectTime));
-            ObjectType  = Functions.vp_int(pointer, IntAttributes.ObjectType);
+            Type        = Functions.vp_int(pointer, IntAttributes.ObjectType);
             Owner       = Functions.vp_int(pointer, IntAttributes.ObjectUserId);
+            Data        = Functions.GetData(pointer, DataAttributes.ObjectData);
 
             Position = new Vector3
             {
@@ -80,7 +97,7 @@ namespace VP
             Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationY,     this.Rotation.Y);
             Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationZ,     this.Rotation.Z);
             Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationAngle, this.Rotation.W);
-            Functions.vp_int_set   (pointer, IntAttributes.ObjectType,            this.ObjectType);
+            Functions.vp_int_set   (pointer, IntAttributes.ObjectType,            this.Type);
         }
     }
 }
