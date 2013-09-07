@@ -49,7 +49,7 @@ namespace VP
         {
             Color   = new Color(pointer);
             Type    = (ChatType)   Functions.vp_int(pointer, IntAttributes.ChatType);
-            Effect  = (ChatEffect) Functions.vp_int(pointer, IntAttributes.ChatType);
+            Effect  = (ChatEffect) Functions.vp_int(pointer, IntAttributes.ChatEffects);
         }
     }
 }
