@@ -11,8 +11,8 @@ namespace VP
         public static Uniserver VirtualParadise = new Uniserver
         {
             CanonicalName = "Virtual Paradise",
-            Host = "universe.virtualparadise.org",
-            Port = 57000
+            Host          = "universe.virtualparadise.org",
+            Port          = 57000
         };
 
         public string CanonicalName;

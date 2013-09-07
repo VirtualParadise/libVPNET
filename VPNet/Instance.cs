@@ -98,8 +98,24 @@ namespace VP
         #endregion
 
         #region Public properties
-        public string Name;
-        public string CurrentWorld;
+        string name = "";
+        /// <summary>
+        /// Logged in bot name, or blank if not logged in at least once
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+        }
+
+        string world = "";
+        /// <summary>
+        /// World currently or last logged into, or blank if not logged into a world at
+        /// least once
+        /// </summary>
+        public string World
+        {
+            get { return world; }
+        }
         #endregion
     }
 }

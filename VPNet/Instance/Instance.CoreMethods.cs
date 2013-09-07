@@ -32,6 +32,7 @@ namespace VP
         /// Logs into a specified universe with the given authentication details and
         /// bot name. Chainable.
         /// </summary>
+        /// <remarks>Servers always add square brackets around a bot's name</remarks>
         public Instance Login(Uniserver universe, string username, string password, string botname)
         {
             int rc;
@@ -47,24 +48,18 @@ namespace VP
                 throw new VPException((ReasonCode)rc);
             else
             {
-                Name = botname;
+                name = botname;
                 return this;
             }
         }
 
         /// <summary>
         /// Logs into the default Virtual Paradise universe with the given authentication
-        /// details. Chainable.
+        /// details and bot name. Chainable.
         /// </summary>
+        /// <remarks>Servers always add square brackets around a bot's name</remarks>
         public Instance Login(string username, string password, string botname)
         { return Login(Uniserver.VirtualParadise, username, password, botname); }
-
-        /// <summary>
-        /// Logs into the default Virtual Paradise universe with the given authentication
-        /// details and initialized bot name. Chainable.
-        /// </summary>
-        public Instance Login(string username, string password)
-        { return Login(Uniserver.VirtualParadise, username, password, Name); }
         #endregion
 
         #region World
@@ -81,7 +76,7 @@ namespace VP
                 throw new VPException((ReasonCode)rc);
             else
             {
-                CurrentWorld = worldname;
+                World = worldname;
                 return this;
             }
         }
@@ -124,7 +119,7 @@ namespace VP
             if (rc != 0)
                 throw new VPException((ReasonCode)rc);
             else
-                CurrentWorld = null;
+                World = null;
         } 
         #endregion
 
