@@ -7,9 +7,9 @@ namespace VP
     /// <summary>
     /// Container class for Instance's property-related members
     /// </summary>
-    public class InstanceProperty : IDisposable
+    public class InstanceProperty
     {
-        internal Instance instance;
+        Instance instance;
 
         public InstanceProperty(Instance instance)
         {
@@ -25,7 +25,7 @@ namespace VP
             instance.SetNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallback);
         }
 
-        public void Dispose()
+        internal void Dispose()
         {
             QueryCellResult = null;
             QueryCellEnd    = null;

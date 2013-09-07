@@ -8,9 +8,9 @@ namespace VP
     /// <summary>
     /// Container class for Instance's terrain-related members
     /// </summary>
-    public class InstanceTerrain : IDisposable
+    public class InstanceTerrain
     {
-        internal Instance instance;
+        Instance instance;
 
         public InstanceTerrain(Instance instance)
         {
@@ -18,7 +18,7 @@ namespace VP
             instance.SetNativeEvent(Events.TerrainNode, OnTerrainNode);
         }
 
-        public void Dispose()
+        internal void Dispose()
         {
             GetNode = null;
         } 

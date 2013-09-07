@@ -6,12 +6,12 @@ namespace VP
 {
     public partial class Instance : IDisposable
     {
-        public const int VPSDK_VERSION = 1;
-        static bool _isInitialized;
+        const  int  sdkversion = 1;
+        static bool isInitialized;
 
         #region Member containers
         /// <summary>
-        /// Methods, events and properties related to metadata collection
+        /// Methods, events and properties related to user or world list data
         /// </summary>
         public InstanceData Data;
         /// <summary>
@@ -29,6 +29,26 @@ namespace VP
         public InstanceTerrain Terrain;
         #endregion
 
+        #region Public properties
+        string name = "";
+        /// <summary>
+        /// Logged in bot name, or blank if not logged in at least once
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+        }
+
+        string world = "";
+        /// <summary>
+        /// World currently logged into, or blank if not logged into a world
+        /// </summary>
+        public string World
+        {
+            get { return world; }
+        }
+        #endregion
+
         #region Constructor, setup & deconstructor
         internal readonly IntPtr pointer;
 
@@ -37,38 +57,22 @@ namespace VP
         /// </summary>
         public Instance()
         {
-            if (!_isInitialized)
+            if (!isInitialized)
             {
                 // Unpack DLL
                 DLLHandler.Unpack();
 
                 // Init SDK
-                int rc = Functions.vp_init(VPSDK_VERSION);
+                int rc = Functions.vp_init(sdkversion);
                 if (rc != 0)
                     throw new VPException((ReasonCode)rc);
 
-                _isInitialized = true;
+                isInitialized = true;
             }
 
             pointer = Functions.vp_create();
             setup();
             setupEvents();
-        }
-
-        /// <summary>
-        /// Creates a bot instance with a given name, initializing the SDK automatically
-        /// </summary>
-        public Instance(string name)
-            : this()
-        {
-            this.Name = name;
-        }
-
-        ~Instance()
-        {
-            if (pointer != IntPtr.Zero)
-                lock (this)
-                    Functions.vp_destroy(pointer);
         }
 
         /// <summary>
@@ -96,26 +100,6 @@ namespace VP
             this.Terrain  = new InstanceTerrain(this);
         }
         #endregion
-
-        #region Public properties
-        string name = "";
-        /// <summary>
-        /// Logged in bot name, or blank if not logged in at least once
-        /// </summary>
-        public string Name
-        {
-            get { return name; }
-        }
-
-        string world = "";
-        /// <summary>
-        /// World currently or last logged into, or blank if not logged into a world at
-        /// least once
-        /// </summary>
-        public string World
-        {
-            get { return world; }
-        }
-        #endregion
+        
     }
 }

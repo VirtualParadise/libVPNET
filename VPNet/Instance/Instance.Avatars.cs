@@ -6,9 +6,9 @@ namespace VP
     /// <summary>
     /// Container class for Instance's avatar-related members
     /// </summary>
-    public class InstanceAvatars : IDisposable
+    public class InstanceAvatars
     {
-        internal Instance instance;
+        Instance instance;
 
         public InstanceAvatars(Instance instance)
         {
@@ -20,7 +20,7 @@ namespace VP
             instance.SetNativeEvent(Events.Teleport,     OnAvatarTeleported);
         }
 
-        public void Dispose()
+        internal void Dispose()
         {
             Enter      = null;
             Change     = null;

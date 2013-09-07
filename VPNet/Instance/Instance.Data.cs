@@ -7,9 +7,9 @@ namespace VP
     /// Container for SDK methods, events and properties related to data collection, such
     /// as world and user metadata
     /// </summary>
-    public class InstanceData : IDisposable
+    public class InstanceData
     {
-        internal Instance instance;
+        Instance instance;
 
         public InstanceData(Instance instance)
         {
@@ -20,7 +20,7 @@ namespace VP
             instance.SetNativeEvent(Events.UserAttributes, OnUserAttributes);
         }
 
-        public void Dispose()
+        internal void Dispose()
         {
             WorldEntry     = null;
             WorldSetting   = null;

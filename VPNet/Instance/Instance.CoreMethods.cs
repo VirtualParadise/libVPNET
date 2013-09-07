@@ -76,7 +76,7 @@ namespace VP
                 throw new VPException((ReasonCode)rc);
             else
             {
-                World = worldname;
+                world = worldname;
                 return this;
             }
         }
@@ -119,7 +119,7 @@ namespace VP
             if (rc != 0)
                 throw new VPException((ReasonCode)rc);
             else
-                World = null;
+                world = null;
         } 
         #endregion
 
