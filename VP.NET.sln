@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference Documentation", "Reference Documentation", "{C5B15F27-C604-4D10-A432-6E4486A42077}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\rc.h = Docs\rc.h
@@ -11,6 +11,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPNet.Examples", "VPNet.Examples\VPNet.Examples.csproj", "{546B2D02-1A97-4CB4-B0A7-D3970FB4DECB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPNet", "VPNet\VPNet.csproj", "{DBE501A7-0176-473F-B2E8-F4ADA721917F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{56B073B8-51C5-472B-A8FB-F649C8A0E86C}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

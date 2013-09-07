@@ -1,4 +1,5 @@
 ﻿using System;
+using Nexus;
 using VP.Native;
 
 namespace VP
@@ -21,7 +22,7 @@ namespace VP
         /// <summary>
         /// Gets or sets the coordinates of this avatar as a Vector3
         /// </summary>
-        public Vector3 Coordinates
+        public Vector3D Coordinates
         {
             get { return new Vector3(X, Y, Z); }
             set { X = value.X; Y = value.Y; Z = value.Z; }

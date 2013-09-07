@@ -1,4 +1,5 @@
 ﻿using System;
+using Nexus;
 using VP.Native;
 
 namespace VP
@@ -22,7 +23,7 @@ namespace VP
         /// <summary>
         /// Position of the object in the world
         /// </summary>
-        public Vector3 Position;
+        public Vector3D Position;
         /// <summary>
         /// Quaternion (3 axis + angle) rotation
         /// </summary>

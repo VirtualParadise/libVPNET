@@ -126,9 +126,9 @@ namespace VP
         /// Creates and adds a new vpObject
         /// </summary>
         /// <param name="model">Model name</param>
-        /// <param name="position">Vector3 position</param>
+        /// <param name="position">Vector3D position</param>
         /// <param name="rotation">Quaternion rotation</param>
-        public void AddObject(string model, Vector3 position, Quaternion rotation)
+        public void AddObject(string model, Vector3D position, Quaternion rotation)
         {
             AddObject(new VPObject
             {
@@ -142,8 +142,8 @@ namespace VP
         /// Creates and adds a new vpObject with default rotation
         /// </summary>
         /// <param name="model">Model name</param>
-        /// <param name="position">Vector3 position</param>
-        public void AddObject(string model, Vector3 position)
+        /// <param name="position">Vector3D position</param>
+        public void AddObject(string model, Vector3D position)
         {
             AddObject(model, position, Quaternion.Zero);
         }

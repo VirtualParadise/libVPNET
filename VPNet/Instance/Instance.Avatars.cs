@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nexus;
+using System;
 using VP.Native;
 
 namespace VP
@@ -57,7 +58,7 @@ namespace VP
         /// <summary>
         /// Teleports a target session to a specified world and position
         /// </summary>
-        public void Teleport(int session, string world, Vector3 pos, float yaw, float pitch)
+        public void Teleport(int session, string world, Vector3D pos, float yaw, float pitch)
         {
             int rc;
             lock (instance)
@@ -91,7 +92,7 @@ namespace VP
         /// <summary>
         /// Teleports a target session to a specified position in the same world
         /// </summary>
-        public void Teleport(int session, Vector3 pos, float yaw, float pitch)
+        public void Teleport(int session, Vector3D pos, float yaw, float pitch)
         { Teleport(session, "", pos, yaw, pitch); }
 
         /// <summary>
@@ -153,7 +154,7 @@ namespace VP
 
             lock (instance)
             {
-                pos = AvatarPosition.FromTeleport(sender);
+                pos     = AvatarPosition.FromTeleport(sender);
                 session = Functions.vp_int(sender, IntAttributes.AvatarSession);
                 world   = Functions.vp_string(sender, StringAttributes.TeleportWorld);
             }
