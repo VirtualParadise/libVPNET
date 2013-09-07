@@ -46,14 +46,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Instance\Instance.Terrain.cs" />
-    <Compile Include="Instance\Instance.CoreProperties.cs" />
-    <Compile Include="Instance\Instance.CoreEvents.cs" />
-    <Compile Include="Instance\Instance.CoreMethods.cs" />
+    <Compile Include="Instance\Containers\TerrainContainer.cs" />
+    <Compile Include="Instance\Properties.cs" />
+    <Compile Include="Instance\Events.cs" />
+    <Compile Include="Instance\Methods.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Instance\Instance.Avatars.cs" />
-    <Compile Include="Instance\Instance.Data.cs" />
-    <Compile Include="Instance\Instance.Property.cs" />
+    <Compile Include="Instance\Containers\AvatarsContainer.cs" />
+    <Compile Include="Instance\Containers\DataContainer.cs" />
+    <Compile Include="Instance\Containers\PropertyContainer.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Native\DataConverters.cs" />
     <Compile Include="Native\DLLHandler.cs" />

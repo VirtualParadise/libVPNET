@@ -13,20 +13,20 @@ namespace VP
         /// <summary>
         /// Methods, events and properties related to user or world list data
         /// </summary>
-        public InstanceData Data;
+        public DataContainer Data;
         /// <summary>
         /// Methods, events and properties related to users and avatars
         /// </summary>
-        public InstanceAvatars Avatars;
+        public AvatarsContainer Avatars;
         /// <summary>
         /// Methods, events and properties related to property and object handling,
         /// including queries
         /// </summary>
-        public InstanceProperty Property;
+        public PropertyContainer Property;
         /// <summary>
         /// Methods, events and properties related to terrain modificaton and queries
         /// </summary>
-        public InstanceTerrain Terrain;
+        public TerrainContainer Terrain;
         #endregion
 
         #region Public properties
@@ -94,10 +94,10 @@ namespace VP
 
         void setup()
         {
-            this.Data     = new InstanceData(this);
-            this.Avatars  = new InstanceAvatars(this);
-            this.Property = new InstanceProperty(this);
-            this.Terrain  = new InstanceTerrain(this);
+            this.Data     = new DataContainer(this);
+            this.Avatars  = new AvatarsContainer(this);
+            this.Property = new PropertyContainer(this);
+            this.Terrain  = new TerrainContainer(this);
         }
         #endregion
         

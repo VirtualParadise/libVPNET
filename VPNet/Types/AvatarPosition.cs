@@ -5,6 +5,9 @@ using VP.Native;
 
 namespace VP
 {
+    /// <summary>
+    /// Represents the 3D Cartesian coordinates and rotations of any avatar
+    /// </summary>
     public struct AvatarPosition
     {
         /// <summary>
@@ -35,17 +38,11 @@ namespace VP
         public float Yaw;
 
         /// <summary>
-        /// Gets or sets a Vector3D value for coordinates
+        /// Gets a Vector3D value for coordinates
         /// </summary>
         public Vector3D Coordinates
         {
             get { return new Vector3D(X, Y, Z); }
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-                Z = value.Z;
-            }
         }
 
         /// <summary>
@@ -90,6 +87,18 @@ namespace VP
             Yaw   = yaw;
         }
 
+        internal static AvatarPosition FromAvatar(IntPtr pointer)
+        {
+            return new AvatarPosition
+            {
+                X     = Functions.vp_float(pointer, FloatAttributes.AvatarX),
+                Y     = Functions.vp_float(pointer, FloatAttributes.AvatarY),
+                Z     = Functions.vp_float(pointer, FloatAttributes.AvatarZ),
+                Yaw   = Functions.vp_float(pointer, FloatAttributes.AvatarYaw),
+                Pitch = Functions.vp_float(pointer, FloatAttributes.AvatarPitch),
+            };
+        }
+
         internal static AvatarPosition FromTeleport(IntPtr pointer)
         {
             return new AvatarPosition
@@ -104,7 +113,7 @@ namespace VP
 
         const string format = "X: {0} Y: {1} Z: {2} Pitch: {3}° Yaw: {4}°";
         /// <summary>
-        /// Formats the AvatarPosition to a human readable string
+        /// Formats this AvatarPosition to a human-readable string
         /// </summary>
         public override string ToString()
         {
