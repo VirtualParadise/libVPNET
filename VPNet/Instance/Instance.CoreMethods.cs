@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using VP.Native;
 
 namespace VP
@@ -7,14 +6,24 @@ namespace VP
     public partial class Instance : IDisposable
     {
         #region SDK
+        bool isPumping;
+
         /// <summary>
-        /// Pumps incoming events, fires any registered events or callbacks, then sleeps
-        /// for the given amount of milliseconds.
+        /// Pumps incoming events from and outgoing calls to the server, for the maximum
+        /// amount of given milliseconds.
         /// </summary>
-        public void Wait(int milliseconds)
+        /// <remarks>Equivalent of C SDK's vp_wait()</remarks>
+        public void Pump(int milliseconds = 0)
         {
+            if (isPumping)
+                throw new InvalidOperationException("Cannot pump whilst handling a pumped event");
+            else
+                isPumping = true;
+
             int rc = Functions.vp_wait(pointer, milliseconds);
+            isPumping = false;
             if (rc != 0) throw new VPException((ReasonCode)rc);
+            
         } 
         #endregion
 
