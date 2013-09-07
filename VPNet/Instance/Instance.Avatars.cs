@@ -10,7 +10,7 @@ namespace VP
     {
         Instance instance;
 
-        public InstanceAvatars(Instance instance)
+        internal InstanceAvatars(Instance instance)
         {
             this.instance = instance;
             instance.SetNativeEvent(Events.AvatarAdd,    OnAvatarAdd);

@@ -3,32 +3,40 @@ using VP.Native;
 
 namespace VP
 {
-    public enum ChatType
-    {
-        Normal,
-        ConsoleMessage,
-        Private
-    }
-
+    /// <summary>
+    /// Bitfield of effects applied to a console message
+    /// </summary>
     [Flags]
     public enum ChatEffect : int
     {
+        /// <summary>
+        /// No formatting applied
+        /// </summary>
         None   = 0,
+        /// <summary>
+        /// Bold formatting
+        /// </summary>
         Bold   = 1,
+        /// <summary>
+        /// Italics (emphasis) formatting
+        /// </summary>
         Italic = 2,
 
+        /// <summary>
+        /// Both bold and italics formatting
+        /// </summary>
         BoldItalic = Bold | Italic
     }
 
-    public class ChatMessage
+    /// <summary>
+    /// Represents a chat message
+    /// </summary>
+    public struct ChatMessage
     {
-        public string         Name, Message;
-        public int            Session;
+        public string Name, Message;
+        public int    Session;
 
-        /// <summary>
-        /// Creates a Chat from a native instance's attributes
-        /// </summary>
-        internal ChatMessage (IntPtr pointer)
+        internal ChatMessage(IntPtr pointer)
         {
             Name    = Functions.vp_string(pointer, StringAttributes.AvatarName);
             Message = Functions.vp_string(pointer, StringAttributes.ChatMessage);
@@ -36,20 +44,23 @@ namespace VP
         }
     }
 
-    public class ConsoleMessage : ChatMessage
+    /// <summary>
+    /// Represents a console message
+    /// </summary>
+    public struct ConsoleMessage
     {
-        public ChatType   Type;
+        public string     Name, Message;
+        public int        Session;
         public ChatEffect Effect;
         public Color      Color;
 
-        /// <summary>
-        /// Creates a ConsoleMessage from a native instance's attributes
-        /// </summary>
-        internal ConsoleMessage (IntPtr pointer) : base(pointer)
+        internal ConsoleMessage(IntPtr pointer)
         {
+            Name    = Functions.vp_string(pointer, StringAttributes.AvatarName);
+            Message = Functions.vp_string(pointer, StringAttributes.ChatMessage);
+            Session = Functions.vp_int(pointer, IntAttributes.AvatarSession);
+            Effect  = (ChatEffect) Functions.vp_int(pointer, IntAttributes.ChatEffects);
             Color   = new Color(pointer);
-            Type    = (ChatType)   Functions.vp_int(pointer, IntAttributes.ChatType);
-            Effect  = (ChatEffect) Functions.vp_int(pointer, IntAttributes.ChatType);
         }
     }
 }

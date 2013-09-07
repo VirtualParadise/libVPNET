@@ -64,7 +64,6 @@
     <Compile Include="Types\User.cs" />
     <Compile Include="Types\VPObject.cs" />
     <Compile Include="Types\World.cs" />
-    <Compile Include="Types\WorldAttributes.cs" />
     <Compile Include="VPException.cs" />
     <Compile Include="Types\Quaternion.cs" />
     <Compile Include="Types\Vector2.cs" />

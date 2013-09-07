@@ -3,15 +3,15 @@ using VP.Native;
 
 namespace VP
 {
+    /// <summary>
+    /// Represents a click on an object in 3D space
+    /// </summary>
     public struct ObjectClick
     {
         public int   Session, Id;
         public float X, Y, Z;
 
-        /// <summary>
-        /// Creates a click from a native instance's attributes
-        /// </summary>
-        internal ObjectClick (IntPtr pointer)
+        internal ObjectClick(IntPtr pointer)
         {
             Session = Functions.vp_int(pointer, IntAttributes.AvatarSession);
             Id      = Functions.vp_int(pointer, IntAttributes.ObjectId);
@@ -21,15 +21,15 @@ namespace VP
         }
     }
 
+    /// <summary>
+    /// Represents a click on an avatar in 3D space
+    /// </summary>
     public struct AvatarClick
     {
         public int   SourceSession, TargetSession;
         public float X, Y, Z;
 
-        /// <summary>
-        /// Creates a click from a native instance's attributes
-        /// </summary>
-        internal AvatarClick (IntPtr pointer)
+        internal AvatarClick(IntPtr pointer)
         {
             SourceSession = Functions.vp_int(pointer, IntAttributes.AvatarSession);
             TargetSession = Functions.vp_int(pointer, IntAttributes.ClickedSession);

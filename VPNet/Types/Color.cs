@@ -18,9 +18,6 @@ namespace VP
             this.Blue  = blue;
         }
 
-        /// <summary>
-        /// Creates a Color from a native instance's attributes
-        /// </summary>
         internal Color (IntPtr pointer)
         {
             Red   = (byte) Functions.vp_int(pointer, IntAttributes.ChatColorRed);

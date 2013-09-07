@@ -12,7 +12,7 @@ namespace VP
     {
         Instance instance;
 
-        public InstanceTerrain(Instance instance)
+        internal InstanceTerrain(Instance instance)
         {
             this.instance = instance;
             instance.SetNativeEvent(Events.TerrainNode, OnTerrainNode);

@@ -11,7 +11,7 @@ namespace VP
     {
         Instance instance;
 
-        public InstanceData(Instance instance)
+        internal InstanceData(Instance instance)
         {
             this.instance = instance;
             instance.SetNativeEvent(Events.WorldList, OnWorldList);

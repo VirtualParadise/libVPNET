@@ -11,7 +11,7 @@ namespace VP
     {
         Instance instance;
 
-        public InstanceProperty(Instance instance)
+        internal InstanceProperty(Instance instance)
         {
             this.instance = instance;
             instance.SetNativeEvent(Events.Object, OnObjectCreate);
