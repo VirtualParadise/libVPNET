@@ -1,9 +1,6 @@
 ﻿namespace VP.Native
 {
-    /// <summary>
-    /// Native callback types
-    /// </summary>
-    public enum Callbacks : int
+    internal enum Callbacks : int
     {
         ObjectAdd,
         ObjectChange,

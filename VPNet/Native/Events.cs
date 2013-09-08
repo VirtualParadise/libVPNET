@@ -1,6 +1,6 @@
 ﻿namespace VP.Native
 {
-    public enum Events : int
+    internal enum Events : int
     {
         Chat,
         AvatarAdd,

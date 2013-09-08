@@ -4,47 +4,55 @@ using VP.Native;
 
 namespace VP
 {
+    /// <summary>
+    /// Represents an object in 3D space
+    /// </summary>
     public class VPObject
     {
-        /// <summary>ID number of the object in the world</summary>
+        /// <summary>
+        /// Gets the ID number of the object in the world. This field is read-only.
+        /// </summary>
         /// <remarks>
         /// Automatically set by the server for new objects and is used to reference
         /// existing objects for changes or deletions
         /// </remarks>
-        public int Id;
+        public readonly int Id;
         /// <summary>
-        /// Timestamp of the object's last modification
+        /// Gets the timestamp of this object's last known modification
         /// </summary>
         public DateTime Time;
         /// <summary>
-        /// Owner's account number
+        /// Gets the account number of the owner that owns this object
         /// </summary>
         public int Owner;
         /// <summary>
-        /// Position of the object in the world
+        /// Gets the in-world Vector3D position of this object
         /// </summary>
         public Vector3D Position;
         /// <summary>
-        /// Quaternion (3 axis + angle) rotation
+        /// Gets the Quaternion (3 axis + angle) rotation of this object
         /// </summary>
         public Quaternion Rotation;
         /// <summary>
-        /// Model file name
+        /// Gets the model file name of this object
         /// </summary>
         public string Model;
         /// <summary>
-        /// Action script for client-side interactivity
+        /// Gets the action script which powers client-side interactivity on this object
         /// </summary>
         public string Action;
         /// <summary>
-        /// Description text
+        /// Gets the description text of this object
         /// </summary>
         public string Description;
-        /// <summary>Object type</summary>
-        /// <remarks>Currently unused</remarks>
+        /// <summary>Gets the type of this object</summary>
+        /// <remarks>
+        /// Currently unused but is made available to allow for complete object backups
+        /// </remarks>
         /// <value>0</value>
-        public int    Type;
-        /// <summary>Arbitary object data
+        public int Type;
+        /// <summary>
+        /// Gets any arbitary data of this object
         /// </summary>
         public byte[] Data;
 
@@ -64,7 +72,7 @@ namespace VP
             Owner       = Functions.vp_int(pointer, IntAttributes.ObjectUserId);
             Data        = Functions.GetData(pointer, DataAttributes.ObjectData);
 
-            Position = new Vector3
+            Position = new Vector3D
             {
                 X = Functions.vp_float(pointer, FloatAttributes.ObjectX),
                 Y = Functions.vp_float(pointer, FloatAttributes.ObjectY),
@@ -80,9 +88,6 @@ namespace VP
             };
         }
 
-        /// <summary>
-        /// Applies the properties of this object to the native SDK's attributes
-        /// </summary>
         internal void ToNative(IntPtr pointer)
         {
             Functions.vp_int_set   (pointer, IntAttributes.ObjectId,             this.Id);
@@ -99,6 +104,8 @@ namespace VP
             Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationZ,     this.Rotation.Z);
             Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationAngle, this.Rotation.W);
             Functions.vp_int_set   (pointer, IntAttributes.ObjectType,            this.Type);
+
+            Functions.SetData(pointer, DataAttributes.ObjectData, Data);
         }
     }
 }
