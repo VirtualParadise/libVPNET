@@ -143,25 +143,5 @@ namespace VP.Native
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string world,
             float x, float y, float z,
             float yaw, float pitch);
-
-        internal static byte[] GetData(IntPtr instance, DataAttributes attribute)
-        {
-            int length;
-            var ptr    = vp_data(instance, attribute, out length);
-            var result = new byte[length];
-
-            Marshal.Copy(ptr, result, 0, length);
-            return result;
-        }
-
-        internal static void SetData(IntPtr instance, DataAttributes attribute, byte[] data)
-        {
-            var length = data.Length;
-            var ptr    = Marshal.AllocHGlobal(length);
-            Marshal.Copy(data, 0, ptr, length);
-
-            vp_data_set(instance, attribute, length, ptr);
-            Marshal.FreeHGlobal(ptr);
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nexus;
+using System;
 using System.Collections.Generic;
 using VP.Native;
 
@@ -9,6 +10,7 @@ namespace VP
     /// </summary>
     public class PropertyContainer
     {
+        #region Construction & disposal
         Instance instance;
 
         internal PropertyContainer(Instance instance)
@@ -37,22 +39,24 @@ namespace VP
             CallbackObjectCreate = null;
             CallbackObjectChange = null;
             CallbackObjectDelete = null;
-        } 
+        }
+        #endregion
 
         #region Object references
-        int                       _nextReference    = int.MinValue;
-        Dictionary<int, VPObject> _objectReferences = new Dictionary<int, VPObject>();
+        Dictionary<int, VPObject> references = new Dictionary<int, VPObject>();
+
+        int _nextRef = int.MinValue;
         int nextReference
         {
             get
             {
                 lock (instance)
-                    if (_nextReference < int.MaxValue)
-                        _nextReference++;
+                    if (_nextRef < int.MaxValue)
+                        _nextRef++;
                     else
-                        _nextReference = int.MinValue;
+                        _nextRef = int.MinValue;
 
-                return _nextReference;
+                return _nextRef;
             }
         } 
         #endregion
@@ -68,11 +72,11 @@ namespace VP
         public delegate void ObjectCallbackArgs(Instance sender, ObjectCallbackData args);
 
         public event QueryCellResultArgs QueryCellResult;
-        public event QueryCellEndArgs QueryCellEnd;
-        public event ObjectChangeArgs ObjectCreate;
-        public event ObjectChangeArgs ObjectChange;
-        public event ObjectDeleteArgs ObjectDelete;
-        public event ObjectClickArgs  ObjectClick;
+        public event QueryCellEndArgs    QueryCellEnd;
+        public event ObjectChangeArgs    ObjectCreate;
+        public event ObjectChangeArgs    ObjectChange;
+        public event ObjectDeleteArgs    ObjectDelete;
+        public event ObjectClickArgs     ObjectClick;
 
         public event ObjectCallbackArgs CallbackObjectCreate;
         public event ObjectCallbackArgs CallbackObjectChange;
@@ -108,7 +112,7 @@ namespace VP
             lock (instance)
             {
                 referenceNumber = nextReference;
-                _objectReferences.Add(referenceNumber, vpObject);
+                references.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
 
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
@@ -117,7 +121,7 @@ namespace VP
 
             if (rc != 0)
             {
-                _objectReferences.Remove(referenceNumber);
+                references.Remove(referenceNumber);
                 throw new VPException((ReasonCode)rc);
             }
         }
@@ -156,7 +160,7 @@ namespace VP
             lock (instance)
             {
                 referenceNumber = nextReference;
-                _objectReferences.Add(referenceNumber, vpObject);
+                references.Add(referenceNumber, vpObject);
                 vpObject.ToNative(instance.pointer);
 
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
@@ -165,7 +169,7 @@ namespace VP
 
             if (rc != 0)
             {
-                _objectReferences.Remove(referenceNumber);
+                references.Remove(referenceNumber);
                 throw new VPException((ReasonCode)rc);
             }
         }
@@ -182,7 +186,7 @@ namespace VP
             lock (instance)
             {
                 referenceNumber = nextReference;
-                _objectReferences.Add(referenceNumber, vpObject);
+                references.Add(referenceNumber, vpObject);
 
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
                 Functions.vp_int_set(instance.pointer, IntAttributes.ObjectId, vpObject.Id);
@@ -191,7 +195,7 @@ namespace VP
 
             if (rc != 0)
             {
-                _objectReferences.Remove(referenceNumber);
+                references.Remove(referenceNumber);
                 throw new VPException((ReasonCode)rc);
             }
         }
@@ -303,8 +307,8 @@ namespace VP
 
             lock (instance)
             {
-                var vpObject = _objectReferences[reference];
-                _objectReferences.Remove(reference);
+                var vpObject = references[reference];
+                references.Remove(reference);
 
                 vpObject.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
                 CallbackObjectCreate(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
@@ -317,8 +321,8 @@ namespace VP
 
             lock (instance)
             {
-                var vpObject = _objectReferences[reference];
-                _objectReferences.Remove(reference);
+                var vpObject = references[reference];
+                references.Remove(reference);
 
                 CallbackObjectChange(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
             }
@@ -330,8 +334,8 @@ namespace VP
 
             lock (instance)
             {
-                var vpObject = _objectReferences[reference];
-                _objectReferences.Remove(reference);
+                var vpObject = references[reference];
+                references.Remove(reference);
 
                 if (CallbackObjectDelete != null)
                     CallbackObjectDelete(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));

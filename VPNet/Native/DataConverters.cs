@@ -4,8 +4,28 @@ using System.Runtime.InteropServices;
 
 namespace VP.Native
 {
-    internal static class DataConverters
+    internal static class DataHandlers
     {
+        internal static byte[] GetData(IntPtr instance, DataAttributes attribute)
+        {
+            int length;
+            var ptr    = Functions.vp_data(instance, attribute, out length);
+            var result = new byte[length];
+
+            Marshal.Copy(ptr, result, 0, length);
+            return result;
+        }
+
+        internal static void SetData(IntPtr instance, DataAttributes attribute, byte[] data)
+        {
+            var length = data.Length;
+            var ptr    = Marshal.AllocHGlobal(length);
+            Marshal.Copy(data, 0, ptr, length);
+
+            Functions.vp_data_set(instance, attribute, length, ptr);
+            Marshal.FreeHGlobal(ptr);
+        }
+
         /// <summary>
         /// Converts terrain node data to a 2D TerrainCell array
         /// </summary>

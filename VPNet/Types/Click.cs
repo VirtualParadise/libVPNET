@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nexus;
+using System;
 using VP.Native;
 
 namespace VP
@@ -8,16 +9,24 @@ namespace VP
     /// </summary>
     public struct ObjectClick
     {
-        public int   Session, Id;
-        public float X, Y, Z;
+        /// <summary>
+        /// Gets the unique ID of the object that is the target of this click
+        /// </summary>
+        public int Id;
+        /// <summary>
+        /// Gets the unique session ID of the user that is the source of this click
+        /// </summary>
+        public int Session;
+        /// <summary>
+        /// Gets the Vector3D representing the coordinates of this click
+        /// </summary>
+        public Vector3D Position;
 
         internal ObjectClick(IntPtr pointer)
         {
-            Session = Functions.vp_int(pointer, IntAttributes.AvatarSession);
-            Id      = Functions.vp_int(pointer, IntAttributes.ObjectId);
-            X       = Functions.vp_float(pointer, FloatAttributes.ClickHitX);
-            Y       = Functions.vp_float(pointer, FloatAttributes.ClickHitY);
-            Z       = Functions.vp_float(pointer, FloatAttributes.ClickHitZ);
+            Id       = Functions.vp_int(pointer, IntAttributes.ObjectId);
+            Session  = Functions.vp_int(pointer, IntAttributes.AvatarSession);
+            Position = VPVector3D.FromClick(pointer);
         }
     }
 
@@ -26,16 +35,24 @@ namespace VP
     /// </summary>
     public struct AvatarClick
     {
-        public int   SourceSession, TargetSession;
-        public float X, Y, Z;
+        /// <summary>
+        /// Gets the unique session ID of the user that is the source of this click
+        /// </summary>
+        public int SourceSession;
+        /// <summary>
+        /// Gets the unique session ID of the user that is the target of this click
+        /// </summary>
+        public int TargetSession;
+        /// <summary>
+        /// Gets the Vector3D representing the coordinates of this click
+        /// </summary>
+        public Vector3D Position;
 
         internal AvatarClick(IntPtr pointer)
         {
             SourceSession = Functions.vp_int(pointer, IntAttributes.AvatarSession);
             TargetSession = Functions.vp_int(pointer, IntAttributes.ClickedSession);
-            X             = Functions.vp_float(pointer, FloatAttributes.ClickHitX);
-            Y             = Functions.vp_float(pointer, FloatAttributes.ClickHitY);
-            Z             = Functions.vp_float(pointer, FloatAttributes.ClickHitZ);
+            Position = VPVector3D.FromClick(pointer);
         }
     }
 }

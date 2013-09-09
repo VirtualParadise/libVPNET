@@ -42,7 +42,7 @@ namespace VP
                     instance.pointer,
                     tileX, tileZ,
                     node.X, node.Z,
-                    DataConverters.NodeToNodeData(node) );
+                    DataHandlers.NodeToNodeData(node) );
 
             if (rc != 0)
                 throw new VPException((ReasonCode)rc);

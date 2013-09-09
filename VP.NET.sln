@@ -1,10 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference Documentation", "Reference Documentation", "{C5B15F27-C604-4D10-A432-6E4486A42077}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference", "Reference", "{C5B15F27-C604-4D10-A432-6E4486A42077}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\rc.h = Docs\rc.h
-		Docs\Todo.txt = Docs\Todo.txt
 		Docs\VP.h = Docs\VP.h
 	EndProjectSection
 EndProject
@@ -17,6 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{56B073
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{976CEC0A-CDD6-4FFA-AFB3-F5C18049AE68}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Todo.txt = Docs\Todo.txt
 	EndProjectSection
 EndProject
 Global

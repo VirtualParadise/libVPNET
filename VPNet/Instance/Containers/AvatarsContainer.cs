@@ -33,9 +33,27 @@ namespace VP
         #endregion
 
         #region Events
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/> and an
+        /// <see cref="Avatar"/> state for the <see cref="Enter"/> and
+        /// <see cref="Change"/> events
+        /// </summary>
         public delegate void StateArgs(Instance sender, Avatar avatar);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/> and a
+        /// unique session ID for the <see cref="Leave"/> event
+        /// </summary>
         public delegate void LeaveArgs(Instance sender, int session);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/> and an
+        /// <see cref="AvatarClick"/> for the <see cref="Clicked"/> event
+        /// </summary>
         public delegate void ClickedArgs(Instance sender, AvatarClick click);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, a source
+        /// unique session ID, an <see cref="AvatarPosition"/> and optional world string
+        /// for the <see cref="Teleported"/> event
+        /// </summary>
         public delegate void TeleportedArgs(Instance sender, int session, AvatarPosition position, string world);
 
         /// <summary>
@@ -43,81 +61,29 @@ namespace VP
         /// </summary>
         /// <remarks>
         /// Technically, this is when the avatar calls vp_state_change() (or on this SDK,
-        /// <seealso cref="Instance.GoTo"/>) for the first time. It is possible for bots
-        /// to enter a world without having this event fired for them.
+        /// <see cref="Instance.GoTo"/>) for the first time. It is possible for bots to
+        /// enter a world without having this event fired for them.
         /// </remarks>
-        public event StateArgs      Enter;
+        public event StateArgs Enter;
         /// <summary>
         /// Fired when an avatar's state (e.g. position) is changed, providing all of the
         /// avatar's latest state
         /// </summary>
-        public event StateArgs      Change;
+        public event StateArgs Change;
         /// <summary>
         /// Fired when an avatar exits the world, providing only its session ID
         /// </summary>
-        public event LeaveArgs      Leave;
-        public event ClickedArgs    Clicked;
+        public event LeaveArgs Leave;
+        /// <summary>
+        /// Fired when this instance is clicked by another avatar in-world, providing
+        /// click coordiantes and source ID
+        /// </summary>
+        public event ClickedArgs Clicked;
+        /// <summary>
+        /// Fired when an avatar sends this instance a request to teleport to the
+        /// given position and, optionally, world. Also provides the source session ID.
+        /// </summary>
         public event TeleportedArgs Teleported;
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Sends a click event to an avatar by session number
-        /// </summary>
-        public void Click(int session)
-        {
-            int rc;
-            lock (instance)
-                rc = Functions.vp_avatar_click(instance.pointer, session);
-
-            if (rc != 0) throw new VPException((ReasonCode)rc);
-        }
-
-        /// <summary>
-        /// Teleports a target session to a specified world and position
-        /// </summary>
-        public void Teleport(int session, string world, Vector3D pos, float yaw, float pitch)
-        {
-            int rc;
-            lock (instance)
-                rc = Functions.vp_teleport_avatar(
-                    instance.pointer,
-                    session,
-                    world,
-                    pos.X, pos.Y, pos.Z,
-                    yaw, pitch);
-
-            if (rc != 0) throw new VPException((ReasonCode)rc);
-        }
-
-        /// <summary>
-        /// Teleports a target session to a specified world and AvatarPosition
-        /// </summary>
-        public void Teleport(int session, string world, AvatarPosition pos)
-        {
-            int rc;
-            lock (instance)
-                rc = Functions.vp_teleport_avatar(
-                    instance.pointer,
-                    session,
-                    world,
-                    pos.X, pos.Y, pos.Z,
-                    pos.Yaw, pos.Pitch);
-
-            if (rc != 0) throw new VPException((ReasonCode)rc);
-        }
-
-        /// <summary>
-        /// Teleports a target session to a specified position in the same world
-        /// </summary>
-        public void Teleport(int session, Vector3D pos, float yaw, float pitch)
-        { Teleport(session, "", pos, yaw, pitch); }
-
-        /// <summary>
-        /// Teleports a target session to a specified AvatarPosition in the same world
-        /// </summary>
-        public void Teleport(int session, AvatarPosition pos)
-        { Teleport(session, "", pos); }
         #endregion
 
         #region Event handlers
@@ -179,6 +145,66 @@ namespace VP
                 
             Teleported(instance, session, pos, world);
         }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Sends a click event to an avatar by session number
+        /// </summary>
+        public void Click(int session)
+        {
+            int rc;
+            lock (instance)
+                rc = Functions.vp_avatar_click(instance.pointer, session);
+
+            if (rc != 0) throw new VPException((ReasonCode)rc);
+        }
+
+        /// <summary>
+        /// Teleports a target session to a specified world and position
+        /// </summary>
+        public void Teleport(int session, string world, Vector3D pos, float yaw, float pitch)
+        {
+            int rc;
+            lock (instance)
+                rc = Functions.vp_teleport_avatar(
+                    instance.pointer,
+                    session,
+                    world,
+                    pos.X, pos.Y, pos.Z,
+                    yaw, pitch);
+
+            if (rc != 0) throw new VPException((ReasonCode)rc);
+        }
+
+        /// <summary>
+        /// Teleports a target session to a specified world and AvatarPosition
+        /// </summary>
+        public void Teleport(int session, string world, AvatarPosition pos)
+        {
+            int rc;
+            lock (instance)
+                rc = Functions.vp_teleport_avatar(
+                    instance.pointer,
+                    session,
+                    world,
+                    pos.X, pos.Y, pos.Z,
+                    pos.Yaw, pos.Pitch);
+
+            if (rc != 0) throw new VPException((ReasonCode)rc);
+        }
+
+        /// <summary>
+        /// Teleports a target session to a specified position in the same world
+        /// </summary>
+        public void Teleport(int session, Vector3D pos, float yaw, float pitch)
+        { Teleport(session, "", pos, yaw, pitch); }
+
+        /// <summary>
+        /// Teleports a target session to a specified AvatarPosition in the same world
+        /// </summary>
+        public void Teleport(int session, AvatarPosition pos)
+        { Teleport(session, "", pos); }
         #endregion
     }
 }

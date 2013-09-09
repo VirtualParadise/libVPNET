@@ -50,7 +50,6 @@
     <Compile Include="Instance\Properties.cs" />
     <Compile Include="Instance\Events.cs" />
     <Compile Include="Instance\Methods.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="Instance\Containers\AvatarsContainer.cs" />
     <Compile Include="Instance\Containers\DataContainer.cs" />
     <Compile Include="Instance\Containers\PropertyContainer.cs" />
@@ -61,7 +60,6 @@
     <Compile Include="Types\Callbacks.cs" />
     <Compile Include="Types\Chat.cs" />
     <Compile Include="Types\AvatarPosition.cs" />
-    <Compile Include="Types\Color.cs" />
     <Compile Include="Types\Click.cs" />
     <Compile Include="Types\TerrainPosition.cs" />
     <Compile Include="Types\Terrain.cs" />
@@ -69,6 +67,8 @@
     <Compile Include="Types\User.cs" />
     <Compile Include="Types\VPObject.cs" />
     <Compile Include="Types\World.cs" />
+    <Compile Include="Utility\Extensions.cs" />
+    <Compile Include="Utility\Nexus.cs" />
     <Compile Include="VPException.cs" />
     <Compile Include="Native\Attributes.cs" />
     <Compile Include="Native\Callbacks.cs" />
