@@ -44,7 +44,7 @@ namespace VP
         public void GetUserAttributes(string name)
         {
             int rc;
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_user_attributes_by_name(instance.pointer, name);
 
             if (rc != 0) throw new VPException((ReasonCode)rc);
@@ -53,7 +53,7 @@ namespace VP
         public void GetUserAttributes(int id)
         {
             int rc;
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_user_attributes_by_id(instance.pointer, id);
 
             if (rc != 0) throw new VPException((ReasonCode)rc);
@@ -62,7 +62,7 @@ namespace VP
         public void ListWorlds()
         {
             int rc;
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_world_list(instance.pointer, 0);
 
             if (rc != 0) throw new VPException((ReasonCode)rc);
@@ -74,7 +74,7 @@ namespace VP
         {
             if (WorldSetting == null) return;
             string key, value;
-            lock (instance)
+            lock (instance.mutex)
             {
                 key   = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingKey);
                 value = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingValue);
@@ -94,7 +94,7 @@ namespace VP
             if (WorldEntry == null) return;
             World data;
 
-            lock (instance)
+            lock (instance.mutex)
                 data = new World(instance.pointer);
 
             WorldEntry(instance, data);
@@ -105,7 +105,7 @@ namespace VP
             if (UserAttributes == null) return;
             User data;
 
-            lock (instance)
+            lock (instance.mutex)
                 data = new User(instance.pointer);
 
             UserAttributes(instance, data);

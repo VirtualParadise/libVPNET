@@ -8,8 +8,17 @@ namespace VP
     /// </summary>
     public enum WorldState : int
     {
+        /// <summary>
+        /// Online world
+        /// </summary>
         Online,
+        /// <summary>
+        /// Offline world
+        /// </summary>
         Stopped,
+        /// <summary>
+        /// No known state
+        /// </summary>
         Unknown
     }
 

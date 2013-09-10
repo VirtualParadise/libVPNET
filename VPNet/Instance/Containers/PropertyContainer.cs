@@ -50,7 +50,7 @@ namespace VP
         {
             get
             {
-                lock (instance)
+                lock (instance.mutex)
                     if (_nextRef < int.MaxValue)
                         _nextRef++;
                     else
@@ -93,7 +93,7 @@ namespace VP
         public void QueryCell(int cellX, int cellZ)
         {
             int rc;
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_query_cell(instance.pointer, cellX, cellZ);
 
             if (rc != 0)
@@ -109,7 +109,7 @@ namespace VP
             int rc;
             int referenceNumber;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 referenceNumber = nextReference;
                 references.Add(referenceNumber, vpObject);
@@ -157,7 +157,7 @@ namespace VP
             int rc;
             int referenceNumber;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 referenceNumber = nextReference;
                 references.Add(referenceNumber, vpObject);
@@ -183,7 +183,7 @@ namespace VP
             int rc;
             int referenceNumber;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 referenceNumber = nextReference;
                 references.Add(referenceNumber, vpObject);
@@ -218,7 +218,7 @@ namespace VP
         public void ClickObject(VPObject vpObject)
         {
             int rc;
-            lock (instance)
+            lock (instance.mutex)
             {
                 vpObject.ToNative(instance.pointer);
                 rc = Functions.vp_object_click(instance.pointer);
@@ -242,7 +242,7 @@ namespace VP
             if (ObjectClick == null) return;
             ObjectClick click;
 
-            lock (instance)
+            lock (instance.mutex)
                 click = new ObjectClick(sender);
 
             ObjectClick(instance, click);
@@ -257,7 +257,7 @@ namespace VP
             VPObject vpObject;
             int sessionId;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
                 vpObject  = new VPObject(instance.pointer);
@@ -275,7 +275,7 @@ namespace VP
             VPObject vpObject;
             int sessionId;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 vpObject  = new VPObject(instance.pointer);
                 sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
@@ -290,7 +290,7 @@ namespace VP
             int session;
             int objectId;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 session = Functions.vp_int(sender, IntAttributes.AvatarSession);
                 objectId = Functions.vp_int(sender, IntAttributes.ObjectId);
@@ -305,7 +305,7 @@ namespace VP
         {
             if (CallbackObjectCreate == null) return;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 var vpObject = references[reference];
                 references.Remove(reference);
@@ -319,7 +319,7 @@ namespace VP
         {
             if (CallbackObjectChange == null) return;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 var vpObject = references[reference];
                 references.Remove(reference);
@@ -332,7 +332,7 @@ namespace VP
         {
             if ( CallbackObjectDelete == null ) return;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 var vpObject = references[reference];
                 references.Remove(reference);

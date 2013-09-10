@@ -1,8 +1,16 @@
-﻿using System;
+﻿using Nexus.Graphics.Colors;
+using System;
 using VP.Native;
 
 namespace VP
 {
+    internal enum ChatType : int
+    {
+        Normal,
+        ConsoleMessage,
+        Private
+    }
+
     /// <summary>
     /// Bitfield of effects applied to a console message
     /// </summary>
@@ -52,7 +60,7 @@ namespace VP
         public string     Name, Message;
         public int        Session;
         public ChatEffect Effect;
-        public Color      Color;
+        public ColorRgb   Color;
 
         internal ConsoleMessage(IntPtr pointer)
         {
@@ -60,7 +68,7 @@ namespace VP
             Message = Functions.vp_string(pointer, StringAttributes.ChatMessage);
             Session = Functions.vp_int(pointer, IntAttributes.AvatarSession);
             Effect  = (ChatEffect) Functions.vp_int(pointer, IntAttributes.ChatEffects);
-            Color   = new Color(pointer);
+            Color   = VPColor.FromChat(pointer);
         }
     }
 }

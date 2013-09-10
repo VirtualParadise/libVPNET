@@ -1,32 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using VP.Native;
 
 namespace VP
 {
+    /// <summary>
+    /// Represents a Virtual Paradise bot that can interact with a universe and world,
+    /// complete with all applicable methods and events provided by the SDK.
+    /// 
+    /// Also contains helper methods and properties, such as the current
+    /// <see cref="Position"/> of the instance.
+    /// </summary>
     public partial class Instance : IDisposable
     {
-        const  int  sdkversion = 1;
-        static bool isInitialized;
-
         #region Member containers
         /// <summary>
         /// Methods, events and properties related to user or world list data
         /// </summary>
-        public DataContainer Data;
+        public readonly DataContainer Data;
         /// <summary>
         /// Methods, events and properties related to users and avatars
         /// </summary>
-        public AvatarsContainer Avatars;
+        public readonly AvatarsContainer Avatars;
         /// <summary>
         /// Methods, events and properties related to property and object handling,
         /// including queries
         /// </summary>
-        public PropertyContainer Property;
+        public readonly PropertyContainer Property;
         /// <summary>
         /// Methods, events and properties related to terrain modificaton and queries
         /// </summary>
-        public TerrainContainer Terrain;
+        public readonly TerrainContainer Terrain;
         #endregion
 
         #region Public properties
@@ -50,29 +53,26 @@ namespace VP
         #endregion
 
         #region Constructor, setup & deconstructor
-        internal readonly IntPtr pointer;
+        internal object mutex = new object();
+        internal IntPtr pointer;
 
         /// <summary>
         /// Creates a bot instance, initializing the SDK automatically
         /// </summary>
         public Instance()
         {
-            if (!isInitialized)
-            {
-                // Unpack DLL
-                DLLHandler.Unpack();
+            pointer = SDK.CreateInstance();
 
-                // Init SDK
-                int rc = Functions.vp_init(sdkversion);
-                if (rc != 0)
-                    throw new VPException((ReasonCode)rc);
-
-                isInitialized = true;
-            }
-
-            pointer = Functions.vp_create();
-            setup();
+            this.Data     = new DataContainer(this);
+            this.Avatars  = new AvatarsContainer(this);
+            this.Property = new PropertyContainer(this);
+            this.Terrain  = new TerrainContainer(this);
             setupEvents();
+        }
+
+        ~Instance()
+        {
+            Dispose();
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace VP
         public void Dispose()
         {
             if (pointer != IntPtr.Zero)
-                Functions.vp_destroy(pointer);
+                Functions.Call( () => Functions.vp_destroy(pointer) );
 
             Data.Dispose();
             Avatars.Dispose();
@@ -90,14 +90,6 @@ namespace VP
             Terrain.Dispose();
             disposeEvents();
             GC.SuppressFinalize(this);
-        }
-
-        void setup()
-        {
-            this.Data     = new DataContainer(this);
-            this.Avatars  = new AvatarsContainer(this);
-            this.Property = new PropertyContainer(this);
-            this.Terrain  = new TerrainContainer(this);
         }
         #endregion
         

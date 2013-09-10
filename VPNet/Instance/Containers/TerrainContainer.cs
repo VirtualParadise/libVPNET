@@ -37,7 +37,7 @@ namespace VP
         {
             int rc;
 
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_terrain_node_set(
                     instance.pointer,
                     tileX, tileZ,
@@ -56,7 +56,7 @@ namespace VP
         {
             int rc;
 
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_terrain_query(instance.pointer, tileX, tileZ, nodeRevision);
 
             if (rc != 0)

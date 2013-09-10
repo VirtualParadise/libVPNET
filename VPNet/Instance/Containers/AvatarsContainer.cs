@@ -91,7 +91,7 @@ namespace VP
         {
             if (Enter == null) return;
             Avatar data;
-            lock (instance)
+            lock (instance.mutex)
                 data = new Avatar(instance.pointer);
 
             Enter(instance, data);
@@ -101,7 +101,7 @@ namespace VP
         {
             if (Change == null) return;
             Avatar data;
-            lock (instance)
+            lock (instance.mutex)
                 data = new Avatar(instance.pointer);
 
             Change(instance, data);
@@ -111,7 +111,7 @@ namespace VP
         {
             if (Leave == null) return;
             int session;
-            lock (instance)
+            lock (instance.mutex)
                 session = Functions.vp_int(instance.pointer, IntAttributes.AvatarSession);
 
             Leave(instance, session);
@@ -121,7 +121,7 @@ namespace VP
         {
             if (Clicked == null) return;
             AvatarClick click;
-            lock (instance)
+            lock (instance.mutex)
                 click = new AvatarClick(sender);
                 
             Clicked(instance, click);
@@ -136,7 +136,7 @@ namespace VP
             int            session;
             string         world;
 
-            lock (instance)
+            lock (instance.mutex)
             {
                 pos     = AvatarPosition.FromTeleport(sender);
                 session = Functions.vp_int(sender, IntAttributes.AvatarSession);
@@ -154,7 +154,7 @@ namespace VP
         public void Click(int session)
         {
             int rc;
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_avatar_click(instance.pointer, session);
 
             if (rc != 0) throw new VPException((ReasonCode)rc);
@@ -166,7 +166,7 @@ namespace VP
         public void Teleport(int session, string world, Vector3D pos, float yaw, float pitch)
         {
             int rc;
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_teleport_avatar(
                     instance.pointer,
                     session,
@@ -183,7 +183,7 @@ namespace VP
         public void Teleport(int session, string world, AvatarPosition pos)
         {
             int rc;
-            lock (instance)
+            lock (instance.mutex)
                 rc = Functions.vp_teleport_avatar(
                     instance.pointer,
                     session,

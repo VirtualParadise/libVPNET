@@ -4,32 +4,68 @@ using VP.Native;
 
 namespace VP
 {
+    /// <summary>
+    /// Specifies constants that represent the rotation of a terrain cell's texture
+    /// </summary>
     public enum TerrainRotation
     {
+        /// <summary>
+        /// Texture rotated north-wise
+        /// </summary>
         North,
+        /// <summary>
+        /// Texture rotated west-wise
+        /// </summary>
         West,
+        /// <summary>
+        /// Texture rotated south-wise
+        /// </summary>
         South,
+        /// <summary>
+        /// Texture rotated east-wise
+        /// </summary>
         East
     }
 
+    /// <summary>
+    /// Represents an immutable definition of a terrain cell, typically belonging to a
+    /// <see cref="TerrainNode"/>
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct TerrainCell
     {
-        public float  Height;
+        /// <summary>
+        /// Gets or sets the height of this cell
+        /// </summary>
+        public float Height;
+        /// <summary>
+        /// Gets or sets the raw bitfield attributes of this cell
+        /// </summary>
         public ushort Attributes;
 
+        /// <summary>
+        /// Gets or sets whether this cell is a hole (no drawn or physical geometry)
+        /// </summary>
         public bool Hole
         {
             get { return (Attributes & 0x8000) >> 15 == 1; }
             set { Attributes = (ushort) (Attributes | ((value ? 1 : 0) << 15)); }
         }
 
+        /// <summary>
+        /// Gets or sets the rotation of this cell
+        /// </summary>
         public TerrainRotation Rotation
         {
             get { return (TerrainRotation) ((Attributes & 0x6000) >> 13); }
             set { Attributes = (ushort) (Attributes | ((int)value << 13)); }
         }
 
+        /// <summary>Gets or sets the texture used by this cell</summary>
+        /// <remarks>
+        /// The VP client uses this value by looking for a texture with the name
+        /// "terrain#.jpg", where '#' is this value.
+        /// </remarks>
         public ushort Texture
         {
             get { return (ushort) (Attributes & 0x0FFF); }

@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{56B073
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{976CEC0A-CDD6-4FFA-AFB3-F5C18049AE68}"
 	ProjectSection(SolutionItems) = preProject
+		Readme.markdown = Readme.markdown
 		Docs\Todo.txt = Docs\Todo.txt
 	EndProjectSection
 EndProject

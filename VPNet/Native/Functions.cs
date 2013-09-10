@@ -3,8 +3,22 @@ using System.Runtime.InteropServices;
 
 namespace VP.Native
 {
-    public class Functions
+    internal static class Functions
     {
+        internal delegate int RCCall();
+
+        /// <summary>
+        /// Syntatic sugar method for calling native C SDK methods with return codes.
+        /// This captures the call's return code and throws an exception if nessecary.
+        /// </summary>
+        internal static void Call(RCCall call)
+        {
+            int rc = call();
+
+            if (rc != 0)
+                throw new VPException( (ReasonCode) rc );
+        }
+
         [DllImport(DLLHandler.VPDLL, CallingConvention=CallingConvention.Cdecl)]
         internal static extern int vp_init(int build);
 

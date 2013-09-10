@@ -87,6 +87,18 @@ namespace VP
             Yaw   = yaw;
         }
 
+        internal static AvatarPosition FromSelf(IntPtr pointer)
+        {
+            return new AvatarPosition
+            {
+                X     = Functions.vp_float(pointer, FloatAttributes.MyX),
+                Y     = Functions.vp_float(pointer, FloatAttributes.MyY),
+                Z     = Functions.vp_float(pointer, FloatAttributes.MyZ),
+                Yaw   = Functions.vp_float(pointer, FloatAttributes.MyYaw),
+                Pitch = Functions.vp_float(pointer, FloatAttributes.MyPitch),
+            };
+        }
+
         internal static AvatarPosition FromAvatar(IntPtr pointer)
         {
             return new AvatarPosition

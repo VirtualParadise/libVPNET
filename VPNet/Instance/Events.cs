@@ -32,8 +32,8 @@ namespace VP
         void disposeEvents()
         {
             UniverseDisconnect = null;
-            WorldDisconnect = null;
-            Chat = null;
+            WorldDisconnect    = null;
+            Chat               = null;
         }
         #endregion
 
@@ -48,23 +48,28 @@ namespace VP
 
         internal void OnUniverseDisconnect(IntPtr sender)
         {
-            if (UniverseDisconnect == null) return;
-            UniverseDisconnect(this);
+            if (UniverseDisconnect == null)
+                return;
+            else
+                UniverseDisconnect(this);
         }
 
         internal void OnWorldDisconnect(IntPtr sender)
         {
-            if (WorldDisconnect == null) return;
-            WorldDisconnect(this);
+            if (WorldDisconnect == null)
+                return;
+            else
+                WorldDisconnect(this);
         }
 
         internal void OnChat(IntPtr sender)
         {
-            if (Chat == null && Console == null) return;
+            if (Chat == null && Console == null)
+                return;
 
             ChatMessage chat;
-            ChatType type;
-            lock (this)
+            ChatType    type;
+            lock (mutex)
             {
                 type = (ChatType) Functions.vp_int(pointer, IntAttributes.ChatType);
 

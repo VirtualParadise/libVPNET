@@ -7,22 +7,14 @@ namespace VP
     public partial class Instance : IDisposable
     {
         #region World
-
+        /// <summary>
+        /// Gets this instance's current position in-world, including coordinates and
+        /// rotation
+        /// </summary>
         public AvatarPosition Position
         {
-            get
-            {
-                return new AvatarPosition
-                {
-                    X     = Functions.vp_float(pointer, FloatAttributes.MyX),
-                    Y     = Functions.vp_float(pointer, FloatAttributes.MyY),
-                    Z     = Functions.vp_float(pointer, FloatAttributes.MyZ),
-                    Yaw   = Functions.vp_float(pointer, FloatAttributes.MyYaw),
-                    Pitch = Functions.vp_float(pointer, FloatAttributes.MyPitch),
-                };
-            }
+            get { return AvatarPosition.FromSelf(pointer); }
         }
-
         #endregion
     }
 }

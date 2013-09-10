@@ -56,6 +56,7 @@
     <Compile Include="Instance.cs" />
     <Compile Include="Native\DataConverters.cs" />
     <Compile Include="Native\DLLHandler.cs" />
+    <Compile Include="SDK.cs" />
     <Compile Include="Types\Avatar.cs" />
     <Compile Include="Types\Callbacks.cs" />
     <Compile Include="Types\Chat.cs" />
