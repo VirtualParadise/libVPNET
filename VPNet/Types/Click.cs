@@ -52,7 +52,7 @@ namespace VP
         {
             SourceSession = Functions.vp_int(pointer, IntAttributes.AvatarSession);
             TargetSession = Functions.vp_int(pointer, IntAttributes.ClickedSession);
-            Position = VPVector3D.FromClick(pointer);
+            Position      = VPVector3D.FromClick(pointer);
         }
     }
 }

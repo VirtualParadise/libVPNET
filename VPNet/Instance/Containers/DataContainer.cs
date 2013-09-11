@@ -33,17 +33,19 @@ namespace VP
         #region Events
         /// <summary>
         /// Encapsulates a method that accepts a source <see cref="Instance"/> and a
-        /// <see cref="World"/> state entry
+        /// <see cref="World"/> state entry for the <see cref="WorldEntry"/> event
         /// </summary>
         public delegate void WorldListArgs(Instance sender, World world);
         /// <summary>
         /// Encapsulates a method that accepts a source <see cref="Instance"/> and a
-        /// string key and value representing a world setting
+        /// string key and value representing a world setting for the
+        /// <see cref="WorldSetting"/> event
         /// </summary>
         public delegate void WorldSettingArgs(Instance sender, string key, string value);
         /// <summary>
         /// Encapsulates a method that accepts a source <see cref="Instance"/> and a
-        /// <see cref="User"/> attributes entry
+        /// <see cref="User"/> attributes entry for the <see cref="UserAttributes"/>
+        /// event
         /// </summary>
         public delegate void UserAttributesArgs(Instance sender, User user);
 
@@ -51,18 +53,18 @@ namespace VP
         /// Fired automatically for each world setting after a successful
         /// <see cref="Instance.Enter"/> call
         /// </summary>
-        public event WorldSettingArgs   WorldSetting;
+        public event WorldSettingArgs WorldSetting;
         /// <summary>
         /// Fired automatically when the server has sent all world settings after a
         /// successful <see cref="Instance.Enter"/> call
         /// </summary>
-        public event Instance.Event     WorldSettingsDone;
+        public event Instance.Event WorldSettingsDone;
         /// <summary>
         /// Fired automatically for any world that updates its state or for the
         /// destination world after a successful <see cref="Instance.Enter"/> call.
         /// Also called for each world from a <see cref="ListWorlds"/> call.
         /// </summary>
-        public event WorldListArgs      WorldEntry;
+        public event WorldListArgs WorldEntry;
         /// <summary>
         /// Fired when the attributes of an existing user is requested from
         /// <see cref="GetUserAttributes(string)"/> or <see cref="GetUserAttributes(int)"/>

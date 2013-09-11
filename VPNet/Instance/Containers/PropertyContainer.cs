@@ -6,7 +6,8 @@ using VP.Native;
 namespace VP
 {
     /// <summary>
-    /// Container class for Instance's property-related members
+    /// Container for SDK methods, events and properties related to property management,
+    /// including queries and global object events
     /// </summary>
     public class PropertyContainer
     {
@@ -43,189 +44,109 @@ namespace VP
         #endregion
 
         #region Object references
-        Dictionary<int, VPObject> references = new Dictionary<int, VPObject>();
+        Dictionary<int, VPObject> references       = new Dictionary<int, VPObject>();
+        Dictionary<int, int>      deleteReferences = new Dictionary<int, int>();
 
-        int _nextRef = int.MinValue;
+        int nextRef = int.MinValue;
         int nextReference
         {
             get
             {
-                lock (instance.mutex)
-                    if (_nextRef < int.MaxValue)
-                        _nextRef++;
-                    else
-                        _nextRef = int.MinValue;
+                if (nextRef < int.MaxValue)
+                    nextRef++;
+                else
+                    nextRef = int.MinValue;
 
-                return _nextRef;
+                return nextRef;
             }
         } 
         #endregion
 
         #region Events and callbacks
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/> and an
+        /// in-world object's data for the <see cref="QueryCellResult"/> event
+        /// </summary>
         public delegate void QueryCellResultArgs(Instance sender, VPObject objectData);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/> and 2D
+        /// coordinates for the <see cref="QueryCellEnd"/> event
+        /// </summary>
         public delegate void QueryCellEndArgs(Instance sender, int x, int z);
-        public delegate void ObjectChangeArgs(Instance sender, int sessionId, VPObject objectData);
-        public delegate void ObjectCreateArgs(Instance sender, int sessionId, VPObject objectData);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, session
+        /// ID and an in-world object's data for the <see cref="ObjectCreate"/> or
+        /// <see cref="ObjectChange"/> events
+        /// </summary>
+        public delegate void ObjectCreateOrChangeArgs(Instance sender, int sessionId, VPObject objectData);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, session
+        /// ID and an in-world object's ID for the <see cref="ObjectDelete"/> event
+        /// </summary>
         public delegate void ObjectDeleteArgs(Instance sender, int sessionId, int objectId);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/> and an
+        /// <see cref="VP.ObjectClick"/> for the <see cref="ObjectClick"/> event
+        /// </summary>
         public delegate void ObjectClickArgs(Instance sender, ObjectClick click);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, a
+        /// reason code and a <see cref="VPObject"/> for
+        /// <see cref="CallbackObjectCreate"/> and <see cref="CallbackObjectChange"/>
+        /// </summary>
+        public delegate void ObjectCallbackArgs(Instance sender, ReasonCode result, VPObject obj);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, a
+        /// reason code and a unique ID for <see cref="CallbackObjectDelete"/>
+        /// </summary>
+        public delegate void ObjectDeleteCallbackArgs(Instance sender, ReasonCode result, int id);
 
-        public delegate void ObjectCallbackArgs(Instance sender, ObjectCallbackData args);
-
+        /// <summary>
+        /// Fired for each object found in a cell after a call to
+        /// <see cref="QueryCell"/>, providing the object's data
+        /// </summary>
         public event QueryCellResultArgs QueryCellResult;
-        public event QueryCellEndArgs    QueryCellEnd;
-        public event ObjectChangeArgs    ObjectCreate;
-        public event ObjectChangeArgs    ObjectChange;
-        public event ObjectDeleteArgs    ObjectDelete;
-        public event ObjectClickArgs     ObjectClick;
+        /// <summary>
+        /// Fired when a <see cref="QueryCell"/> call is complete after all objects found
+        /// in the cell have been sent
+        /// </summary>
+        public event QueryCellEndArgs QueryCellEnd;
+        /// <summary>
+        /// Fired when an object is created anywhere in world, providing the object data
+        /// and source session ID
+        /// </summary>
+        public event ObjectCreateOrChangeArgs ObjectCreate;
+        /// <summary>
+        /// Fired when an object is changed anywhere in world, providing the object data
+        /// and source session ID
+        /// </summary>
+        public event ObjectCreateOrChangeArgs ObjectChange;
+        /// <summary>
+        /// Fired when an object is deleted anywhere in world, providing the object's ID
+        /// and source session ID
+        /// </summary>
+        public event ObjectDeleteArgs ObjectDelete;
+        /// <summary>
+        /// Fired when an object is clicked anywhere in the world, providing click
+        /// coordinates and source ID
+        /// </summary>
+        public event ObjectClickArgs ObjectClick;
 
+        /// <summary>
+        /// Fired after a call to the asynchronous <see cref="AddObject"/>, providing a
+        /// result code and, if successful, the created 3D object
+        /// </summary>
         public event ObjectCallbackArgs CallbackObjectCreate;
+        /// <summary>
+        /// Fired after a call to the asynchronous <see cref="ChangeObject"/>, providing a
+        /// result code and, if successful, the affected 3D object
+        /// </summary>
         public event ObjectCallbackArgs CallbackObjectChange;
-        public event ObjectCallbackArgs CallbackObjectDelete;
-        #endregion
-
-        #region Methods
         /// <summary>
-        /// Queries a cell for objects and fires QueryCellResult for each object returned
-        /// and QueryCellEnd when finished
+        /// Fired after a call to the asynchronous <see cref="DeleteObject"/>, providing a
+        /// result code and, if successful, the deleted object's server-provided unique ID
         /// </summary>
-        /// <param name="cellX"></param>
-        /// <param name="cellZ"></param>
-        public void QueryCell(int cellX, int cellZ)
-        {
-            int rc;
-            lock (instance.mutex)
-                rc = Functions.vp_query_cell(instance.pointer, cellX, cellZ);
-
-            if (rc != 0)
-                throw new VPException((ReasonCode)rc);
-        }
-
-        /// <summary>
-        /// Adds a raw vpObject to the world
-        /// </summary>
-        /// <param name="vpObject">New instance of vpObject with model and position set</param>
-        public void AddObject(VPObject vpObject)
-        {
-            int rc;
-            int referenceNumber;
-
-            lock (instance.mutex)
-            {
-                referenceNumber = nextReference;
-                references.Add(referenceNumber, vpObject);
-                vpObject.ToNative(instance.pointer);
-
-                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
-                rc = Functions.vp_object_add(instance.pointer);
-            }
-
-            if (rc != 0)
-            {
-                references.Remove(referenceNumber);
-                throw new VPException((ReasonCode)rc);
-            }
-        }
-
-        /// <summary>
-        /// Creates and adds a new vpObject
-        /// </summary>
-        /// <param name="model">Model name</param>
-        /// <param name="position">Vector3D position</param>
-        /// <param name="rotation">Quaternion rotation</param>
-        public void AddObject(string model, Vector3D position, Quaternion rotation)
-        {
-            AddObject(new VPObject
-            {
-                Model = model,
-                Position = position,
-                Rotation = rotation
-            });
-        }
-
-        /// <summary>
-        /// Creates and adds a new vpObject with default rotation
-        /// </summary>
-        /// <param name="model">Model name</param>
-        /// <param name="position">Vector3D position</param>
-        public void AddObject(string model, Vector3D position)
-        {
-            AddObject(model, position, new Quaternion());
-        }
-
-        public void ChangeObject(VPObject vpObject)
-        {
-            int rc;
-            int referenceNumber;
-
-            lock (instance.mutex)
-            {
-                referenceNumber = nextReference;
-                references.Add(referenceNumber, vpObject);
-                vpObject.ToNative(instance.pointer);
-
-                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
-                rc = Functions.vp_object_change(instance.pointer);
-            }
-
-            if (rc != 0)
-            {
-                references.Remove(referenceNumber);
-                throw new VPException((ReasonCode)rc);
-            }
-        }
-
-        /// <summary>
-        /// Deletes a given object
-        /// </summary>
-        /// <param name="vpObject">Object to delete</param>
-        public void DeleteObject(VPObject vpObject)
-        {
-            int rc;
-            int referenceNumber;
-
-            lock (instance.mutex)
-            {
-                referenceNumber = nextReference;
-                references.Add(referenceNumber, vpObject);
-
-                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
-                Functions.vp_int_set(instance.pointer, IntAttributes.ObjectId, vpObject.Id);
-                rc = Functions.vp_object_delete(instance.pointer);
-            }
-
-            if (rc != 0)
-            {
-                references.Remove(referenceNumber);
-                throw new VPException((ReasonCode)rc);
-            }
-        }
-
-        /// <summary>
-        /// Attempts to delete an object by ID
-        /// 
-        /// TODO: seems wasteful to create new VPObject; investigate nessecity
-        /// </summary>
-        /// <param name="id">ID of object to delete</param>
-        public void DeleteObject(int id)
-        {
-            DeleteObject( new VPObject { Id = id } );
-        }
-
-        /// <summary>
-        /// Sends a click event on a given object
-        /// </summary>
-        /// <param name="vpObject">Object to click</param>
-        public void ClickObject(VPObject vpObject)
-        {
-            int rc;
-            lock (instance.mutex)
-            {
-                vpObject.ToNative(instance.pointer);
-                rc = Functions.vp_object_click(instance.pointer);
-            }
-
-            if (rc != 0) throw new VPException((ReasonCode)rc);
-        } 
+        public event ObjectDeleteCallbackArgs CallbackObjectDelete;
         #endregion
 
         #region Event handlers
@@ -303,44 +224,188 @@ namespace VP
         #region Callback handlers
         void OnObjectCreateCallback(IntPtr sender, int rc, int reference)
         {
-            if (CallbackObjectCreate == null) return;
+            if (CallbackObjectCreate == null)
+                return;
 
-            lock (instance.mutex)
-            {
-                var vpObject = references[reference];
-                references.Remove(reference);
+            var obj = references[reference];
+            obj.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
 
-                vpObject.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
-                CallbackObjectCreate(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
-            }
+            references.Remove(reference);
+            CallbackObjectCreate(instance, (ReasonCode) rc, obj);
         }
 
         void OnObjectChangeCallback(IntPtr sender, int rc, int reference)
         {
-            if (CallbackObjectChange == null) return;
+            if (CallbackObjectChange == null)
+                return;
 
-            lock (instance.mutex)
-            {
-                var vpObject = references[reference];
-                references.Remove(reference);
+            var obj = references[reference];
+            obj.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
 
-                CallbackObjectChange(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
-            }
+            references.Remove(reference);
+            CallbackObjectChange(instance, (ReasonCode) rc, obj);
         }
 
         void OnObjectDeleteCallback(IntPtr sender, int rc, int reference)
         {
-            if ( CallbackObjectDelete == null ) return;
+            if (CallbackObjectDelete == null)
+                return;
 
+            var id = deleteReferences[reference];
+
+            deleteReferences.Remove(reference);
+            CallbackObjectDelete(instance, (ReasonCode) rc, id);
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Queries a cell for all 3D objects contained within
+        /// </summary>
+        public void QueryCell(int cellX, int cellZ)
+        {
+            lock (instance.mutex)
+                Functions.Call( () => Functions.vp_query_cell(instance.pointer, cellX, cellZ) );
+        }
+
+        /// <summary>
+        /// Adds a raw <see cref="VPObject"/> to the world. Asynchronous.
+        /// </summary>
+        /// <param name="VPObject">Instance of VPObject with model and position pre-set</param>
+        public void AddObject(VPObject obj)
+        {
             lock (instance.mutex)
             {
-                var vpObject = references[reference];
-                references.Remove(reference);
+                var referenceNumber = nextReference;
+                references.Add(referenceNumber, obj);
 
-                if (CallbackObjectDelete != null)
-                    CallbackObjectDelete(instance, new ObjectCallbackData((ReasonCode)rc, vpObject));
+                obj.ToNative(instance.pointer);
+                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
+
+                try { Functions.Call( () => Functions.vp_object_add(instance.pointer) ); }
+                catch
+                {
+                    references.Remove(referenceNumber);
+                    throw;
+                }
             }
         }
+
+        /// <summary>
+        /// Creates and adds a new <see cref="VPObject"/> with a specified model name,
+        /// position and rotation. Asynchronous.
+        /// </summary>
+        /// <param name="model">Model name</param>
+        /// <param name="position"><see cref="Vector3D"/> position</param>
+        /// <param name="rotation"><see cref="Quaternion"/> rotation</param>
+        public void CreateObject(string model, Vector3D position, Quaternion rotation)
+        {
+            AddObject( new VPObject(model, position, rotation) );
+        }
+
+        /// <summary>
+        /// Creates and adds a new <see cref="VPObject"/> with a specified model name,
+        /// position and default rotation. Asynchronous.
+        /// </summary>
+        /// <param name="model">Model name</param>
+        /// <param name="position"><see cref="Vector3D"/> position</param>
+        public void CreateObject(string model, Vector3D position)
+        {
+            AddObject( new VPObject(model, position) );
+        }
+
+        /// <summary>
+        /// Changes an object in-world using a <see cref="VPObject"/> with newer state
+        /// and the target unique ID. Asynchronous.
+        /// </summary>
+        public void ChangeObject(VPObject obj)
+        {
+            lock (instance.mutex)
+            {
+                var referenceNumber = nextReference;
+                references.Add(referenceNumber, obj);
+
+                obj.ToNative(instance.pointer);
+                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
+
+                try { Functions.Call( () => Functions.vp_object_change(instance.pointer) ); }
+                catch
+                {
+                    references.Remove(referenceNumber);
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Attempts to delete an object by unique ID. Asynchronous.
+        /// </summary>
+        public void DeleteObject(int id)
+        {
+            lock (instance.mutex)
+            {
+                var referenceNumber = nextReference;
+                deleteReferences.Add(referenceNumber, id);
+
+                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(instance.pointer, IntAttributes.ObjectId,        id);
+
+                try { Functions.Call( () => Functions.vp_object_delete(instance.pointer) ); }
+                catch
+                {
+                    deleteReferences.Remove(referenceNumber);
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Attempts to delete an object in-world using the unique ID of a given
+        /// <see cref="VPObject"/>. Asynchronous.
+        /// </summary>
+        public void DeleteObject(VPObject obj)
+        {
+            DeleteObject(obj.Id);
+        }
+
+        /// <summary>
+        /// Sends a click event on a given in-world object by unique ID, on the specified
+        /// coordinates using a <see cref="Vector3D"/>
+        /// </summary>
+        public void ClickObject(int id, Vector3D coordinates)
+        {
+            lock (instance.mutex)
+            {
+                coordinates.ToClick(instance.pointer);
+                Functions.vp_int_set(instance.pointer, IntAttributes.ObjectId, id);
+                Functions.Call( () => Functions.vp_object_click(instance.pointer) );
+            }
+        }
+
+        /// <summary>
+        /// Sends a click event on a given in-world object by unique ID
+        /// </summary>
+        public void ClickObject(int id)
+        {
+            ClickObject(id, Vector3D.Zero);
+        }
+
+        /// <summary>
+        /// Sends a click event on a given in-world object on the specified coordinates
+        /// using a <see cref="Vector3D"/>
+        /// </summary>
+        public void ClickObject(VPObject obj, Vector3D coordinates)
+        {
+            ClickObject(obj.Id, coordinates);
+        } 
+
+        /// <summary>
+        /// Sends a click event on a given in-world object
+        /// </summary>
+        public void ClickObject(VPObject obj)
+        {
+            ClickObject(obj.Id);
+        } 
         #endregion
     }
 }

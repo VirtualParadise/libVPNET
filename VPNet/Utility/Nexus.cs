@@ -16,6 +16,13 @@ namespace VP
                 Z = Functions.vp_float(pointer, FloatAttributes.ClickHitZ),
             };
         }
+
+        internal static void ToClick(this Vector3D vec, IntPtr pointer)
+        {
+            Functions.vp_float_set(pointer, FloatAttributes.ClickHitX, vec.X);
+            Functions.vp_float_set(pointer, FloatAttributes.ClickHitY, vec.Y);
+            Functions.vp_float_set(pointer, FloatAttributes.ClickHitZ, vec.Z);
+        }
     }
 
     internal static class VPColor

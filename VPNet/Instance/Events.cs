@@ -44,13 +44,18 @@ namespace VP
         /// </summary>
         public delegate void Event(Instance sender);
         /// <summary>
+        /// Encapsulates a general method that accepts an <see cref="Instance"/> and a
+        /// <see cref="ReasonCode"/> for most callbacks
+        /// </summary>
+        public delegate void Callback(Instance sender, ReasonCode result);
+        /// <summary>
         /// Encapsulates a method that accepts a source <see cref="Instance"/> and a
         /// <see cref="ChatMessage"/> for the <see cref="Chat"/> event
         /// </summary>
         public delegate void ChatEvent(Instance sender, ChatMessage chat);
         /// <summary>
         /// Encapsulates a method that accepts a source <see cref="Instance"/> and a
-        /// <see cref="ConsoleMessage"/> for the <see cref="Console"/> event
+        /// <see cref="VP.ConsoleMessage"/> for the <see cref="Console"/> event
         /// </summary>
         public delegate void ConsoleEvent(Instance sender, ConsoleMessage console);
 

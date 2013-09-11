@@ -9,6 +9,7 @@ namespace VP
     /// </summary>
     public class VPObject
     {
+        int id = 0;
         /// <summary>
         /// Gets the ID number of the object in the world. This field is read-only.
         /// </summary>
@@ -16,7 +17,11 @@ namespace VP
         /// Automatically set by the server for new objects and is used to reference
         /// existing objects for changes or deletions
         /// </remarks>
-        public readonly int Id;
+        public int Id
+        {
+                     get { return id; }
+            internal set { id = value; }
+        }
         /// <summary>
         /// Gets the timestamp of this object's last known modification
         /// </summary>
@@ -56,8 +61,28 @@ namespace VP
         /// </summary>
         public byte[] Data;
 
-        public VPObject() { }
-        
+        /// <summary>
+        /// Creates a VPObject for adding to the world using a <see cref="Vector3D"/>
+        /// for position and default rotation
+        /// </summary>
+        public VPObject(string model, Vector3D position)
+        {
+            this.Model    = model;
+            this.Position = position;
+            this.Rotation = new Quaternion();
+        }
+
+        /// <summary>
+        /// Creates a VPObject for adding to the world using a <see cref="Vector3D"/>
+        /// for position and a <see cref="Quaternion"/> for rotation
+        /// </summary>
+        public VPObject(string model, Vector3D position, Quaternion rotation)
+        {
+            this.Model    = model;
+            this.Position = position;
+            this.Rotation = rotation;
+        }
+       
         /// <summary>
         /// Creates a VPObject from a native instance's attributes
         /// </summary>

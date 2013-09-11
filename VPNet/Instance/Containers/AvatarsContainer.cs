@@ -5,7 +5,7 @@ using VP.Native;
 namespace VP
 {
     /// <summary>
-    /// Container for SDK methods, events and properties related to avatarsm such as
+    /// Container for SDK methods, events and properties related to avatars, such as
     /// state changes, clicks and teleport requests
     /// </summary>
     public class AvatarsContainer
@@ -78,7 +78,7 @@ namespace VP
         public event LeaveArgs Leave;
         /// <summary>
         /// Fired when this instance is clicked by another avatar in-world, providing
-        /// click coordiantes and source ID
+        /// click coordinates and source ID
         /// </summary>
         public event ClickedArgs Clicked;
         /// <summary>
@@ -131,13 +131,24 @@ namespace VP
 
         #region Methods
         /// <summary>
-        /// Sends a click event to an avatar by session number
+        /// Sends a click event to an avatar by session number on the specified
+        /// coordinates using a <see cref="Vector3D"/>
         /// </summary>
-        /// TODO: Check if coordinates can be sent
-        public void Click(int session)
+        public void Click(int session, Vector3D coordinates)
         {
             lock (instance.mutex)
+            {
+                coordinates.ToClick(instance.pointer);
                 Functions.Call( () => Functions.vp_avatar_click(instance.pointer, session) );
+            }
+        }
+
+        /// <summary>
+        /// Sends a click event to an avatar by session number
+        /// </summary>
+        public void Click(int session)
+        {
+            Click(session, Vector3D.Zero);
         }
 
         /// <summary>
