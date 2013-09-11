@@ -116,7 +116,7 @@ namespace VP
         }
 
         /// <summary>
-        /// Requests user attributes by account unique ID number
+        /// Requests user attributes by account unique ID number. Thread-safe.
         /// </summary>
         /// <seealso cref="UserAttributes"/>
         public void GetUserAttributes(int id)
@@ -126,7 +126,8 @@ namespace VP
         }
 
         /// <summary>
-        /// Requests the latest list of worlds and their states from the universe
+        /// Requests the latest list of worlds and their states from the universe.
+        /// Thread-safe.
         /// </summary>
         /// <seealso cref="WorldEntry"/>
         public void ListWorlds()

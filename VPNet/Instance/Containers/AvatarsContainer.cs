@@ -132,7 +132,7 @@ namespace VP
         #region Methods
         /// <summary>
         /// Sends a click event to an avatar by session number on the specified
-        /// coordinates using a <see cref="Vector3D"/>
+        /// coordinates using a <see cref="Vector3D"/>. Thread-safe.
         /// </summary>
         public void Click(int session, Vector3D coordinates)
         {
@@ -144,7 +144,7 @@ namespace VP
         }
 
         /// <summary>
-        /// Sends a click event to an avatar by session number
+        /// Sends a click event to an avatar by session number. Thread-safe.
         /// </summary>
         public void Click(int session)
         {
@@ -153,7 +153,7 @@ namespace VP
 
         /// <summary>
         /// Sends a request for a target session to teleport to a specified world and
-        /// position
+        /// position. Thread-safe.
         /// </summary>
         public void Teleport(int session, string world, Vector3D pos, float yaw, float pitch)
         {
@@ -170,7 +170,7 @@ namespace VP
 
         /// <summary>
         /// Sends a request for a target session to teleport to a specified world and
-        /// <see cref="AvatarPosition"/>
+        /// <see cref="AvatarPosition"/>. Thread-safe.
         /// </summary>
         public void Teleport(int session, string world, AvatarPosition pos)
         {
@@ -187,7 +187,7 @@ namespace VP
 
         /// <summary>
         /// Sends a request for a target session to teleport to a specified position in
-        /// the same world
+        /// the same world. Thread-safe.
         /// </summary>
         public void Teleport(int session, Vector3D pos, float yaw, float pitch)
         {
@@ -196,7 +196,7 @@ namespace VP
 
         /// <summary>
         /// Sends a request for a target session to teleport to a specified
-        /// <see cref="AvatarPosition"/> in the same world
+        /// <see cref="AvatarPosition"/> in the same world. Thread-safe.
         /// </summary>
         public void Teleport(int session, AvatarPosition pos)
         {

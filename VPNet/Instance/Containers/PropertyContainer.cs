@@ -260,7 +260,7 @@ namespace VP
 
         #region Methods
         /// <summary>
-        /// Queries a cell for all 3D objects contained within
+        /// Queries a cell for all 3D objects contained within. Thread-safe.
         /// </summary>
         public void QueryCell(int cellX, int cellZ)
         {
@@ -269,9 +269,9 @@ namespace VP
         }
 
         /// <summary>
-        /// Adds a raw <see cref="VPObject"/> to the world. Asynchronous.
+        /// Adds a raw <see cref="VPObject"/> to the world. Asynchronous and thread-safe.
         /// </summary>
-        /// <param name="VPObject">Instance of VPObject with model and position pre-set</param>
+        /// <param name="obj">Instance of VPObject with model and position pre-set</param>
         public void AddObject(VPObject obj)
         {
             lock (instance.mutex)
@@ -293,7 +293,7 @@ namespace VP
 
         /// <summary>
         /// Creates and adds a new <see cref="VPObject"/> with a specified model name,
-        /// position and rotation. Asynchronous.
+        /// position and rotation. Asynchronous and thread-safe.
         /// </summary>
         /// <param name="model">Model name</param>
         /// <param name="position"><see cref="Vector3D"/> position</param>
@@ -305,7 +305,7 @@ namespace VP
 
         /// <summary>
         /// Creates and adds a new <see cref="VPObject"/> with a specified model name,
-        /// position and default rotation. Asynchronous.
+        /// position and default rotation. Asynchronous and thread-safe.
         /// </summary>
         /// <param name="model">Model name</param>
         /// <param name="position"><see cref="Vector3D"/> position</param>
@@ -316,7 +316,7 @@ namespace VP
 
         /// <summary>
         /// Changes an object in-world using a <see cref="VPObject"/> with newer state
-        /// and the target unique ID. Asynchronous.
+        /// and the target unique ID. Asynchronous and thread-safe.
         /// </summary>
         public void ChangeObject(VPObject obj)
         {
@@ -338,7 +338,7 @@ namespace VP
         }
 
         /// <summary>
-        /// Attempts to delete an object by unique ID. Asynchronous.
+        /// Attempts to delete an object by unique ID. Asynchronous and thread-safe.
         /// </summary>
         public void DeleteObject(int id)
         {
@@ -361,7 +361,7 @@ namespace VP
 
         /// <summary>
         /// Attempts to delete an object in-world using the unique ID of a given
-        /// <see cref="VPObject"/>. Asynchronous.
+        /// <see cref="VPObject"/>.  Asynchronous and thread-safe.
         /// </summary>
         public void DeleteObject(VPObject obj)
         {
@@ -370,7 +370,7 @@ namespace VP
 
         /// <summary>
         /// Sends a click event on a given in-world object by unique ID, on the specified
-        /// coordinates using a <see cref="Vector3D"/>
+        /// coordinates using a <see cref="Vector3D"/>. Thread-safe.
         /// </summary>
         public void ClickObject(int id, Vector3D coordinates)
         {
@@ -383,7 +383,7 @@ namespace VP
         }
 
         /// <summary>
-        /// Sends a click event on a given in-world object by unique ID
+        /// Sends a click event on a given in-world object by unique ID. Thread-safe.
         /// </summary>
         public void ClickObject(int id)
         {
@@ -392,7 +392,7 @@ namespace VP
 
         /// <summary>
         /// Sends a click event on a given in-world object on the specified coordinates
-        /// using a <see cref="Vector3D"/>
+        /// using a <see cref="Vector3D"/>. Thread-safe.
         /// </summary>
         public void ClickObject(VPObject obj, Vector3D coordinates)
         {
@@ -400,7 +400,7 @@ namespace VP
         } 
 
         /// <summary>
-        /// Sends a click event on a given in-world object
+        /// Sends a click event on a given in-world object. Thread-safe.
         /// </summary>
         public void ClickObject(VPObject obj)
         {
