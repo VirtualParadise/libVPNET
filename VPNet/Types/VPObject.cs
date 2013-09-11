@@ -70,7 +70,7 @@ namespace VP
             Time        = DateTimeExt.FromUnixTimestampUTC(Functions.vp_int(pointer, IntAttributes.ObjectTime));
             Type        = Functions.vp_int(pointer, IntAttributes.ObjectType);
             Owner       = Functions.vp_int(pointer, IntAttributes.ObjectUserId);
-            Data        = Functions.GetData(pointer, DataAttributes.ObjectData);
+            Data        = DataHandlers.GetData(pointer, DataAttributes.ObjectData);
 
             Position = new Vector3D
             {
@@ -105,7 +105,7 @@ namespace VP
             Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationAngle, this.Rotation.W);
             Functions.vp_int_set   (pointer, IntAttributes.ObjectType,            this.Type);
 
-            Functions.SetData(pointer, DataAttributes.ObjectData, Data);
+            DataHandlers.SetData(pointer, DataAttributes.ObjectData, Data);
         }
     }
 }

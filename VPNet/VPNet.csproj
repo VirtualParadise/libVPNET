@@ -54,7 +54,7 @@
     <Compile Include="Instance\Containers\DataContainer.cs" />
     <Compile Include="Instance\Containers\PropertyContainer.cs" />
     <Compile Include="Instance.cs" />
-    <Compile Include="Native\DataConverters.cs" />
+    <Compile Include="Native\DataHandlers.cs" />
     <Compile Include="Native\DLLHandler.cs" />
     <Compile Include="SDK.cs" />
     <Compile Include="Types\Avatar.cs" />

@@ -91,7 +91,8 @@ namespace VP
             X        = Functions.vp_int(pointer, IntAttributes.TerrainNodeX);
             Z        = Functions.vp_int(pointer, IntAttributes.TerrainNodeZ);
             Revision = Functions.vp_int(pointer, IntAttributes.TerrainNodeRevision);
-            var data = Functions.GetData(pointer, DataAttributes.TerrainNodeData);
+
+            var data = DataHandlers.GetData(pointer, DataAttributes.TerrainNodeData);
             Cells    = DataHandlers.NodeDataTo2DArray(data);
         }
 

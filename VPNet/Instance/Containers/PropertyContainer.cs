@@ -149,7 +149,7 @@ namespace VP
         /// <param name="position">Vector3D position</param>
         public void AddObject(string model, Vector3D position)
         {
-            AddObject(model, position, Quaternion.Zero);
+            AddObject(model, position, new Quaternion());
         }
 
         public void ChangeObject(VPObject vpObject)

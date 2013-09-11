@@ -5,10 +5,12 @@ using VP.Native;
 namespace VP
 {
     /// <summary>
-    /// Represents an avatar's in-world state, including position data
+    /// Represents an immutable record of an avatar's in-world state, including position
+    /// data
     /// </summary>
     public struct Avatar
     {
+        #region Public fields
         /// <summary>
         /// Gets the name of this avatar
         /// </summary>
@@ -28,8 +30,10 @@ namespace VP
         /// <summary>
         /// Gets the last known position of this avatar
         /// </summary>
-        public AvatarPosition Position;
+        public AvatarPosition Position; 
+        #endregion
 
+        #region Public properties
         /// <summary>
         /// Checks if the avatar belongs to a bot instance, i.e. if the name is surrounded
         /// in square brackets
@@ -37,7 +41,8 @@ namespace VP
         public bool IsBot
         {
             get { return Name.StartsWith("[") && Name.EndsWith("]"); }
-        }
+        } 
+        #endregion
 
         /// <summary>
         /// Creates an Avatar from a native instance's attributes
@@ -53,7 +58,7 @@ namespace VP
 
         const string format = "{0} (#{1}, Session #{2})";
         /// <summary>
-        /// Formats this AvatarPosition to a human-readable string
+        /// Formats this Avatar state to a human-readable string
         /// </summary>
         public override string ToString()
         {

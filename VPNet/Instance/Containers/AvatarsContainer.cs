@@ -5,7 +5,8 @@ using VP.Native;
 namespace VP
 {
     /// <summary>
-    /// Container class for Instance's avatar-related members
+    /// Container for SDK methods, events and properties related to avatarsm such as
+    /// state changes, clicks and teleport requests
     /// </summary>
     public class AvatarsContainer
     {
@@ -61,8 +62,9 @@ namespace VP
         /// </summary>
         /// <remarks>
         /// Technically, this is when the avatar calls vp_state_change() (or on this SDK,
-        /// <see cref="Instance.GoTo"/>) for the first time. It is possible for bots to
-        /// enter a world without having this event fired for them.
+        /// <see cref="Instance.GoTo(float, float, float, float, float)"/>) for the first
+        /// time. It is possible for bots to enter a world without having this event
+        /// fired for them.
         /// </remarks>
         public event StateArgs Enter;
         /// <summary>
@@ -89,42 +91,29 @@ namespace VP
         #region Event handlers
         internal void OnAvatarAdd(IntPtr sender)
         {
-            if (Enter == null) return;
-            Avatar data;
-            lock (instance.mutex)
-                data = new Avatar(instance.pointer);
-
-            Enter(instance, data);
+            if (Enter != null)
+                Enter( instance, new Avatar(sender) );
         }
 
         internal void OnAvatarChange(IntPtr sender)
         {
-            if (Change == null) return;
-            Avatar data;
-            lock (instance.mutex)
-                data = new Avatar(instance.pointer);
-
-            Change(instance, data);
+            if (Change != null)
+                Change( instance, new Avatar(sender) );
         }
 
         internal void OnAvatarDelete(IntPtr sender)
         {
-            if (Leave == null) return;
-            int session;
-            lock (instance.mutex)
-                session = Functions.vp_int(instance.pointer, IntAttributes.AvatarSession);
-
-            Leave(instance, session);
+            if (Leave != null)
+            {
+                int session = Functions.vp_int(instance.pointer, IntAttributes.AvatarSession);
+                Leave(instance, session);
+            }
         }
 
         internal void OnAvatarClicked(IntPtr sender)
         {
-            if (Clicked == null) return;
-            AvatarClick click;
-            lock (instance.mutex)
-                click = new AvatarClick(sender);
-                
-            Clicked(instance, click);
+            if (Clicked != null)
+                Clicked( instance, new AvatarClick(sender) );
         }
 
         internal void OnAvatarTeleported(IntPtr sender)
@@ -132,17 +121,10 @@ namespace VP
             if (Teleported == null)
                 return;
 
-            AvatarPosition pos;
-            int            session;
-            string         world;
-
-            lock (instance.mutex)
-            {
-                pos     = AvatarPosition.FromTeleport(sender);
-                session = Functions.vp_int(sender, IntAttributes.AvatarSession);
-                world   = Functions.vp_string(sender, StringAttributes.TeleportWorld);
-            }
-                
+            var pos     = AvatarPosition.FromTeleport(sender);
+            var session = Functions.vp_int(sender, IntAttributes.AvatarSession);
+            var world   = Functions.vp_string(sender, StringAttributes.TeleportWorld);
+  
             Teleported(instance, session, pos, world);
         }
         #endregion
@@ -151,60 +133,64 @@ namespace VP
         /// <summary>
         /// Sends a click event to an avatar by session number
         /// </summary>
+        /// TODO: Check if coordinates can be sent
         public void Click(int session)
         {
-            int rc;
             lock (instance.mutex)
-                rc = Functions.vp_avatar_click(instance.pointer, session);
-
-            if (rc != 0) throw new VPException((ReasonCode)rc);
+                Functions.Call( () => Functions.vp_avatar_click(instance.pointer, session) );
         }
 
         /// <summary>
-        /// Teleports a target session to a specified world and position
+        /// Sends a request for a target session to teleport to a specified world and
+        /// position
         /// </summary>
         public void Teleport(int session, string world, Vector3D pos, float yaw, float pitch)
         {
-            int rc;
             lock (instance.mutex)
-                rc = Functions.vp_teleport_avatar(
+                Functions.Call( () =>
+                    Functions.vp_teleport_avatar(
                     instance.pointer,
                     session,
                     world,
                     pos.X, pos.Y, pos.Z,
-                    yaw, pitch);
-
-            if (rc != 0) throw new VPException((ReasonCode)rc);
+                    yaw, pitch)
+                );
         }
 
         /// <summary>
-        /// Teleports a target session to a specified world and AvatarPosition
+        /// Sends a request for a target session to teleport to a specified world and
+        /// <see cref="AvatarPosition"/>
         /// </summary>
         public void Teleport(int session, string world, AvatarPosition pos)
         {
-            int rc;
             lock (instance.mutex)
-                rc = Functions.vp_teleport_avatar(
+                Functions.Call( () =>
+                    Functions.vp_teleport_avatar(
                     instance.pointer,
                     session,
                     world,
                     pos.X, pos.Y, pos.Z,
-                    pos.Yaw, pos.Pitch);
-
-            if (rc != 0) throw new VPException((ReasonCode)rc);
+                    pos.Yaw, pos.Pitch)
+                );
         }
 
         /// <summary>
-        /// Teleports a target session to a specified position in the same world
+        /// Sends a request for a target session to teleport to a specified position in
+        /// the same world
         /// </summary>
         public void Teleport(int session, Vector3D pos, float yaw, float pitch)
-        { Teleport(session, "", pos, yaw, pitch); }
+        {
+            Teleport(session, "", pos, yaw, pitch);
+        }
 
         /// <summary>
-        /// Teleports a target session to a specified AvatarPosition in the same world
+        /// Sends a request for a target session to teleport to a specified
+        /// <see cref="AvatarPosition"/> in the same world
         /// </summary>
         public void Teleport(int session, AvatarPosition pos)
-        { Teleport(session, "", pos); }
+        {
+            Teleport(session, "", pos);
+        }
         #endregion
     }
 }
