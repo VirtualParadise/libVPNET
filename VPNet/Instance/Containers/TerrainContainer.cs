@@ -41,8 +41,9 @@ namespace VP
         public delegate void TerrainNodeArgs(Instance sender, TerrainNode node, int tileX, int tileZ);
 
         /// <summary>
-        /// Fired for each node received after a call to <see cref="QueryTile"/>,
-        /// providing the node's data and the parent tile's coordinates
+        /// Fired for each node received after a call to
+        /// <see cref="QueryTile(int, int)"/>, providing the node's data and the parent
+        /// tile's coordinates
         /// </summary>
         public event TerrainNodeArgs GetNode;
         #endregion
@@ -94,7 +95,6 @@ namespace VP
         /// <summary>
         /// Queries a tile for all its nodes. Thread-safe.
         /// </summary>
-        /// <remarks>
         public void QueryTile(int tileX, int tileZ)
         {
             lock (instance.mutex)

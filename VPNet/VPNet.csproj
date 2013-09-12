@@ -61,7 +61,7 @@
     <Compile Include="Types\Chat.cs" />
     <Compile Include="Types\AvatarPosition.cs" />
     <Compile Include="Types\Click.cs" />
-    <Compile Include="Types\TerrainPosition.cs" />
+    <Compile Include="Utility\TerrainCalculator.cs" />
     <Compile Include="Types\Terrain.cs" />
     <Compile Include="Types\Universe.cs" />
     <Compile Include="Types\User.cs" />

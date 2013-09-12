@@ -155,6 +155,9 @@ namespace VP
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
+        /// <param name="effects">Effects to use on this message</param>
+        /// <param name="color">Color to use on this message</param>
+        /// <param name="message">Message to send</param>
         public Instance ConsoleMessage(int session, ChatEffect effects, ColorRgb color, string name, string message)
         {
             lock (mutex)
@@ -167,9 +170,17 @@ namespace VP
         /// Sends a formatted broadcast-like message with custom styling to a specific
         /// session. Chainable and thread-safe.
         /// </summary>
+        /// <param name="session">
+        /// Target session, or use 0 to broadcast to everybody. Alternatively, use 
+        /// <see cref="ConsoleBroadcast(ChatEffect, Color, string, string)"/>
+        /// </param>
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
+        /// <param name="effects">Effects to use on this message</param>
+        /// <param name="color">Color to use on this message</param>
+        /// <param name="message">Message with formatting tokens to replace</param>
+        /// <param name="parts">Parts to substitue into the message</param>
         /// <seealso cref="string.Format(string, Object)"/>
         public Instance ConsoleMessage(int session, ChatEffect effects, Color color, string name, string message, params object[] parts)
         {
@@ -183,6 +194,9 @@ namespace VP
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
+        /// <param name="effects">Effects to use on this message</param>
+        /// <param name="color">Color to use on this message</param>
+        /// <param name="message">Message to send</param>
         public Instance ConsoleBroadcast(ChatEffect effects, Color color, string name, string message)
         {
             return ConsoleMessage(0, effects, color, name, message);
@@ -195,6 +209,10 @@ namespace VP
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
+        /// <param name="effects">Effects to use on this message</param>
+        /// <param name="color">Color to use on this message</param>
+        /// <param name="message">Message with formatting tokens to replace</param>
+        /// <param name="parts">Parts to substitue into the message</param>
         /// <seealso cref="string.Format(string, Object)"/>
         public Instance ConsoleBroadcast(ChatEffect effects, Color color, string name, string message, params object[] parts)
         {
@@ -212,6 +230,7 @@ namespace VP
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
+        /// <param name="message">Message to send</param>
         public Instance ConsoleMessage(int session, string name, string message)
         { 
             return ConsoleMessage(session, ChatEffect.None, new ColorRgb(0,0,0), name, message);
@@ -228,6 +247,8 @@ namespace VP
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
+        /// <param name="message">Message with formatting tokens to replace</param>
+        /// <param name="parts">Parts to substitue into the message</param>
         /// <seealso cref="string.Format(string, Object)"/>
         public Instance ConsoleMessage(int session, string name, string message, params object[] parts)
         {
@@ -241,6 +262,7 @@ namespace VP
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
+        /// <param name="message">Message to send</param>
         public Instance ConsoleBroadcast(string name, string message)
         {
             return ConsoleMessage(0, ChatEffect.None, new ColorRgb(0,0,0), name, message);
@@ -253,6 +275,8 @@ namespace VP
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
+        /// <param name="message">Message with formatting tokens to replace</param>
+        /// <param name="parts">Parts to substitue into the message</param>
         /// <seealso cref="string.Format(string, Object)"/>
         public Instance ConsoleBroadcast(string name, string message, params object[] parts)
         {

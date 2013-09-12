@@ -70,6 +70,9 @@ namespace VP
             setupEvents();
         }
 
+        /// <summary>
+        /// Automatically disposes this instance on finalize
+        /// </summary>
         ~Instance()
         {
             Dispose();

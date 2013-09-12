@@ -143,8 +143,9 @@ namespace VP
         /// </summary>
         public event ObjectCallbackArgs CallbackObjectChange;
         /// <summary>
-        /// Fired after a call to the asynchronous <see cref="DeleteObject"/>, providing a
-        /// result code and, if successful, the deleted object's server-provided unique ID
+        /// Fired after a call to the asynchronous <see cref="DeleteObject(int)"/>,
+        /// providing a result code and, if successful, the deleted object's server-
+        /// provided unique ID
         /// </summary>
         public event ObjectDeleteCallbackArgs CallbackObjectDelete;
         #endregion

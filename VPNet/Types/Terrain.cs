@@ -73,14 +73,31 @@ namespace VP
         }
     }
 
+    /// <summary>
+    /// Represents a node of terrain, which can hold an 8 by 8 grid of cells
+    /// </summary>
     public class TerrainNode
     {
-        public TerrainTile Parent;
-        public TerrainCell[,] Cells = new TerrainCell[8, 8];
+        /// <summary>
+        /// Gets the terrain cell grid of this node
+        /// </summary>
+        public readonly TerrainCell[,] Cells = new TerrainCell[8, 8];
+        /// <summary>
+        /// Gets or sets the X coordinate of this node in relation to its parent tile
+        /// </summary>
         public int X;
+        /// <summary>
+        /// Gets or sets the Z coordinate of this node in relation to its parent tile
+        /// </summary>
         public int Z;
-        public int Revision;
+        /// <summary>
+        /// Gets the revision count of this node if it came from a query
+        /// </summary>
+        public readonly int Revision = 0;
 
+        /// <summary>
+        /// Creates a terrain node
+        /// </summary>
         public TerrainNode() { }
 
         /// <summary>
@@ -124,61 +141,6 @@ namespace VP
         {
             get { return Cells[x, z]; }
             set { Cells[x, z] = value; }
-        }
-    }
-
-    public class TerrainTile
-    {
-        /// <summary>
-        /// A 2D array of revision numbers to force the server to send even unmodified
-        /// terrain nodes back
-        /// </summary>
-        public static int[,] BaseRevision = new int[4, 4]
-        {
-            { -1, -1, -1, -1 },
-            { -1, -1, -1, -1 },
-            { -1, -1, -1, -1 },
-            { -1, -1, -1, -1 }
-        };
-
-        public TerrainNode[,] Nodes = new TerrainNode[4,4];
-        public int X;
-        public int Z;
-
-        /// <summary>
-        /// Gets or sets a TerrainNode object based on one-dimensional index, in column-major
-        /// order (e.g. TerrainTile[4] = col 1, row 0)
-        /// </summary>
-        public TerrainNode this[int i]
-        {
-            get
-            {
-                int row = i % 4;
-                int col = (i - row) / 4;
-                return this[col, row];
-            }
-
-            set
-            {
-                int row = i % 4;
-                int col = (i - row) / 4;
-                this[col, row] = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a TerrainNode object based on two-dimensional index.
-        /// Automatically sets the node's X, Y and Parent value
-        /// </summary>
-        public TerrainNode this[int x, int z]
-        {
-            get { return Nodes[x, z]; }
-            set {
-                value.X = x;
-                value.Z = z;
-                value.Parent = this;
-                Nodes[x, z] = value;
-            }
         }
     }
 }
