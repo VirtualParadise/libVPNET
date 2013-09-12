@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using VP;
 
-namespace VPNetExamples
+namespace VP.Examples
 {
-    internal abstract class BaseExampleBot
+    abstract class BaseExampleBot
     {
         public abstract string Name { get; }
 
@@ -11,12 +12,12 @@ namespace VPNetExamples
         /// The custom-defined execution code of this example; it should initialize a
         /// bot instance each time and use a while loop to pump events
         /// </summary>
-        public abstract void main();
+        public abstract void Main(string username, string password, string world);
 
         /// <summary>
         /// Allows the example to dispose of its bot instance and do any cleanup
         /// </summary>
-        public abstract void dispose();
+        public abstract void Dispose();
 
         /// <summary>
         /// Hooks the console's cancel key press and then executes the example's defined
@@ -27,7 +28,7 @@ namespace VPNetExamples
             Console.CancelKeyPress += onCancel;
             try
             {
-                main();
+                Main(Examples.Username, Examples.Password, Examples.World);
             }
             catch (Exception e)
             {
@@ -48,7 +49,7 @@ namespace VPNetExamples
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Ending demo {0}...", Name);
 
-            dispose();
+            Dispose();
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("*****\n\n");
         }

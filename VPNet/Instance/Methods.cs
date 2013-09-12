@@ -12,10 +12,10 @@ namespace VP
         /// <summary>
         /// Pumps incoming events from and outgoing calls to the server, for the maximum
         /// amount of given milliseconds. This is nessecary in order to fire most events
-        /// and for most function calls to go through.
+        /// and for most function calls to go through. Chainable and thread-safe.
         /// </summary>
         /// <remarks>Equivalent of C SDK's vp_wait()</remarks>
-        public void Pump(int milliseconds = 0)
+        public Instance Pump(int milliseconds = 0)
         {
             lock (mutex)
             {
@@ -26,6 +26,7 @@ namespace VP
 
                 try     { Functions.Call( () => Functions.vp_wait(pointer, milliseconds) ); }
                 finally { isPumping = false; }
+                return this;
             }
         } 
         #endregion

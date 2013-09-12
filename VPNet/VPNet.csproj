@@ -75,7 +75,7 @@
     <Compile Include="Native\Delegates.cs" />
     <Compile Include="Native\Events.cs" />
     <Compile Include="Native\Functions.cs" />
-    <Compile Include="Native\ReasonCode.cs" />
+    <Compile Include="Instance\ReasonCode.cs" />
     <Compile Include="Native\Utf8Marshaler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
