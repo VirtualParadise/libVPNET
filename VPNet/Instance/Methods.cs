@@ -41,11 +41,11 @@ namespace VP
         {
             lock (mutex)
             {
-               Functions.Call( () => Functions.vp_connect_universe(pointer, universe.Host, universe.Port) );
-               Functions.Call( () => Functions.vp_login(pointer, username, password, botname)             );
+                Functions.Call( () => Functions.vp_connect_universe(pointer, universe.Host, universe.Port) );
+                Functions.Call( () => Functions.vp_login(pointer, username, password, botname)             );
 
-               name = botname;
-               return this;
+                name = botname;
+                return this;
             }
         }
 
@@ -64,13 +64,22 @@ namespace VP
         /// <summary>
         /// Enters a given world, Chainable and thread-safe.
         /// </summary>
-        public Instance Enter(string worldname)
+        /// <param name="worldname">Target world to enter</param>
+        /// <param name="setState">
+        /// If true (default), the bot will automatically call
+        /// <see cref="GoTo(float,float,float,float,float)"/> to set state upon entry.
+        /// Set to false for shadow operations that do not require a presence.
+        /// </param>
+        public Instance Enter(string worldname, bool setState = true)
         {
             lock (mutex)
             {
                 Functions.Call( () => Functions.vp_enter(pointer, worldname) );
-
                 world = worldname;
+
+                if (setState)
+                    GoTo();
+
                 return this;
             }
         }

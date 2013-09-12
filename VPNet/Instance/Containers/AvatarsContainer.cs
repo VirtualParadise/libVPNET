@@ -41,10 +41,10 @@ namespace VP
         /// </summary>
         public delegate void StateArgs(Instance sender, Avatar avatar);
         /// <summary>
-        /// Encapsulates a method that accepts a source <see cref="Instance"/> and a
-        /// unique session ID for the <see cref="Leave"/> event
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, a name
+        /// and a unique session ID for the <see cref="Leave"/> event
         /// </summary>
-        public delegate void LeaveArgs(Instance sender, int session);
+        public delegate void LeaveArgs(Instance sender, string name, int session);
         /// <summary>
         /// Encapsulates a method that accepts a source <see cref="Instance"/> and an
         /// <see cref="AvatarClick"/> for the <see cref="Clicked"/> event
@@ -73,7 +73,7 @@ namespace VP
         /// </summary>
         public event StateArgs Change;
         /// <summary>
-        /// Fired when an avatar exits the world, providing only its session ID
+        /// Fired when an avatar exits the world, providing only its name and session ID
         /// </summary>
         public event LeaveArgs Leave;
         /// <summary>
@@ -105,8 +105,9 @@ namespace VP
         {
             if (Leave != null)
             {
-                int session = Functions.vp_int(instance.pointer, IntAttributes.AvatarSession);
-                Leave(instance, session);
+                var name    = Functions.vp_string(instance.pointer, StringAttributes.AvatarName);
+                var session = Functions.vp_int(instance.pointer, IntAttributes.AvatarSession);
+                Leave(instance, name, session);
             }
         }
 

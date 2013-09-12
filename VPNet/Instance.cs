@@ -53,6 +53,7 @@ namespace VP
         #endregion
 
         #region Constructor, setup & deconstructor
+        internal bool   disposed;
         internal object mutex = new object();
         internal IntPtr pointer;
 
@@ -84,15 +85,23 @@ namespace VP
         /// </summary>
         public void Dispose()
         {
-            if (pointer != IntPtr.Zero)
-                Functions.Call( () => Functions.vp_destroy(pointer) );
+            lock (mutex)
+            {
+                if (disposed)
+                    throw new ObjectDisposedException(Name);
+                else
+                    disposed = true;
 
-            Data.Dispose();
-            Avatars.Dispose();
-            Property.Dispose();
-            Terrain.Dispose();
-            disposeEvents();
-            GC.SuppressFinalize(this);
+                if (pointer != IntPtr.Zero)
+                    Functions.Call( () => Functions.vp_destroy(pointer) );
+
+                Data.Dispose();
+                Avatars.Dispose();
+                Property.Dispose();
+                Terrain.Dispose();
+                disposeEvents();
+                GC.SuppressFinalize(this);
+            }
         }
         #endregion
         
