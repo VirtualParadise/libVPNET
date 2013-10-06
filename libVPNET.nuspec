@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>libVPNET</id>
-        <version>0.2.0-pre</version>
+        <version>0.2.1-pre</version>
         <title>libVirtualParadise.NET</title>
         <authors>Roy Curtis</authors>
         <projectUrl>https://github.com/RoyCurtis/libVPNET</projectUrl>
@@ -18,7 +18,13 @@ The native libraries are packaged into the assembly and are automatically unpack
 
 This library itself is compiled as x86 only (but is known to work on Mono with the 64bit libs).</description>
         <summary>Alternative library for writing Virtual Paradise bots</summary>
-        <releaseNotes>0.2.0-pre - Mostly rewritten to formalize an API, complete implementation of all bot-accessible features
+        <releaseNotes>0.2.1-pre - Updated to VP SDK 0.3.37 / r1093 featuring:
+* Ability to send URLs to clients to open in a 3D overlay or external browser
+* Single-object query by ID and callback
+* Disconnection event reasons
+
+0.2.0-pre - Mostly rewritten to formalize an API, complete implementation of all bot-accessible features
+
 0.1.0-pre - Forked and adapted from official .NET wrapper</releaseNotes>
         <language>en-GB</language>
         <dependencies>
