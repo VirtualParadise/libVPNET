@@ -6,3 +6,4 @@ Build/VP.NET.pdb
 *.csproj.user
 Build/Examples/VPNetExamples.vshost.exe
 Build/
+packages/*

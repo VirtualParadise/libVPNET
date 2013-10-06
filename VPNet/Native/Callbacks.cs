@@ -1,18 +1,15 @@
 ﻿namespace VP.Native
 {
-    /// <summary>
-    /// Native callback types
-    /// </summary>
-    public enum Callbacks : int
+    internal enum Callbacks : int
     {
         ObjectAdd,
         ObjectChange,
         ObjectDelete,
-        Friend,
-        FriendAdd,
-        FriendDelete,
-        TerrainQuery,
-        TerrainNodeSet,
+        Friend,         // Unused
+        FriendAdd,      // Unused
+        FriendDelete,   // Unused
+        TerrainQuery,   // Unused
+        TerrainNodeSet, // Broken
         Highest,
     }
 }

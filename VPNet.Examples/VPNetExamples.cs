@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Reflection;
 
-namespace VPNetExamples
+namespace VP.Examples
 {
-    class VPNetExamples
+    class Examples
     {
         internal static string Username;
         internal static string Password;
@@ -14,19 +14,20 @@ namespace VPNetExamples
         {
             if (args.Length < 3)
             {
-                Console.WriteLine("VPNet SDK demo roll. To run: VPNetExamples.exe \"user name\" \"password\" \"world\"");
+                Console.WriteLine("libVPSDK example roll. To run: VPNetExamples.exe \"user name\" \"password\" \"world\"");
                 return;
             }
 
+            Console.Title = "libVPSDK Examples";
             Username = args[0];
             Password = args[1];
             World    = args[2];
 
             var demoQuery =
                 from   t in Assembly.GetExecutingAssembly().GetTypes()
-                where  t.IsSubclassOf(typeof(BaseExampleBot))
+                where  t.IsSubclassOf( typeof(BaseExampleBot) )
                 select Activator.CreateInstance(t) as BaseExampleBot;
-            var demos = demoQuery.ToArray<BaseExampleBot>();
+            var demos = demoQuery.ToArray();
 
         menu:
             // Iterate choices

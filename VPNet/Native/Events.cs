@@ -1,6 +1,6 @@
 ﻿namespace VP.Native
 {
-    public enum Events : int
+    internal enum Events : int
     {
         Chat,
         AvatarAdd,
@@ -12,8 +12,8 @@
         ObjectClick,
         WorldList,
         WorldSetting,
-        WorldSettingsChanged,
-        Friend,
+        WorldSettingsDone,  // Native: VP_EVENT_WORLD_SETTINGS_CHANGED
+        Friend,             // Unused
         WorldDisconnect,
         UniverseDisconnect,
         UserAttributes,

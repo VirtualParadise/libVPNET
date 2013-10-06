@@ -1,6 +1,6 @@
 ﻿namespace VP.Native
 {
-    public enum IntAttributes : int
+    internal enum IntAttributes : int
     {
         AvatarSession = 0,
         AvatarType,
@@ -39,7 +39,7 @@
         IntegerAttributeHighest, 
     }
 
-    public enum FloatAttributes : int
+    internal enum FloatAttributes : int
     {
         AvatarX = 0,
         AvatarY,
@@ -74,7 +74,7 @@
         FloatAttributeHighest, 
     }
 
-    public enum StringAttributes : int
+    internal enum StringAttributes : int
     {
         AvatarName = 0,
         ChatMessage,
@@ -92,7 +92,7 @@
         StringAttributeHighest,
     }
 
-    public enum DataAttributes : int
+    internal enum DataAttributes : int
     {
         ObjectData = 0,
         TerrainNodeData,
