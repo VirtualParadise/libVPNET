@@ -34,11 +34,17 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Nexus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Nexus.2.1.0\lib\net40\Nexus.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\BaseExampleBot.cs" />
+    <Compile Include="Examples\ObjectGet.cs" />
+    <Compile Include="Examples\UrlSend.cs" />
     <Compile Include="Examples\HelloWorld.cs" />
     <Compile Include="VPNetExamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -48,6 +54,9 @@
       <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
       <Name>VPNet</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

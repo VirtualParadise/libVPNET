@@ -10,6 +10,7 @@
         FriendDelete,   // Unused
         TerrainQuery,   // Unused
         TerrainNodeSet, // Broken
+        ObjectGet,
         Highest,
     }
 }

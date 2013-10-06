@@ -21,6 +21,7 @@ namespace VP
             instance.setNativeEvent(Events.AvatarDelete, OnAvatarDelete);
             instance.setNativeEvent(Events.AvatarClick, OnAvatarClicked);
             instance.setNativeEvent(Events.Teleport, OnAvatarTeleported);
+            instance.setNativeEvent(Events.Url, OnAvatarUrl);
         }
 
         internal void Dispose()
@@ -30,6 +31,7 @@ namespace VP
             Leave      = null;
             Clicked    = null;
             Teleported = null;
+            UrlRequest = null;
         }
         #endregion
 
@@ -56,6 +58,12 @@ namespace VP
         /// for the <see cref="Teleported"/> event
         /// </summary>
         public delegate void TeleportedArgs(Instance sender, int session, AvatarPosition position, string world);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, a source
+        /// unique session ID, a URL and a <see cref="UrlTarget"/> for the
+        /// <see cref="UrlRequest"/> event
+        /// </summary>
+        public delegate void UrlRequestArgs(Instance sender, int session, string url, UrlTarget target);
 
         /// <summary>
         /// Fired when an avatar enters the world, providing its initial state
@@ -86,6 +94,11 @@ namespace VP
         /// given position and, optionally, world. Also provides the source session ID.
         /// </summary>
         public event TeleportedArgs Teleported;
+        /// <summary>
+        /// Fired when an avatar sends this instance a request to open a URL in the
+        /// given target container. Also provides the source session ID.
+        /// </summary>
+        public event UrlRequestArgs UrlRequest;
         #endregion
 
         #region Event handlers
@@ -127,6 +140,18 @@ namespace VP
             var world   = Functions.vp_string(sender, StringAttributes.TeleportWorld);
   
             Teleported(instance, session, pos, world);
+        }
+
+        internal void OnAvatarUrl(IntPtr sender)
+        {
+            if (UrlRequest == null)
+                return;
+
+            var session = Functions.vp_int(sender, IntAttributes.AvatarSession);
+            var target  = (UrlTarget) Functions.vp_int(sender, IntAttributes.UrlTarget);
+            var url     = Functions.vp_string(sender, StringAttributes.Url);
+  
+            UrlRequest(instance, session, url, target);
         }
         #endregion
 
@@ -202,6 +227,29 @@ namespace VP
         public void Teleport(int session, AvatarPosition pos)
         {
             Teleport(session, "", pos);
+        }
+
+        /// <summary>
+        /// Sends a request for a target session to open a URL in a specified target
+        /// container. Thread-safe.
+        /// </summary>
+        /// <param name="session">Target session ID of the request</param>
+        /// <param name="url">URL for the target to open, or "" to clear</param>
+        /// <param name="target">Target container to open the URL in</param>
+        public void SendUrl(int session, string url, UrlTarget target)
+        {
+            lock (instance.mutex)
+                Functions.Call( () => Functions.vp_url_send(instance.pointer, session, url, (int) target) );
+        }
+        
+        /// <summary>
+        /// Sends a request for a target session to close any pages open on their 3D
+        /// viewport (overlay). Thread-safe.
+        /// </summary>
+        /// <param name="session">Target session ID of the request</param>
+        public void ClearUrl(int session)
+        {
+            SendUrl(session, "", UrlTarget.Overlay);
         }
         #endregion
     }

@@ -117,6 +117,9 @@ namespace VP.Native
         
         [DllImport(DLLHandler.dllBase, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int vp_object_click(IntPtr instance);
+
+        [DllImport(DLLHandler.dllBase, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int vp_object_get(IntPtr instance, int id);
         
         [DllImport(DLLHandler.dllBase, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int vp_world_list(IntPtr instance, int time);
@@ -157,5 +160,12 @@ namespace VP.Native
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string world,
             float x, float y, float z,
             float yaw, float pitch);
+
+        [DllImport(DLLHandler.dllBase, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int vp_url_send(
+            IntPtr instance,
+            int session,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string url,
+            int target);
     }
 }

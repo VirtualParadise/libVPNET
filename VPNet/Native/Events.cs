@@ -21,6 +21,7 @@
         TerrainNode,
         AvatarClick,
         Teleport,
+        Url,
         Highest
     }
 }

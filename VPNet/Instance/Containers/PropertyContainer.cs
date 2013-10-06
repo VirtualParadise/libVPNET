@@ -26,6 +26,7 @@ namespace VP
             instance.setNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallback);
             instance.setNativeCallback(Callbacks.ObjectChange, OnObjectChangeCallback);
             instance.setNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallback);
+            instance.setNativeCallback(Callbacks.ObjectGet, OnObjectGetCallback);
         }
 
         internal void Dispose()
@@ -40,12 +41,13 @@ namespace VP
             CallbackObjectCreate = null;
             CallbackObjectChange = null;
             CallbackObjectDelete = null;
+            CallbackObjectGet    = null;
         }
         #endregion
 
         #region Object references
-        Dictionary<int, VPObject> references       = new Dictionary<int, VPObject>();
-        Dictionary<int, int>      deleteReferences = new Dictionary<int, int>();
+        Dictionary<int, VPObject> objReferences = new Dictionary<int, VPObject>();
+        Dictionary<int, int>      idReferences  = new Dictionary<int, int>();
 
         int nextRef = int.MinValue;
         int nextReference
@@ -100,6 +102,11 @@ namespace VP
         /// reason code and a unique ID for <see cref="CallbackObjectDelete"/>
         /// </summary>
         public delegate void ObjectDeleteCallbackArgs(Instance sender, ReasonCode result, int id);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, a
+        /// reason code and a <see cref="VPObject"/> for <see cref="CallbackObjectGet"/>
+        /// </summary>
+        public delegate void ObjectGetCallbackArgs(Instance sender, ReasonCode result, VPObject obj);
 
         /// <summary>
         /// Fired for each object found in a cell after a call to
@@ -148,6 +155,12 @@ namespace VP
         /// provided unique ID
         /// </summary>
         public event ObjectDeleteCallbackArgs CallbackObjectDelete;
+        /// <summary>
+        /// Fired after a call to the asynchronous <see cref="GetObject(int)"/>,
+        /// providing a result code and, if successful, a <see cref="VPObject"/> of the
+        /// object's details
+        /// </summary>
+        public event ObjectGetCallbackArgs CallbackObjectGet;
         #endregion
 
         #region Event handlers
@@ -228,10 +241,10 @@ namespace VP
             if (CallbackObjectCreate == null)
                 return;
 
-            var obj = references[reference];
+            var obj = objReferences[reference];
             obj.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
 
-            references.Remove(reference);
+            objReferences.Remove(reference);
             CallbackObjectCreate(instance, (ReasonCode) rc, obj);
         }
 
@@ -240,10 +253,10 @@ namespace VP
             if (CallbackObjectChange == null)
                 return;
 
-            var obj = references[reference];
+            var obj = objReferences[reference];
             obj.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
 
-            references.Remove(reference);
+            objReferences.Remove(reference);
             CallbackObjectChange(instance, (ReasonCode) rc, obj);
         }
 
@@ -252,10 +265,22 @@ namespace VP
             if (CallbackObjectDelete == null)
                 return;
 
-            var id = deleteReferences[reference];
+            var id = idReferences[reference];
 
-            deleteReferences.Remove(reference);
+            idReferences.Remove(reference);
             CallbackObjectDelete(instance, (ReasonCode) rc, id);
+        }
+
+        void OnObjectGetCallback(IntPtr sender, int rc, int reference)
+        {
+            if (CallbackObjectGet == null)
+                return;
+
+            var obj = new VPObject(sender);
+            obj.Id  = idReferences[reference];
+
+            idReferences.Remove(reference);
+            CallbackObjectGet(instance, (ReasonCode) rc, obj);
         }
         #endregion
 
@@ -270,6 +295,29 @@ namespace VP
         }
 
         /// <summary>
+        /// Gets the attributes of a single object by its ID. Asyncrhonous and
+        /// thread-safe. Responds using <see cref="CallbackObjectGet"/>
+        /// </summary>
+        /// <param name="id">ID of the object to query</param>
+        public void GetObject(int id)
+        {
+            lock (instance.mutex)
+            {
+                var referenceNumber = nextReference;
+                idReferences.Add(referenceNumber, id);
+
+                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
+
+                try { Functions.Call( () => Functions.vp_object_get(instance.pointer, id) ); }
+                catch
+                {
+                    idReferences.Remove(referenceNumber);
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
         /// Adds a raw <see cref="VPObject"/> to the world. Asynchronous and thread-safe.
         /// </summary>
         /// <param name="obj">Instance of VPObject with model and position pre-set</param>
@@ -278,7 +326,7 @@ namespace VP
             lock (instance.mutex)
             {
                 var referenceNumber = nextReference;
-                references.Add(referenceNumber, obj);
+                objReferences.Add(referenceNumber, obj);
 
                 obj.ToNative(instance.pointer);
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
@@ -286,7 +334,7 @@ namespace VP
                 try { Functions.Call( () => Functions.vp_object_add(instance.pointer) ); }
                 catch
                 {
-                    references.Remove(referenceNumber);
+                    objReferences.Remove(referenceNumber);
                     throw;
                 }
             }
@@ -324,7 +372,7 @@ namespace VP
             lock (instance.mutex)
             {
                 var referenceNumber = nextReference;
-                references.Add(referenceNumber, obj);
+                objReferences.Add(referenceNumber, obj);
 
                 obj.ToNative(instance.pointer);
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
@@ -332,7 +380,7 @@ namespace VP
                 try { Functions.Call( () => Functions.vp_object_change(instance.pointer) ); }
                 catch
                 {
-                    references.Remove(referenceNumber);
+                    objReferences.Remove(referenceNumber);
                     throw;
                 }
             }
@@ -346,7 +394,7 @@ namespace VP
             lock (instance.mutex)
             {
                 var referenceNumber = nextReference;
-                deleteReferences.Add(referenceNumber, id);
+                idReferences.Add(referenceNumber, id);
 
                 Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
                 Functions.vp_int_set(instance.pointer, IntAttributes.ObjectId,        id);
@@ -354,7 +402,7 @@ namespace VP
                 try { Functions.Call( () => Functions.vp_object_delete(instance.pointer) ); }
                 catch
                 {
-                    deleteReferences.Remove(referenceNumber);
+                    idReferences.Remove(referenceNumber);
                     throw;
                 }
             }

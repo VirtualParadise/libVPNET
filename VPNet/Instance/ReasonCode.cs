@@ -80,6 +80,14 @@
         /// <summary>
         /// Invalid arguments provided
         /// </summary>
-        InvalidArguments
+        InvalidArguments,
+        /// <summary>
+        /// Object of a given ID not found
+        /// </summary>
+        ObjectNotFound,
+        /// <summary>
+        /// Unknown SDK error
+        /// </summary>
+        UnknownError,
     }
 }

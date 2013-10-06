@@ -36,6 +36,8 @@
         ChatColorGreen,
         ChatColorBlue,
         ChatEffects,
+        DisconnectErrorCode,
+        UrlTarget,
         IntegerAttributeHighest, 
     }
 
@@ -89,6 +91,7 @@
         FriendName,
         ProxyHost,
         TeleportWorld,
+        Url,
         StringAttributeHighest,
     }
 

@@ -58,19 +58,26 @@ namespace VP
         /// <see cref="VP.ConsoleMessage"/> for the <see cref="Console"/> event
         /// </summary>
         public delegate void ConsoleEvent(Instance sender, ConsoleMessage console);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/> and an
+        /// integer error code representing an error code from the operating system
+        /// </summary>
+        public delegate void DisconnectEvent(Instance sender, int error);
 
         /// <summary>
-        /// Fired when the SDK has been unexpectedly disconnected from the universe
+        /// Fired when the SDK has been unexpectedly disconnected from the universe,
+        /// providing an error code
         /// </summary>
         /// <remarks>
         /// Universe connections are independant of world connections. This will not
         /// cause <see cref="WorldDisconnect"/> to fire also.
         /// </remarks>
-        public event Event UniverseDisconnect;
+        public event DisconnectEvent UniverseDisconnect;
         /// <summary>
-        /// Fired when the SDK has been unexpectedly disconnected from the world
+        /// Fired when the SDK has been unexpectedly disconnected from the world,
+        /// providing an error code
         /// </summary>
-        public event Event WorldDisconnect;
+        public event DisconnectEvent WorldDisconnect;
         /// <summary>
         /// Fired when a chat message has been said in the world, providing the message
         /// and source
@@ -87,13 +94,19 @@ namespace VP
         internal void OnUniverseDisconnect(IntPtr sender)
         {
             if (UniverseDisconnect != null)
-                UniverseDisconnect(this);
+            {
+                var error = Functions.vp_int(sender, IntAttributes.DisconnectErrorCode);
+                UniverseDisconnect(this, error);
+            }
         }
 
         internal void OnWorldDisconnect(IntPtr sender)
         {
             if (WorldDisconnect != null)
-                WorldDisconnect(this);
+            {
+                var error = Functions.vp_int(sender, IntAttributes.DisconnectErrorCode);
+                WorldDisconnect(this, error);
+            }
         }
 
         internal void OnChat(IntPtr sender)

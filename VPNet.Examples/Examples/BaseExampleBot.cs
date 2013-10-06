@@ -20,6 +20,11 @@ namespace VP.Examples
         public abstract void Dispose();
 
         /// <summary>
+        /// Used to determine if the bot is disposing
+        /// </summary>
+        public bool Disposing { get; set; }
+
+        /// <summary>
         /// Hooks the console's cancel key press and then executes the example's defined
         /// main() method, automatically ending the bot if/when the function returns
         /// </summary>
@@ -56,8 +61,8 @@ namespace VP.Examples
 
         void onCancel(object sender, ConsoleCancelEventArgs e)
         {
-            e.Cancel = true;
-            End();
+            e.Cancel  = true;
+            Disposing = true;
         }
     }
 }

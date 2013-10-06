@@ -45,7 +45,7 @@
 /**
  *	Events can be registered using #vp_event_set
  */
-typedef enum VPEvent
+typedef enum vp_event_t
 {
 /**
  *	Called when a user in the same world the instance is in sends a message
@@ -222,10 +222,18 @@ typedef enum VPEvent
      */
     VP_EVENT_TELEPORT,
 	
+    /**
+     *  Attributes:
+     *  - VP_AVATAR_SESSION
+     *  - VP_URL
+     *  - VP_URL_TARGET
+     */
+    VP_EVENT_URL,
+    
 	VP_HIGHEST_EVENT
-} VPEvent;
+} vp_event_t;
 
-typedef enum VPCallback
+typedef enum vp_callback_t
 {
 	/**
 	 *  The attribute #VP_OBJECT_ID is set to the object ID of the new object
@@ -238,11 +246,12 @@ typedef enum VPCallback
 	VP_CALLBACK_FRIEND_DELETE,
     VP_CALLBACK_TERRAIN_QUERY,
     VP_CALLBACK_TERRAIN_NODE_SET,
+    VP_CALLBACK_OBJECT_GET,
 	VP_HIGHEST_CALLBACK
-} VPCallback;
+} vp_callback_t;
 
 /* Ints */
-typedef enum VPIntegerProperty
+typedef enum vp_int_attribute_t
 {
 	VP_AVATAR_SESSION,
 	VP_AVATAR_TYPE,
@@ -288,12 +297,16 @@ typedef enum VPIntegerProperty
     VP_CHAT_COLOR_GREEN,
     VP_CHAT_COLOR_BLUE,
     VP_CHAT_EFFECTS,
+    
+    VP_DISCONNECT_ERROR_CODE,
+    
+    VP_URL_TARGET,
 	
 	VP_HIGHEST_INT
-} VPIntegerProperty;
+} vp_int_attribute_t;
 
 /* Floats */
-typedef enum VPFloatProperty
+typedef enum vp_float_attribute_t
 {
 	VP_AVATAR_X,
 	VP_AVATAR_Y,
@@ -341,10 +354,10 @@ typedef enum VPFloatProperty
     VP_CLICK_HIT_Z,
 	
 	VP_HIGHEST_FLOAT
-} VPFloatProperty;
+} vp_float_attribute_t;
 
 /* Strings */
-typedef enum VPStringProperty
+typedef enum vp_string_attribute_t
 {
 	VP_AVATAR_NAME,
 	VP_CHAT_MESSAGE,
@@ -365,45 +378,54 @@ typedef enum VPStringProperty
 	VP_PROXY_HOST,
     
     VP_TELEPORT_WORLD,
+    
+    VP_URL,
 	
 	VP_HIGHEST_STRING
-} VPStringProperty;
+} vp_string_attribute_t;
 
 /* Data */
-typedef enum VPDataProperty
+typedef enum vp_data_attribute_t
 {
 	VP_OBJECT_DATA,
     VP_TERRAIN_NODE_DATA,
 	VP_HIGHEST_DATA
-} VPDataProperty;
+} vp_data_attribute_t;
 
 /**
  *	Proxy types
  */
-typedef enum VPProxyType {
+typedef enum vp_proxy_type_t {
 	VP_PROXY_TYPE_NONE,
 	VP_PROXY_TYPE_SOCKS4A
-} VPProxyType;
+} vp_proxy_type_t;
+
+typedef enum vp_url_target_t {
+    VP_URL_TARGET_BROWSER,
+    VP_URL_TARGET_OVERLAY
+} vp_url_target_t;
 
 #ifdef __cplusplus
 namespace vpsdk {
     struct VPInstance_;
 }
 
-typedef vpsdk::VPInstance_ *VPInstance;
+typedef vpsdk::VPInstance_ *vp_instance_t;
 #else
-typedef void *VPInstance;
+typedef void* vp_instance_t;
 #endif
+
+typedef vp_instance_t VPInstance;
 
 typedef void(*VPEventHandler)(VPInstance);
 typedef void(*VPCallbackHandler)(VPInstance, int, int);
 
-struct vp_terrain_cell_t {
+typedef struct vp_terrain_cell_t {
     float height;
     
     /* 1 bit visibility, 2 bits rotation, 1 bit padding, 12 bits texture */
     unsigned short attributes;
-};
+} vp_terrain_cell_t;
 
 #define VP_PACK_TERRAIN_ATTRIBUTES(tex, rotation, visible) ((tex & 0x1FFF) |   \
                                                             (visible << 15) |  \
@@ -416,16 +438,16 @@ struct vp_terrain_cell_t {
 /**
  *  Chat message types. 
  */
-enum VPChatType {
+enum vp_chat_type {
     VP_CHAT_NORMAL,
     VP_CHAT_CONSOLE_MESSAGE,
-    VP_CHAT_PRIVATE,
+    VP_CHAT_PRIVATE
 };
 
 /**
  *  Text effect flags. Can be combined with bitwise OR operator.
  */
-enum VPTextEffect {
+enum vp_text_effect {
     VP_TEXT_EFFECT_BOLD = 1,
     VP_TEXT_EFFECT_ITALIC = 2
 };
@@ -514,13 +536,13 @@ VPSDK_API int vp_console_message(VPInstance instance,
  *  Register an event handler.
  *  \return Zero when successful, otherwise nonzero. See RC.h
  */
-VPSDK_API int vp_event_set(VPInstance instance, VPEvent eventname, VPEventHandler event);
+VPSDK_API int vp_event_set(VPInstance instance, vp_event_t eventname, VPEventHandler event);
 
 /**
  *  Register a callback function.
  *  \return Zero when successful, otherwise nonzero. See RC.h
  */
-VPSDK_API int vp_callback_set(VPInstance instance, VPCallback callbackname, VPCallbackHandler callback);
+VPSDK_API int vp_callback_set(VPInstance instance, vp_callback_t callbackname, VPCallbackHandler callback);
 
 /**
  *  Retrieve the pointer to user-defined data for this instance.
@@ -536,19 +558,19 @@ VPSDK_API void * vp_user_data(VPInstance instance);
 VPSDK_API void vp_user_data_set(VPInstance instance, void * data);
 VPSDK_API int vp_state_change(VPInstance instance);
 
-VPSDK_API int vp_int(VPInstance instance, VPIntegerProperty name);
-VPSDK_API float vp_float(VPInstance instance, VPFloatProperty name);
-VPSDK_API const char* vp_string(VPInstance instance, VPStringProperty name);
-VPSDK_API const char* vp_data(VPInstance instance, VPDataProperty name, int* length);
+VPSDK_API int vp_int(VPInstance instance, vp_int_attribute_t name);
+VPSDK_API float vp_float(VPInstance instance, vp_float_attribute_t name);
+VPSDK_API const char* vp_string(VPInstance instance, vp_string_attribute_t name);
+VPSDK_API const char* vp_data(VPInstance instance, vp_data_attribute_t name, int* length);
 
-VPSDK_API int vp_int_get(VPInstance instance, VPIntegerProperty name, int* value);
-VPSDK_API int vp_float_get(VPInstance instance, VPFloatProperty name, float* value);
-VPSDK_API int vp_string_get(VPInstance instance, VPStringProperty name, char** value);
+VPSDK_API int vp_int_get(VPInstance instance, vp_int_attribute_t name, int* value);
+VPSDK_API int vp_float_get(VPInstance instance, vp_float_attribute_t name, float* value);
+VPSDK_API int vp_string_get(VPInstance instance, vp_string_attribute_t name, char** value);
 
-VPSDK_API int vp_int_set(VPInstance instance, VPIntegerProperty name, int value);
-VPSDK_API int vp_float_set(VPInstance instance, VPFloatProperty name, float value);
-VPSDK_API void vp_string_set(VPInstance instance, VPStringProperty name, const char * str);
-VPSDK_API int vp_data_set(VPInstance instance, VPDataProperty name, int length, char* data);
+VPSDK_API int vp_int_set(VPInstance instance, vp_int_attribute_t name, int value);
+VPSDK_API int vp_float_set(VPInstance instance, vp_float_attribute_t name, float value);
+VPSDK_API void vp_string_set(VPInstance instance, vp_string_attribute_t name, const char * str);
+VPSDK_API int vp_data_set(VPInstance instance, vp_data_attribute_t name, int length, char* data);
 
 /**
  *	Query the objects in a single cell
@@ -559,8 +581,14 @@ VPSDK_API int vp_query_cell(VPInstance instance, int x, int z);
 
 VPSDK_API int vp_object_add(VPInstance instance);
 VPSDK_API int vp_object_change(VPInstance instance);
-VPSDK_API int vp_object_delete(VPInstance instance);
 VPSDK_API int vp_object_click(VPInstance instance);
+VPSDK_API int vp_object_delete(VPInstance instance);
+
+/**
+ *  Request the attributes of a single object. The result will be returned in
+ *  the #VP_CALLBACK_OBJECT_GET callback.
+ */
+VPSDK_API int vp_object_get(VPInstance instance, int object_id);
 
 /**
  *  Request the world list.
@@ -609,5 +637,10 @@ VPSDK_API int vp_teleport_avatar(VPInstance instance,
                                  const char* world,
                                  float x, float y, float z,
                                  float yaw, float pitch);
+
+VPSDK_API int vp_url_send(VPInstance instance,
+                          int session_id,
+                          const char* url,
+                          vp_url_target_t url_target);
 
 #endif
