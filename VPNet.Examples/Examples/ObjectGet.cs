@@ -14,10 +14,10 @@ namespace VP.Examples
         public override void Main(string user, string password, string world)
         {
             bot = new Instance()
-                .Login(user, password, "libVPSDK")
+                .Login(user, password, "libVPNET")
                 .Enter(world);
 
-            bot.Property.ObjectClick += onClick;
+            bot.Property.ObjectClick       += onClick;
             bot.Property.CallbackObjectGet += callbackObjectGet;
 
             while (!Disposing)

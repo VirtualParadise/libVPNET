@@ -14,11 +14,11 @@ namespace VP.Examples
         {
             if (args.Length < 3)
             {
-                Console.WriteLine("libVPSDK example roll. To run: VPNetExamples.exe \"user name\" \"password\" \"world\"");
+                Console.WriteLine("libVPNET example roll. To run: VPNetExamples.exe \"user name\" \"password\" \"world\"");
                 return;
             }
 
-            Console.Title = "libVPSDK Examples";
+            Console.Title = "libVPNET Examples";
             Username = args[0];
             Password = args[1];
             World    = args[2];
@@ -32,7 +32,7 @@ namespace VP.Examples
         menu:
             // Iterate choices
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("VPNet SDK demo roll; please pick a number to execute:");
+            Console.WriteLine("Please pick a example to execute:");
             Console.ForegroundColor = ConsoleColor.White;
 
             for (var i = 0; i < demos.Length; i++)

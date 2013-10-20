@@ -15,7 +15,7 @@ namespace VP.Examples
         public override void Main(string user, string password, string world)
         {
             bot = new Instance()
-                .Login(user, password, "libVPSDK")
+                .Login(user, password, "libVPNET")
                 .Enter(world)
                 .Say("Hello! Type /url <url> to test Url sending to both targets");
 
