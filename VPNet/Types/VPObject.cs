@@ -130,7 +130,8 @@ namespace VP
             Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationAngle, this.Rotation.W);
             Functions.vp_int_set   (pointer, IntAttributes.ObjectType,            this.Type);
 
-            DataHandlers.SetData(pointer, DataAttributes.ObjectData, Data);
+            if (Data != null)
+                DataHandlers.SetData(pointer, DataAttributes.ObjectData, Data);
         }
     }
 }
