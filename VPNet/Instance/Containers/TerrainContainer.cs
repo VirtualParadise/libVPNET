@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Nexus;
+using System;
+using System.Collections.Generic;
 using VP.Native;
 
 namespace VP
@@ -24,28 +26,63 @@ namespace VP
         {
             this.instance = instance;
             instance.setNativeEvent(Events.TerrainNode, OnTerrainNode);
+
+            instance.setNativeCallback(Callbacks.TerrainNodeSet, OnNodeSetCallback);
         }
 
         internal void Dispose()
         {
             GetNode = null;
+
+            CallbackNodeSet = null;
+
+            nodeReferences.Clear();
         }  
         #endregion
 
-        #region Events
+        #region Callback references
+        Dictionary<int, Tuple<TerrainNode,int,int>> nodeReferences = new Dictionary<int, Tuple<TerrainNode,int,int>>();
+
+        int nextRef = int.MinValue;
+        int nextReference
+        {
+            get
+            {
+                if (nextRef < int.MaxValue)
+                    nextRef++;
+                else
+                    nextRef = int.MinValue;
+
+                return nextRef;
+            }
+        } 
+        #endregion
+
+        #region Events and callbacks
         /// <summary>
         /// Encapsulates a method that accepts a source <see cref="Instance"/>, a
         /// <see cref="TerrainNode"/> definition and the X and Z of the tile it belongs
         /// to for the <see cref="GetNode"/> event
         /// </summary>
-        public delegate void TerrainNodeArgs(Instance sender, TerrainNode node, int tileX, int tileZ);
+        public delegate void GetNodeArgs(Instance sender, TerrainNode node, int tileX, int tileZ);
+        /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, a
+        /// reason code and a <see cref="TerrainNode"/> reference for
+        /// <see cref="CallbackNodeSet"/>
+        /// </summary>
+        public delegate void NodeSetCallbackArgs(Instance sender, ReasonCode result, TerrainNode node, int tileX, int tileZ);
 
         /// <summary>
         /// Fired for each node received after a call to
         /// <see cref="QueryTile(int, int)"/>, providing the node's data and the parent
         /// tile's coordinates
         /// </summary>
-        public event TerrainNodeArgs GetNode;
+        public event GetNodeArgs GetNode;
+        /// <summary>
+        /// Fired after a call to the asynchronous <see cref="SetNode"/>, providing a
+        /// result code and, if successful, the set <see cref="TerrainNode"/>
+        /// </summary>
+        public event NodeSetCallbackArgs CallbackNodeSet;
         #endregion
 
         #region Event handlers
@@ -62,6 +99,19 @@ namespace VP
         }
         #endregion
 
+        #region Callback handlers
+        void OnNodeSetCallback(IntPtr sender, int rc, int reference)
+        {
+            if (CallbackNodeSet == null)
+                return;
+
+            var node = nodeReferences[reference];
+
+            nodeReferences.Remove(reference);
+            CallbackNodeSet(instance, (ReasonCode) rc, node.Item1, node.Item2, node.Item3);
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Sets a terrain node's worth of data to the world's terrain. Thread-safe.
@@ -69,13 +119,28 @@ namespace VP
         public void SetNode(TerrainNode node, int tileX, int tileZ)
         {
             lock (instance.mutex)
-                Functions.Call( () =>
-                    Functions.vp_terrain_node_set(
-                    instance.pointer,
-                    tileX, tileZ,
-                    node.X, node.Z,
-                    DataHandlers.NodeToNodeData(node))
-                );
+            {
+                var refNum  = nextReference;
+                var refNode = new Tuple<TerrainNode, int, int> (node, tileX, tileZ);
+                nodeReferences.Add(refNum, refNode);
+
+                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, refNum);
+
+                try {
+                    Functions.Call( () =>
+                        Functions.vp_terrain_node_set(
+                        instance.pointer,
+                        tileX, tileZ,
+                        node.X, node.Z,
+                        DataHandlers.NodeToNodeData(node))
+                    );
+                }
+                catch
+                {
+                    nodeReferences.Remove(refNum);
+                    throw;
+                }
+            }
         }
 
         /// <summary>

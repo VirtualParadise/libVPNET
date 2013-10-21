@@ -42,10 +42,13 @@ namespace VP
             CallbackObjectChange = null;
             CallbackObjectDelete = null;
             CallbackObjectGet    = null;
+
+            objReferences.Clear();
+            idReferences.Clear();
         }
         #endregion
 
-        #region Object references
+        #region Callback references
         Dictionary<int, VPObject> objReferences = new Dictionary<int, VPObject>();
         Dictionary<int, int>      idReferences  = new Dictionary<int, int>();
 
