@@ -102,12 +102,12 @@ namespace VP
         #region Callback handlers
         void OnNodeSetCallback(IntPtr sender, int rc, int reference)
         {
+            nodeReferences.Remove(reference);
+
             if (CallbackNodeSet == null)
                 return;
 
             var node = nodeReferences[reference];
-
-            nodeReferences.Remove(reference);
             CallbackNodeSet(instance, (ReasonCode) rc, node.Item1, node.Item2, node.Item3);
         }
         #endregion
