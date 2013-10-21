@@ -241,12 +241,12 @@ namespace VP
         #region Callback handlers
         void OnObjectCreateCallback(IntPtr sender, int rc, int reference)
         {
+            var obj = objReferences[reference];
             objReferences.Remove(reference);
 
             if (CallbackObjectCreate == null)
                 return;
 
-            var obj = objReferences[reference];
             obj.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
 
             CallbackObjectCreate(instance, (ReasonCode) rc, obj);
@@ -254,38 +254,36 @@ namespace VP
 
         void OnObjectChangeCallback(IntPtr sender, int rc, int reference)
         {
+            var obj = objReferences[reference];
             objReferences.Remove(reference);
 
             if (CallbackObjectChange == null)
                 return;
-
-            var obj = objReferences[reference];
-            obj.Id = Functions.vp_int(sender, IntAttributes.ObjectId);
 
             CallbackObjectChange(instance, (ReasonCode) rc, obj);
         }
 
         void OnObjectDeleteCallback(IntPtr sender, int rc, int reference)
         {
+            var id = idReferences[reference];
             idReferences.Remove(reference);
 
             if (CallbackObjectDelete == null)
                 return;
-
-            var id = idReferences[reference];
 
             CallbackObjectDelete(instance, (ReasonCode) rc, id);
         }
 
         void OnObjectGetCallback(IntPtr sender, int rc, int reference)
         {
+            var id = idReferences[reference];
             idReferences.Remove(reference);
 
             if (CallbackObjectGet == null)
                 return;
 
             var obj = new VPObject(sender);
-            obj.Id  = idReferences[reference];
+            obj.Id = id;
 
             CallbackObjectGet(instance, (ReasonCode) rc, obj);
         }
