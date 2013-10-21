@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\BaseExampleBot.cs" />
+    <Compile Include="Examples\ObjectQuery.cs" />
     <Compile Include="Examples\ObjectGet.cs" />
     <Compile Include="Examples\UrlSend.cs" />
     <Compile Include="Examples\HelloWorld.cs" />
