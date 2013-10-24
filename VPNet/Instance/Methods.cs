@@ -155,8 +155,8 @@ namespace VP
         }  
 
         /// <summary>
-        /// Sends a broadcast-like message with custom styling to a specific session.
-        /// Chainable and thread-safe.
+        /// Sends a formattable and broadcast-like message with custom styling to a
+        /// specific session. Chainable and thread-safe.
         /// </summary>
         /// <param name="session">
         /// Target session, or use 0 to broadcast to everybody. Alternatively, use 
@@ -168,38 +168,17 @@ namespace VP
         /// <param name="effects">Effects to use on this message</param>
         /// <param name="color">Color to use on this message</param>
         /// <param name="message">Message to send</param>
-        public Instance ConsoleMessage(int session, ChatEffect effects, ColorRgb color, string name, string message)
+        public Instance ConsoleMessage(int session, ChatEffect effects, ColorRgb color, string name, string message, params object[] parts)
         {
             lock (mutex)
-                Functions.Call( () => Functions.vp_console_message(pointer, session, name, message, (int) effects, color.R, color.G, color.B) );
+                Functions.Call( () => Functions.vp_console_message(pointer, session, name, string.Format(message, parts), (int) effects, color.R, color.G, color.B) );
 
             return this;
         }
 
         /// <summary>
-        /// Sends a formatted broadcast-like message with custom styling to a specific
-        /// session. Chainable and thread-safe.
-        /// </summary>
-        /// <param name="session">
-        /// Target session, or use 0 to broadcast to everybody. Alternatively, use 
-        /// <see cref="ConsoleBroadcast(ChatEffect, Color, string, string)"/>
-        /// </param>
-        /// <param name="name">
-        /// Name to use for message, or blank string for a standalone message
-        /// </param>
-        /// <param name="effects">Effects to use on this message</param>
-        /// <param name="color">Color to use on this message</param>
-        /// <param name="message">Message with formatting tokens to replace</param>
-        /// <param name="parts">Parts to substitue into the message</param>
-        /// <seealso cref="string.Format(string, Object)"/>
-        public Instance ConsoleMessage(int session, ChatEffect effects, Color color, string name, string message, params object[] parts)
-        {
-            return ConsoleMessage(session, effects, color, name, string.Format(message, parts));
-        }
-
-        /// <summary>
-        /// Sends a broadcast-like message with custom styling to everybody in-world.
-        /// Chainable and thread-safe.
+        /// Sends a formattable and broadcast-like message with custom styling to
+        /// everybody in-world. Chainable and thread-safe.
         /// </summary>
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
@@ -207,31 +186,14 @@ namespace VP
         /// <param name="effects">Effects to use on this message</param>
         /// <param name="color">Color to use on this message</param>
         /// <param name="message">Message to send</param>
-        public Instance ConsoleBroadcast(ChatEffect effects, Color color, string name, string message)
-        {
-            return ConsoleMessage(0, effects, color, name, message);
-        }
-
-        /// <summary>
-        /// Sends a formatted broadcast-like message with custom styling to everybody
-        /// in-world. Chainable and thread-safe.
-        /// </summary>
-        /// <param name="name">
-        /// Name to use for message, or blank string for a standalone message
-        /// </param>
-        /// <param name="effects">Effects to use on this message</param>
-        /// <param name="color">Color to use on this message</param>
-        /// <param name="message">Message with formatting tokens to replace</param>
-        /// <param name="parts">Parts to substitue into the message</param>
-        /// <seealso cref="string.Format(string, Object)"/>
-        public Instance ConsoleBroadcast(ChatEffect effects, Color color, string name, string message, params object[] parts)
+        public Instance ConsoleBroadcast(ChatEffect effects, ColorRgb color, string name, string message, params object[] parts)
         {
             return ConsoleMessage(0, effects, color, name, string.Format(message, parts));
         }
 
         /// <summary>
-        /// Sends a broadcast-like message with default styling to a specific session.
-        /// Chainable and thread-safe.
+        /// Sends a formattable and broadcast-like message with default styling to a
+        /// specific session. Chainable and thread-safe.
         /// </summary>
         /// <param name="session">
         /// Target session, or use 0 to broadcast to everybody. Alternatively, use 
@@ -241,56 +203,22 @@ namespace VP
         /// Name to use for message, or blank string for a standalone message
         /// </param>
         /// <param name="message">Message to send</param>
-        public Instance ConsoleMessage(int session, string name, string message)
-        { 
-            return ConsoleMessage(session, ChatEffect.None, new ColorRgb(0,0,0), name, message);
-        }
-
-        /// <summary>
-        /// Sends a formatted broadcast-like message with default styling to a specific
-        /// session. Chainable and thread-safe.
-        /// </summary>
-        /// <param name="session">
-        /// Target session, or use 0 to broadcast to everybody. Alternatively, use 
-        /// <see cref="ConsoleBroadcast(string, string, object[])"/>
-        /// </param>
-        /// <param name="name">
-        /// Name to use for message, or blank string for a standalone message
-        /// </param>
-        /// <param name="message">Message with formatting tokens to replace</param>
-        /// <param name="parts">Parts to substitue into the message</param>
-        /// <seealso cref="string.Format(string, Object)"/>
         public Instance ConsoleMessage(int session, string name, string message, params object[] parts)
-        {
-            return ConsoleMessage(session, ChatEffect.None, new ColorRgb(0,0,0), name, string.Format(message, parts));
+        { 
+            return ConsoleMessage(session, ChatEffect.None, new ColorRgb(0,0,0), name, message, parts);
         }
 
         /// <summary>
-        /// Sends a broadcast-like message with default styling to everybody in-world.
-        /// Chainable and thread-safe.
-        /// </summary>
-        /// <param name="name">
-        /// Name to use for message, or blank string for a standalone message
-        /// </param>
-        /// <param name="message">Message to send</param>
-        public Instance ConsoleBroadcast(string name, string message)
-        {
-            return ConsoleMessage(0, ChatEffect.None, new ColorRgb(0,0,0), name, message);
-        }
-
-        /// <summary>
-        /// Sends a formatted broadcast-like message with default styling to everybody
+        /// Sends a formattable broadcast-like message with default styling to everybody
         /// in-world. Chainable and thread-safe.
         /// </summary>
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
         /// </param>
-        /// <param name="message">Message with formatting tokens to replace</param>
-        /// <param name="parts">Parts to substitue into the message</param>
-        /// <seealso cref="string.Format(string, Object)"/>
+        /// <param name="message">Message to send</param>
         public Instance ConsoleBroadcast(string name, string message, params object[] parts)
         {
-            return ConsoleMessage(0, ChatEffect.None, new ColorRgb(0,0,0), name, string.Format(message, parts));
+            return ConsoleMessage(0, ChatEffect.None, new ColorRgb(0,0,0), name, message, parts);
         }
         #endregion
     }

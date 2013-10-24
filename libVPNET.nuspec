@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>libVPNET</id>
-        <version>0.2.3-pre</version>
+        <version>0.3.0-pre</version>
         <title>libVirtualParadise.NET</title>
         <authors>Roy Curtis</authors>
         <projectUrl>https://github.com/RoyCurtis/libVPNET</projectUrl>
@@ -18,7 +18,9 @@ The native libraries are packaged into the assembly and are automatically unpack
 
 This library itself is compiled as x86 only (but is known to work on Mono with the 64bit libs).</description>
         <summary>Alternative library for writing Virtual Paradise bots</summary>
-        <releaseNotes>0.2.3-pre - Fixed null object data bug and potential memory leaks
+        <releaseNotes>0.3.0-pre - Infinite call loop fixes for ConsoleMessage, removed some ConsoleMessage methods for simplicity
+
+0.2.3-pre - Fixed null object data bug and potential memory leaks
 
 0.2.2-pre - Added NodeSet callback to terrain
 
