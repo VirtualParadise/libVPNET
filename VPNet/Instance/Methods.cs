@@ -15,7 +15,7 @@ namespace VP
         /// and for most function calls to go through. Chainable and thread-safe.
         /// </summary>
         /// <remarks>Equivalent of C SDK's vp_wait()</remarks>
-        public Instance Pump(int milliseconds = 0)
+        public Instance Pump(int milliseconds = 25)
         {
             lock (mutex)
             {
@@ -135,28 +135,26 @@ namespace VP
 
         #region Communication
         /// <summary>
-        /// Sends a chat message to the current world. Chainable and thread-safe.
-        /// </summary>
-        public Instance Say(string message)
-        {
-            lock (mutex)
-                Functions.Call( () => Functions.vp_say(pointer, message) );
-
-            return this;
-        }
-
-        /// <summary>
-        /// Sends a formatted chat message to current world. Chainable and thread-safe.
+        /// Sends a formatted chat message to current world. Chainable, thread-safe and
+        /// splits messages over 255 bytes in length automatically.
         /// </summary>
         /// <seealso cref="string.Format(string, Object)"/>
         public Instance Say(string message, params object[] parts)
         {
-            return Say( string.Format(message, parts) );
+            var formatted = string.Format(message, parts);
+            var chunks    = Unicode.ChunkByByteLimit(formatted);
+
+            lock (mutex)
+                foreach (var chunk in chunks)
+                    Functions.Call( () => Functions.vp_say(pointer, chunk) );
+
+            return this;
         }  
 
         /// <summary>
         /// Sends a formattable and broadcast-like message with custom styling to a
-        /// specific session. Chainable and thread-safe.
+        /// specific session. Chainable, thread-safe and splits messages over 255 bytes
+        /// in length automatically.
         /// </summary>
         /// <param name="session">
         /// Target session, or use 0 to broadcast to everybody. Alternatively, use 
@@ -170,15 +168,20 @@ namespace VP
         /// <param name="message">Message to send</param>
         public Instance ConsoleMessage(int session, ChatEffect effects, ColorRgb color, string name, string message, params object[] parts)
         {
+            var formatted = string.Format(message, parts);
+            var chunks    = Unicode.ChunkByByteLimit(formatted);
+
             lock (mutex)
-                Functions.Call( () => Functions.vp_console_message(pointer, session, name, string.Format(message, parts), (int) effects, color.R, color.G, color.B) );
+                foreach (var chunk in chunks)
+                    Functions.Call( () => Functions.vp_console_message(pointer, session, name, chunk, (int) effects, color.R, color.G, color.B) );
 
             return this;
         }
 
         /// <summary>
         /// Sends a formattable and broadcast-like message with custom styling to
-        /// everybody in-world. Chainable and thread-safe.
+        /// everybody in-world. Chainable, thread-safe and splits messages over 255 bytes
+        /// in length automatically.
         /// </summary>
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message
@@ -188,12 +191,13 @@ namespace VP
         /// <param name="message">Message to send</param>
         public Instance ConsoleBroadcast(ChatEffect effects, ColorRgb color, string name, string message, params object[] parts)
         {
-            return ConsoleMessage(0, effects, color, name, string.Format(message, parts));
+            return ConsoleMessage( 0, effects, color, name, string.Format(message, parts) );
         }
 
         /// <summary>
         /// Sends a formattable and broadcast-like message with default styling to a
-        /// specific session. Chainable and thread-safe.
+        /// specific session. Chainable, thread-safe and splits messages over 255 bytes
+        /// in length automatically.
         /// </summary>
         /// <param name="session">
         /// Target session, or use 0 to broadcast to everybody. Alternatively, use 
@@ -210,7 +214,8 @@ namespace VP
 
         /// <summary>
         /// Sends a formattable broadcast-like message with default styling to everybody
-        /// in-world. Chainable and thread-safe.
+        /// in-world. Chainable, thread-safe and splits messages over 255 bytes in length
+        /// automatically.
         /// </summary>
         /// <param name="name">
         /// Name to use for message, or blank string for a standalone message

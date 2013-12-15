@@ -12,7 +12,6 @@ namespace VP.Native
         const string dllUnix    = "libvpsdk.so";
         const string dllPrefix  = "VP.Libraries.";
 
-
         /// <summary>
         /// Unpacks the native VP SDK dll from the assembly upon first use for the
         /// correct platform

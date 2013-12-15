@@ -70,6 +70,7 @@
     <Compile Include="Types\World.cs" />
     <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Utility\Nexus.cs" />
+    <Compile Include="Utility\Unicode.cs" />
     <Compile Include="VPException.cs" />
     <Compile Include="Native\Attributes.cs" />
     <Compile Include="Native\Callbacks.cs" />
