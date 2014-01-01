@@ -36,10 +36,8 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libVPNET">
-      <HintPath>..\packages\libVPNET.0.3.1-pre\lib\net40\libVPNET.dll</HintPath>
-    </Reference>
-    <Reference Include="Nexus">
+    <Reference Include="Nexus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nexus.2.1.0\lib\net40\Nexus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -53,6 +51,12 @@
     <Compile Include="Examples\HelloWorld.cs" />
     <Compile Include="VPNetExamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VPNet\VPNet.csproj">
+      <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
+      <Name>VPNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
