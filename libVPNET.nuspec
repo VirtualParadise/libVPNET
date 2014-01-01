@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>libVPNET</id>
-        <version>0.3.1-pre</version>
+        <version>0.3.5-pre</version>
         <title>libVirtualParadise.NET</title>
         <authors>Roy Curtis</authors>
         <projectUrl>https://github.com/RoyCurtis/libVPNET</projectUrl>
@@ -13,12 +13,15 @@ Features a more C#-centric design, including structs and utility classes useful 
 
 The native libraries are packaged into the assembly and are automatically unpacked on use. Supported architectures:
 
-* x86-64 Linux (CentOS)
+* x64 Linux (CentOS-based)
 * x86 Windows
-
-This library itself is compiled as x86 only (but is known to work on Mono with the 64bit libs).</description>
+* x64 Windows</description>
         <summary>Alternative library for writing Virtual Paradise bots</summary>
-        <releaseNotes>0.3.1-pre - Added utility method for splitting unicode messages by byte VP limit (255), made all say and console methods automatically split long messages
+        <releaseNotes>0.3.3 to 0.3.5-pre - Native deployment fixes
+
+0.3.2-pre - Made assembly AnyCPU and contains both x86 and x64 Windows natives now
+
+0.3.1-pre - Added utility method for splitting unicode messages by byte VP limit (255), made all say and console methods automatically split long messages
 
 0.3.0-pre - Infinite call loop fixes for ConsoleMessage, removed some ConsoleMessage methods for simplicity
 
@@ -40,6 +43,8 @@ This library itself is compiled as x86 only (but is known to work on Mono with t
         </dependencies>
     </metadata>
     <files>
+        <file src="Build\VP.NET\libVPNET.targets" target="build\net40\libVPNET.targets" />
+        <file src="Build\VP.NET\libvpsdk.so" target="lib\native\libvpsdk.so" />
         <file src="Build\VP.NET\libVPNET.dll" target="lib\net40\libVPNET.dll" />
         <file src="Build\VP.NET\libVPNET.pdb" target="lib\net40\libVPNET.pdb" />
         <file src="Build\VP.NET\libVPNET.xml" target="lib\net40\libVPNET.xml" />

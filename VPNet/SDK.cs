@@ -26,10 +26,17 @@ namespace VP
 
         static void initialize()
         {
-            DLLHandler.Unpack();
-            Functions.Call( () => Functions.vp_init(version) );
+            try
+            {
+                DLLHandler.Unpack();
+                Functions.Call( () => Functions.vp_init(version) );
 
-            isInitialized = true;
+                isInitialized = true;
+            }
+            catch (BadImageFormatException e)
+            {
+                throw new BadImageFormatException("libVPNET does not support this machine's architecture and/or operating system", e.FileName, e); 
+            }
         }
     }
 }

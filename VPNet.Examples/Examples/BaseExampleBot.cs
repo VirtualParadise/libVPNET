@@ -30,7 +30,6 @@ namespace VP.Examples
         /// </summary>
         public void Execute()
         {
-            Console.CancelKeyPress += onCancel;
             try
             {
                 Main(Examples.Username, Examples.Password, Examples.World);
@@ -50,19 +49,12 @@ namespace VP.Examples
         /// </summary>
         public void End()
         {
-            Console.CancelKeyPress -= onCancel;
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Ending demo {0}...", Name);
 
             Dispose();
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("*****\n\n");
-        }
-
-        void onCancel(object sender, ConsoleCancelEventArgs e)
-        {
-            e.Cancel  = true;
-            Disposing = true;
         }
     }
 }

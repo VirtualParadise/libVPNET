@@ -10,6 +10,8 @@ namespace VP.Examples
         internal static string Password;
         internal static string World;
 
+        static BaseExampleBot currentDemo;
+
         static void Main(string[] args)
         {
             if (args.Length < 3)
@@ -18,7 +20,9 @@ namespace VP.Examples
                 return;
             }
 
+            Console.CancelKeyPress += onCancel;
             Console.Title = "libVPNET Examples";
+
             Username = args[0];
             Password = args[1];
             World    = args[2];
@@ -26,7 +30,7 @@ namespace VP.Examples
             var demoQuery =
                 from   t in Assembly.GetExecutingAssembly().GetTypes()
                 where  t.IsSubclassOf( typeof(BaseExampleBot) )
-                select Activator.CreateInstance(t) as BaseExampleBot;
+                select t;
             var demos = demoQuery.ToArray();
 
         menu:
@@ -51,14 +55,24 @@ namespace VP.Examples
             }
 
             // Fire!
-            var demo = demos[option];
+            currentDemo = Activator.CreateInstance(demos[option]) as BaseExampleBot;
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("\nRunning demo {0}, press CTRL+C to return to menu", demo.Name);
+            Console.WriteLine("\nRunning demo {0}, press CTRL+C to return to menu", currentDemo.Name);
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            demo.Execute();
+            currentDemo.Execute();
 
             // Done
+            currentDemo = null;
             goto menu;
+        }
+
+        static void onCancel(object sender, ConsoleCancelEventArgs e)
+        {
+            if (currentDemo == null)
+                return;
+
+            currentDemo.Disposing = true;
+            e.Cancel = true;
         }
     }
 }
