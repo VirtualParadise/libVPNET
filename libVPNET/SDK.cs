@@ -31,7 +31,8 @@ namespace VP
             {
                 var path    = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
                 var local   = Environment.Is64BitProcess ? "x64/" : "x86/";
-                var newPath = String.Format( "{0};{1}", path, Path.Combine(Environment.CurrentDirectory, local) );
+                var newDir  = Path.GetFullPath( Path.Combine(Environment.CurrentDirectory, local) );
+                var newPath = String.Format( "{0};{1}", path, newDir);
 
                 Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.Process);
 
