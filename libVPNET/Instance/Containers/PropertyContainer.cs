@@ -426,7 +426,10 @@ namespace VP
         /// Sends a click event on a given in-world object by unique ID, on the specified
         /// coordinates using a <see cref="Vector3D"/>. Thread-safe.
         /// </summary>
-        public void ClickObject(int id, Vector3D coordinates)
+        /// <param name="id">ID of object to click</param>
+        /// <param name="coordinates">3D coordinates of the click</param>
+        /// <param name="eventTarget">Optional session to limit event to</param>
+        public void ClickObject(int id, Vector3D coordinates, int eventTarget = 0)
         {
             lock (instance.mutex)
             {
@@ -439,26 +442,33 @@ namespace VP
         /// <summary>
         /// Sends a click event on a given in-world object by unique ID. Thread-safe.
         /// </summary>
-        public void ClickObject(int id)
+        /// <param name="id">ID of object to click</param>
+        /// <param name="eventTarget">Optional session to limit event to</param>
+        public void ClickObject(int id, int eventTarget = 0)
         {
-            ClickObject(id, Vector3D.Zero);
+            ClickObject(id, Vector3D.Zero, eventTarget);
         }
 
         /// <summary>
         /// Sends a click event on a given in-world object on the specified coordinates
         /// using a <see cref="Vector3D"/>. Thread-safe.
         /// </summary>
-        public void ClickObject(VPObject obj, Vector3D coordinates)
+        /// <param name="obj">Object to click</param>
+        /// <param name="coordinates">3D coordinates of the click</param>
+        /// <param name="eventTarget">Optional session to limit event to</param>
+        public void ClickObject(VPObject obj, Vector3D coordinates, int eventTarget = 0)
         {
-            ClickObject(obj.Id, coordinates);
+            ClickObject(obj.Id, coordinates, eventTarget);
         } 
 
         /// <summary>
         /// Sends a click event on a given in-world object. Thread-safe.
         /// </summary>
-        public void ClickObject(VPObject obj)
+        /// <param name="obj">Object to click</param>
+        /// <param name="eventTarget">Optional session to limit event to</param>
+        public void ClickObject(VPObject obj, int eventTarget = 0)
         {
-            ClickObject(obj.Id);
+            ClickObject(obj.Id, eventTarget);
         } 
         #endregion
     }

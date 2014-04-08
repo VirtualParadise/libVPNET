@@ -48,11 +48,13 @@
 typedef enum vp_event_t
 {
 /**
- *	Called when a user in the same world the instance is in sends a message
+ *	Called when a user in the same world the instance is in sends a message.
  *  Attributes:
  *  - #VP_AVATAR_SESSION
  *  - #VP_AVATAR_NAME
  *  - #VP_CHAT_MESSAGE
+ *  \note   You must announce an avatar position (using vp_avatar_change) to be
+            able to receive user chat messages.
  */
 	VP_EVENT_CHAT,
 /**
@@ -63,8 +65,8 @@ typedef enum vp_event_t
  *  - #VP_AVATAR_X
  *  - #VP_AVATAR_Y
  *  - #VP_AVATAR_Z
- *  - #VP_AVATAR_ROTATION_PITCH
- *  - #VP_AVATAR_ROTATION_YAW
+ *  - #VP_AVATAR_PITCH
+ *  - #VP_AVATAR_YAW
  *  - #VP_AVATAR_TYPE
  *  - #VP_USER_ID
  */
@@ -77,14 +79,15 @@ typedef enum vp_event_t
  *  - #VP_AVATAR_X
  *  - #VP_AVATAR_Y
  *  - #VP_AVATAR_Z
- *  - #VP_AVATAR_ROTATION_PITCH
- *  - #VP_AVATAR_ROTATION_YAW
+ *  - #VP_AVATAR_PITCH
+ *  - #VP_AVATAR_YAW
  *  - #VP_AVATAR_TYPE
  */
 	VP_EVENT_AVATAR_CHANGE,
 /**
- *	Called when a user leaves the world
+ *	Called when a user leaves the world.
  *  Attributes:
+ *
  *  - #VP_AVATAR_NAME
  *  - #VP_AVATAR_SESSION
  */
@@ -140,10 +143,13 @@ typedef enum vp_event_t
 	VP_EVENT_OBJECT_DELETE,
 
 /**
- *	Called when an object is clicked by another user. The following attributes
- *	are set when the event is called:
- *		- #VP_AVATAR_SESSION
- *		- #VP_OBJECT_ID
+ *  Called when an object is clicked by another user. The following attributes
+ *  are set when the event is called:
+ *  - #VP_AVATAR_SESSION
+ *  - #VP_OBJECT_ID
+ *  - #VP_CLICK_HIT_X
+ *  - #VP_CLICK_HIT_Y
+ *  - #VP_CLICK_HIT_Z
  */
 	VP_EVENT_OBJECT_CLICK,
 
@@ -171,7 +177,17 @@ typedef enum vp_event_t
 	VP_EVENT_WORLD_SETTINGS_CHANGED,
 
 	VP_EVENT_FRIEND,
+    
+    /**
+     *  Attributes:
+     *  - #VP_DISCONNECT_ERROR_CODE
+     */
 	VP_EVENT_WORLD_DISCONNECT,
+    
+    /**
+     *  Attributes:
+     *  - #VP_DISCONNECT_ERROR_CODE
+     */
 	VP_EVENT_UNIVERSE_DISCONNECT,
 
 	/**
@@ -205,8 +221,11 @@ typedef enum vp_event_t
     
     /**
      *  Attributes:
-     *  - VP_AVATAR_SESSION
-     *  - VP_CLICKED_SESSION
+     *  - #VP_AVATAR_SESSION
+     *  - #VP_CLICKED_SESSION
+     *  - #VP_CLICK_HIT_X
+     *  - #VP_CLICK_HIT_Y
+     *  - #VP_CLICK_HIT_Z
      */
     VP_EVENT_AVATAR_CLICK,
     
@@ -239,13 +258,44 @@ typedef enum vp_callback_t
 	 *  The attribute #VP_OBJECT_ID is set to the object ID of the new object
 	 */
 	VP_CALLBACK_OBJECT_ADD,
+    /**
+     *  #VP_OBJECT_ID attribute is set to the changed object ID
+     */
 	VP_CALLBACK_OBJECT_CHANGE,
+    /**
+     *  #VP_OBJECT_ID attribute is set to the deleted object ID
+     */
 	VP_CALLBACK_OBJECT_DELETE,
 	VP_CALLBACK_GET_FRIENDS,
 	VP_CALLBACK_FRIEND_ADD,
 	VP_CALLBACK_FRIEND_DELETE,
     VP_CALLBACK_TERRAIN_QUERY,
     VP_CALLBACK_TERRAIN_NODE_SET,
+    
+    /**
+     * Reason codes:
+     * - #VP_RC_SUCCESS
+     * - #VP_RC_DATABASE_ERROR
+     * - #VP_RC_OBJECT_NOT_FOUND
+     * - #VP_RC_UNKNOWN_ERROR
+     *
+     * Attributes:
+     * - #VP_OBJECT_ID
+     * - #VP_OBJECT_USER_ID
+     * - #VP_OBJECT_TIME
+     * - #VP_OBJECT_X
+     * - #VP_OBJECT_Y
+     * - #VP_OBJECT_Z
+     * - #VP_OBJECT_ROTATION_X
+     * - #VP_OBJECT_ROTATION_Y
+     * - #VP_OBJECT_ROTATION_Z
+     * - #VP_OBJECT_ROTATION_ANGLE
+     * - #VP_OBJECT_TYPE
+     * - #VP_OBJECT_DATA
+     * - #VP_OBJECT_MODEL
+     * - #VP_OBJECT_DESCRIPTION
+     * - #VP_OBJECT_ACTION
+     */
     VP_CALLBACK_OBJECT_GET,
 	VP_HIGHEST_CALLBACK
 } vp_callback_t;
@@ -301,6 +351,7 @@ typedef enum vp_int_attribute_t
     VP_DISCONNECT_ERROR_CODE,
     
     VP_URL_TARGET,
+    VP_CLICK_SESSION_TO,
 	
 	VP_HIGHEST_INT
 } vp_int_attribute_t;
@@ -452,10 +503,19 @@ enum vp_text_effect {
     VP_TEXT_EFFECT_ITALIC = 2
 };
 
-/**
- *  Initialize the Virtual Paradise SDK API
+/** \fn VPSDK_API int vp_init(int version=VPSDK_VERSION)
+ *  Initialize the Virtual Paradise SDK API. This function should be called 
+ *  before calling any other VPSDK functions.
+ *  \param      version
+ *  \returns    #VP_RC_SUCCESS              if successful
+ *  \returns    #VP_RC_VERSION_MISMATCH     if the header version does not match the library version
+ *  \returns    #VP_RC_ALREADY_INITIALIZED  if the API has already been initialized
  */
+#ifdef __cplusplus
+VPSDK_API int vp_init(int version=VPSDK_VERSION);
+#else
 VPSDK_API int vp_init(int version);
+#endif
 
 /**
  *  Create a new instance.
@@ -483,33 +543,49 @@ VPSDK_API int vp_connect_universe(VPInstance instance, const char * host, int po
  *  \param username
  *  \param password
  *  \param botname
- *  \return Zero when successful, otherwise nonzero. See RC.h
+ *  \returns #VP_RC_SUCCESS
+ *  \returns #VP_RC_STRING_TOO_LONG
+ *  \returns #VP_RC_INVALID_LOGIN
+ *  \returns #VP_RC_TIMEOUT
+ *  \returns #VP_RC_NOT_IN_UNIVERSE
  */
 VPSDK_API int vp_login(VPInstance instance, const char * username, const char * password, const char * botname);
 
 /**
- *  Wait for incoming messages.
+ *  Process incoming and outgoing data. Waits for connection to be ready for 
+ *  sending or receiving. This function needs to be called for events to fire.
  *  \param milliseconds The maximum time to wait in milliseconds.
+ *  \warning Not reentrant when used with the same instance, may not be called from event handlers unless it is for a different instance.
  *  \return Zero when successful, otherwise nonzero. See RC.h
  */
 VPSDK_API int vp_wait(VPInstance instance, int milliseconds);
 
 /**
- *  Enter a world. The current world will be left.
- *  \return Zero when successful, otherwise nonzero. See RC.h
+ *  Enter a world, the current world will be left.
+ *  \warning This function uses #vp_wait internally, the same warnings apply.
+ *  \returns #VP_RC_SUCCESS if successful
+ *  \returns #VP_RC_STRING_TOO_LONG
+ *  \returns #VP_RC_CONNECTION_ERROR
+ *  \returns #VP_RC_WORLD_NOT_FOUND
+ *  \returns #VP_RC_WORLD_LOGIN_ERROR
+ *  \returns #VP_RC_TIMEOUT
+ *  \returns #VP_RC_NOT_IN_UNIVERSE
  */
 VPSDK_API int vp_enter(VPInstance instance, const char * worldname);
 
 /**
  *	Leave the current world.
- *  \return Zero when successful, otherwise nonzero. See RC.h
+ *  \returns #VP_RC_SUCCESS
+ *  \returns #VP_RC_NOT_IN_WORLD
  */
 VPSDK_API int vp_leave(VPInstance instance);
 
 /**
  *  Send a simple message to everyone in the current world.
  *  \param message The message to send.
- *  \return Zero when successful, otherwise nonzero. See RC.h
+ *  \returns #VP_RC_SUCCESS
+ *  \returns #VP_RC_NOT_IN_WORLD
+ *  \returns #VP_RC_STRING_TOO_LONG
  */
 VPSDK_API int vp_say(VPInstance instance, const char * message);
 
@@ -522,6 +598,9 @@ VPSDK_API int vp_say(VPInstance instance, const char * message);
  *  \param red Red component of the text color(0-255)
  *  \param green Green component of the text color(0-255)
  *  \param blue Blue component of the text color(0-255)
+ *  \returns #VP_RC_SUCCESS
+ *  \returns #VP_RC_NOT_IN_WORLD
+ *  \returns #VP_RC_STRING_TOO_LONG
  */
 VPSDK_API int vp_console_message(VPInstance instance,
                                  int session,
@@ -556,6 +635,20 @@ VPSDK_API void * vp_user_data(VPInstance instance);
  *  \param data The pointer to your user-defined data.
  */
 VPSDK_API void vp_user_data_set(VPInstance instance, void * data);
+
+/**
+ *  Update avatar
+ *
+ *  Attributes:
+ *  - #VP_MY_X
+ *  - #VP_MY_Y
+ *  - #VP_MY_Z
+ *  - #VP_MY_YAW
+ *  - #VP_MY_PITCH
+ *  - #VP_MY_TYPE
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NOT_IN_WORLD
+ */
 VPSDK_API int vp_state_change(VPInstance instance);
 
 VPSDK_API int vp_int(VPInstance instance, vp_int_attribute_t name);
@@ -579,9 +672,63 @@ VPSDK_API int vp_data_set(VPInstance instance, vp_data_attribute_t name, int len
  */
 VPSDK_API int vp_query_cell(VPInstance instance, int x, int z);
 
+/**
+ *  Builds a new object
+ *
+ *  Uses attributes:
+ *  - #VP_OBJECT_TYPE
+ *  - #VP_OBJECT_X
+ *  - #VP_OBJECT_Y
+ *  - #VP_OBJECT_Z
+ *  - #VP_OBJECT_ROTATION_X
+ *  - #VP_OBJECT_ROTATION_Y
+ *  - #VP_OBJECT_ROTATION_Z
+ *  - #VP_OBJECT_ROTATION_ANGLE
+ *  - #VP_OBJECT_MODEL
+ *  - #VP_OBJECT_ACTION
+ *  - #VP_OBJECT_DESCRIPTION
+ *  - #VP_OBJECT_DATA
+ */
 VPSDK_API int vp_object_add(VPInstance instance);
+
+/**
+ *  Changes an existing object
+ *
+ *  Uses attributes:
+ *  - #VP_OBJECT_ID
+ *  - #VP_OBJECT_TYPE
+ *  - #VP_OBJECT_X
+ *  - #VP_OBJECT_Y
+ *  - #VP_OBJECT_Z
+ *  - #VP_OBJECT_ROTATION_X
+ *  - #VP_OBJECT_ROTATION_Y
+ *  - #VP_OBJECT_ROTATION_Z
+ *  - #VP_OBJECT_ROTATION_ANGLE
+ *  - #VP_OBJECT_MODEL
+ *  - #VP_OBJECT_ACTION
+ *  - #VP_OBJECT_DESCRIPTION
+ *  - #VP_OBJECT_DATA
+ */
 VPSDK_API int vp_object_change(VPInstance instance);
+
+/**
+ *  Sends an object click event to other users in the world.
+ *  Uses the following attributes:
+ *  - #VP_OBJECT_ID
+ *  - #VP_CLICK_HIT_X
+ *  - #VP_CLICK_HIT_Y
+ *  - #VP_CLICK_HIT_Z
+ *  \returns #VP_RC_SUCCESS
+ *  \returns #VP_RC_NOT_IN_WORLD
+ */
 VPSDK_API int vp_object_click(VPInstance instance);
+
+/**
+ *  Delete an object
+ *
+ *  Uses attributes:
+ *  - #VP_OBJECT_ID
+ */
 VPSDK_API int vp_object_delete(VPInstance instance);
 
 /**
@@ -609,6 +756,7 @@ VPSDK_API int vp_user_attributes_by_id(VPInstance instance, int user_id);
 
 /**
  *  Get user attributes by user name. Not implemented.
+ *  \returns #VP_RC_NOT_IMPLEMENTED
  */
 VPSDK_API int vp_user_attributes_by_name(VPInstance instance, const char * name);
 
@@ -616,21 +764,53 @@ VPSDK_API int vp_friends_get(VPInstance instance);
 VPSDK_API int vp_friend_add_by_name(VPInstance instance, const char* name);
 VPSDK_API int vp_friend_delete(VPInstance instance, int friend_id);
 
+/**
+ *  Query a terrain tile
+ *  \param  tile_x
+ *  \param  tile_z
+ *  \param  revision 16 node revision numbers (4x4: revision[z][x])
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NOT_IN_WORLD
+ */
 VPSDK_API int vp_terrain_query(VPInstance instance, int tile_x, int tile_z, int revision[][4]);
+
+/**
+ *  Replace terrain node data
+ *  \param  tile_x
+ *  \param  tile_z
+ *  \param  node_x
+ *  \param  node_z
+ *  \param  cells Pointer to 64 cells (8x8: cells[z*8+x])
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NOT_IN_WORLD
+ */
 VPSDK_API int vp_terrain_node_set(VPInstance instance, 
                                   int tile_x, int tile_z, 
                                   int node_x, int node_z, 
                                   struct vp_terrain_cell_t* cells);
 
 /**
- *  Send an avatar click event to other users in the world
- *  \param avatar_session The session id of the clicked avatar
- *  \return Zero when successful, otherwise nonzero
+ *  Send an avatar click event to other users in the world.
+ *  Uses the following attributes:
+ *  - #VP_CLICK_HIT_X
+ *  - #VP_CLICK_HIT_Y
+ *  - #VP_CLICK_HIT_Z
+ *
+ *  \param      avatar_session The session id of the clicked avatar
+ *  \returns    #VP_RC_SUCCESS
+ *  \returns    #VP_RC_NOT_IN_WORLD
  */
 VPSDK_API int vp_avatar_click(VPInstance instance, int avatar_session);
 
 /**
  *  Request that another avatar teleports to a new location.
+ *  \note this is only a request and receiving client can choose to ignore it
+ *  \param target_session   session ID of the avatar to teleport
+ *  \param world            destination world, empty string to teleport avatar in current world
+ *  \param x,y,z            avatar position
+ *  \param yaw,pitch        avatar rotation
+ *  \returns                #VP_RC_SUCCESS
+ *  \returns                #VP_RC_NOT_IN_WORLD (this is about the bot instance, not the avatar to be teleported)
  */
 VPSDK_API int vp_teleport_avatar(VPInstance instance,
                                  int target_session,
@@ -638,6 +818,12 @@ VPSDK_API int vp_teleport_avatar(VPInstance instance,
                                  float x, float y, float z,
                                  float yaw, float pitch);
 
+/**
+ *  Send a URL to a user
+ *  \param session_id   target session id
+ *  \param url          the URL to send to the target session ID
+ *  \param url_target   Where to open the URL, see #vp_url_target_t
+ */
 VPSDK_API int vp_url_send(VPInstance instance,
                           int session_id,
                           const char* url,

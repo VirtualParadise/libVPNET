@@ -1,4 +1,6 @@
-﻿namespace VP
+﻿using System;
+
+namespace VP
 {
     /// <summary>
     /// Specifies possible errors of a function call or callback that the SDK may return
@@ -16,6 +18,7 @@
         /// <summary>
         /// Instance not initalized
         /// </summary>
+        [Obsolete("This is no longer used in the SDK")]
         NotInitialized,
         /// <summary>
         /// Instance already initialized

@@ -14,7 +14,10 @@ namespace VP
         /// amount of given milliseconds. This is nessecary in order to fire most events
         /// and for most function calls to go through. Chainable and thread-safe.
         /// </summary>
-        /// <remarks>Equivalent of C SDK's vp_wait()</remarks>
+        /// <remarks>
+        /// This function cannot be called from an event handler that has been fired by a
+        /// prior call to Pump.
+        /// </remarks>
         public Instance Pump(int milliseconds = 25)
         {
             lock (mutex)
@@ -36,7 +39,13 @@ namespace VP
         /// Logs into a specified universe with the given authentication details and bot
         /// name. Chainable and thread-safe.
         /// </summary>
-        /// <remarks>Servers always add square brackets around a bot's name</remarks>
+        /// <remarks>
+        /// This function makes an internal call to <see cref="Pump"/>. Due to the same
+        /// limitations, this function cannot be called from within an event handler that
+        /// has been fired by a prior call to Pump.
+        /// 
+        /// Servers always add square brackets around a bot's name.
+        /// </remarks>
         public Instance Login(Uniserver universe, string username, string password, string botname)
         {
             lock (mutex)
@@ -53,7 +62,13 @@ namespace VP
         /// Logs into the default Virtual Paradise universe with the given authentication
         /// details and bot name. Chainable and thread-safe.
         /// </summary>
-        /// <remarks>Servers always add square brackets around a bot's name</remarks>
+        /// <remarks>
+        /// This function makes an internal call to <see cref="Pump"/>. Due to the same
+        /// limitations, this function cannot be called from within an event handler that
+        /// has been fired by a prior call to Pump.
+        /// 
+        /// Servers always add square brackets around a bot's name.
+        /// </remarks>
         public Instance Login(string username, string password, string botname)
         {
             return Login(Uniserver.VirtualParadise, username, password, botname);
@@ -62,8 +77,13 @@ namespace VP
 
         #region World
         /// <summary>
-        /// Enters a given world, Chainable and thread-safe.
+        /// Enters a given world. Chainable and thread-safe.
         /// </summary>
+        /// <remarks>
+        /// This function makes an internal call to <see cref="Pump"/>. Due to the same
+        /// limitations, this function cannot be called from within an event handler that
+        /// has been fired by a prior call to Pump.
+        /// </remarks>
         /// <param name="worldname">Target world to enter</param>
         /// <param name="setState">
         /// If true (default), the bot will automatically call

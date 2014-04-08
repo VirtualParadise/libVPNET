@@ -18,9 +18,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Build\VP.NET\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\Build\VP.NET\libVPNET.xml</DocumentationFile>
+    <DocumentationFile>..\Build\libVPNET.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -28,9 +28,9 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>..\Build\VP.NET\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>..\Build\VP.NET\libVPNET.xml</DocumentationFile>
+    <DocumentationFile>..\Build\libVPNET.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,7 +55,6 @@
     <Compile Include="Instance\Containers\PropertyContainer.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Native\DataHandlers.cs" />
-    <Compile Include="Native\DLLHandler.cs" />
     <Compile Include="SDK.cs" />
     <Compile Include="Types\Avatar.cs" />
     <Compile Include="Types\Chat.cs" />
@@ -85,10 +84,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\vpsdk.x86.dll" />
+    <None Include="Libraries\x64\vpsdk.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\vpsdk.x64.dll" />
+    <Folder Include="Libraries\x86\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

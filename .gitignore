@@ -1,14 +1,6 @@
 bin/
 obj/
 *.suo
-Build/VP.NET.dll
-Build/VP.NET.pdb
 *.csproj.user
-Build/Examples/*.exe
-packages/*
-Build/Examples/*
-Build/VP.NET/libVPNET.dll
-Build/VP.NET/libVPNET.dll.mdb
-Build/VP.NET/libVPNET.pdb
-Build/VP.NET/libVPNET.xml
-Build/VP.NET/Nexus.dll
+packages/
+Build/
