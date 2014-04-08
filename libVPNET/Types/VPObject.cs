@@ -1,5 +1,4 @@
 ﻿using System;
-using Nexus;
 using VP.Native;
 
 namespace VP
@@ -33,11 +32,11 @@ namespace VP
         /// <summary>
         /// Gets the in-world Vector3D position of this object
         /// </summary>
-        public Vector3D Position;
+        public Vector3 Position;
         /// <summary>
         /// Gets the Quaternion (3 axis + angle) rotation of this object
         /// </summary>
-        public Quaternion Rotation;
+        public Rotation Rotation;
         /// <summary>
         /// Gets the model file name of this object
         /// </summary>
@@ -65,18 +64,18 @@ namespace VP
         /// Creates a VPObject for adding to the world using a <see cref="Vector3D"/>
         /// for position and default rotation
         /// </summary>
-        public VPObject(string model, Vector3D position)
+        public VPObject(string model, Vector3 position)
         {
             this.Model    = model;
             this.Position = position;
-            this.Rotation = new Quaternion();
+            this.Rotation = new Rotation();
         }
 
         /// <summary>
         /// Creates a VPObject for adding to the world using a <see cref="Vector3D"/>
         /// for position and a <see cref="Quaternion"/> for rotation
         /// </summary>
-        public VPObject(string model, Vector3D position, Quaternion rotation)
+        public VPObject(string model, Vector3 position, Rotation rotation)
         {
             this.Model    = model;
             this.Position = position;
@@ -96,21 +95,8 @@ namespace VP
             Type        = Functions.vp_int(pointer, IntAttributes.ObjectType);
             Owner       = Functions.vp_int(pointer, IntAttributes.ObjectUserId);
             Data        = DataHandlers.GetData(pointer, DataAttributes.ObjectData);
-
-            Position = new Vector3D
-            {
-                X = Functions.vp_float(pointer, FloatAttributes.ObjectX),
-                Y = Functions.vp_float(pointer, FloatAttributes.ObjectY),
-                Z = Functions.vp_float(pointer, FloatAttributes.ObjectZ)
-            };
-
-            Rotation = new Quaternion
-            {
-                W = Functions.vp_float(pointer, FloatAttributes.ObjectRotationAngle),
-                X = Functions.vp_float(pointer, FloatAttributes.ObjectRotationX),
-                Y = Functions.vp_float(pointer, FloatAttributes.ObjectRotationY),
-                Z = Functions.vp_float(pointer, FloatAttributes.ObjectRotationZ)
-            };
+            Position    = Vector3.FromObject(pointer);
+            Rotation    = Rotation.FromObject(pointer);
         }
 
         internal void ToNative(IntPtr pointer)
@@ -123,11 +109,8 @@ namespace VP
             Functions.vp_float_set (pointer, FloatAttributes.ObjectX, this.Position.X);
             Functions.vp_float_set (pointer, FloatAttributes.ObjectY, this.Position.Y);
             Functions.vp_float_set (pointer, FloatAttributes.ObjectZ, this.Position.Z);
-                                   
-            Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationX,     this.Rotation.X);
-            Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationY,     this.Rotation.Y);
-            Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationZ,     this.Rotation.Z);
-            Functions.vp_float_set (pointer, FloatAttributes.ObjectRotationAngle, this.Rotation.W);
+            this.Rotation.ToObject(pointer);
+
             Functions.vp_int_set   (pointer, IntAttributes.ObjectType,            this.Type);
 
             if (Data != null)

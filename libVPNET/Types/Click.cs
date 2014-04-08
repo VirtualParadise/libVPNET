@@ -1,5 +1,4 @@
-﻿using Nexus;
-using System;
+﻿using System;
 using VP.Native;
 
 namespace VP
@@ -18,15 +17,15 @@ namespace VP
         /// </summary>
         public int Session;
         /// <summary>
-        /// Gets the Vector3D representing the coordinates of this click
+        /// Gets the Vector3 representing the coordinates of this click
         /// </summary>
-        public Vector3D Position;
+        public Vector3 Position;
 
         internal ObjectClick(IntPtr pointer)
         {
             Id       = Functions.vp_int(pointer, IntAttributes.ObjectId);
             Session  = Functions.vp_int(pointer, IntAttributes.AvatarSession);
-            Position = VPVector3D.FromClick(pointer);
+            Position = Vector3.FromClick(pointer);
         }
     }
 
@@ -44,15 +43,15 @@ namespace VP
         /// </summary>
         public int TargetSession;
         /// <summary>
-        /// Gets the Vector3D representing the coordinates of this click
+        /// Gets the Vector3 representing the coordinates of this click
         /// </summary>
-        public Vector3D Position;
+        public Vector3 Position;
 
         internal AvatarClick(IntPtr pointer)
         {
             SourceSession = Functions.vp_int(pointer, IntAttributes.AvatarSession);
             TargetSession = Functions.vp_int(pointer, IntAttributes.ClickedSession);
-            Position      = VPVector3D.FromClick(pointer);
+            Position      = Vector3.FromClick(pointer);
         }
     }
 }

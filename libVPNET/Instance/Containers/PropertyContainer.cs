@@ -1,5 +1,4 @@
-﻿using Nexus;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using VP.Native;
 
@@ -352,7 +351,7 @@ namespace VP
         /// <param name="model">Model name</param>
         /// <param name="position"><see cref="Vector3D"/> position</param>
         /// <param name="rotation"><see cref="Quaternion"/> rotation</param>
-        public void CreateObject(string model, Vector3D position, Quaternion rotation)
+        public void CreateObject(string model, Vector3 position, Rotation rotation)
         {
             AddObject( new VPObject(model, position, rotation) );
         }
@@ -363,7 +362,7 @@ namespace VP
         /// </summary>
         /// <param name="model">Model name</param>
         /// <param name="position"><see cref="Vector3D"/> position</param>
-        public void CreateObject(string model, Vector3D position)
+        public void CreateObject(string model, Vector3 position)
         {
             AddObject( new VPObject(model, position) );
         }
@@ -429,7 +428,7 @@ namespace VP
         /// <param name="id">ID of object to click</param>
         /// <param name="coordinates">3D coordinates of the click</param>
         /// <param name="eventTarget">Optional session to limit event to</param>
-        public void ClickObject(int id, Vector3D coordinates, int eventTarget = 0)
+        public void ClickObject(int id, Vector3 coordinates, int eventTarget = 0)
         {
             lock (instance.mutex)
             {
@@ -446,7 +445,7 @@ namespace VP
         /// <param name="eventTarget">Optional session to limit event to</param>
         public void ClickObject(int id, int eventTarget = 0)
         {
-            ClickObject(id, Vector3D.Zero, eventTarget);
+            ClickObject(id, Vector3.Zero, eventTarget);
         }
 
         /// <summary>
@@ -456,7 +455,7 @@ namespace VP
         /// <param name="obj">Object to click</param>
         /// <param name="coordinates">3D coordinates of the click</param>
         /// <param name="eventTarget">Optional session to limit event to</param>
-        public void ClickObject(VPObject obj, Vector3D coordinates, int eventTarget = 0)
+        public void ClickObject(VPObject obj, Vector3 coordinates, int eventTarget = 0)
         {
             ClickObject(obj.Id, coordinates, eventTarget);
         } 

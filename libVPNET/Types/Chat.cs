@@ -1,5 +1,4 @@
-﻿using Nexus.Graphics.Colors;
-using System;
+﻿using System;
 using VP.Native;
 
 namespace VP
@@ -87,7 +86,7 @@ namespace VP
         /// <summary>
         /// Gets the color of this console message
         /// </summary>
-        public ColorRgb Color;
+        public Color Color;
 
         internal ConsoleMessage(IntPtr pointer)
         {
@@ -95,7 +94,7 @@ namespace VP
             Name    = Functions.vp_string(pointer, StringAttributes.AvatarName);
             Message = Functions.vp_string(pointer, StringAttributes.ChatMessage);
             Effect  = (ChatEffect) Functions.vp_int(pointer, IntAttributes.ChatEffects);
-            Color   = VPColor.FromChat(pointer);
+            Color   = Color.FromChat(pointer);
         }
     }
 }

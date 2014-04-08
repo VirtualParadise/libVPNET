@@ -1,5 +1,4 @@
-﻿using Nexus;
-using System;
+﻿using System;
 using System.Globalization;
 using VP.Native;
 
@@ -82,18 +81,10 @@ namespace VP
         /// <summary>
         /// Gets a Vector3D value for coordinates
         /// </summary>
-        public Vector3D Coordinates
+        public Vector3 Coordinates
         {
-            get { return new Vector3D(X, Y, Z); }
+            get { return new Vector3(X, Y, Z); }
         }
-
-        /// <summary>
-        /// Gets a Quaternion rotation represented by this position
-        /// </summary>
-        public Quaternion Rotation
-        {
-            get { return Quaternion.CreateFromYawPitchRoll(Yaw, Pitch, 0); }
-        } 
         #endregion
 
         #region Public constructors
@@ -104,7 +95,7 @@ namespace VP
         /// <param name="pos">Coordinates of position using a Vector3D</param>
         /// <param name="pitch">Pitch (down-up) rotation in degrees</param>
         /// <param name="yaw">Yaw (left-right) rotation in degrees</param>
-        public AvatarPosition(Vector3D pos, float pitch, float yaw)
+        public AvatarPosition(Vector3 pos, float pitch, float yaw)
         {
             X     = pos.X;
             Y     = pos.Y;

@@ -1,5 +1,4 @@
-﻿using Nexus.Graphics.Colors;
-using System;
+﻿using System;
 using VP.Native;
 
 namespace VP
@@ -186,7 +185,7 @@ namespace VP
         /// <param name="effects">Effects to use on this message</param>
         /// <param name="color">Color to use on this message</param>
         /// <param name="message">Message to send</param>
-        public Instance ConsoleMessage(int session, ChatEffect effects, ColorRgb color, string name, string message, params object[] parts)
+        public Instance ConsoleMessage(int session, ChatEffect effects, Color color, string name, string message, params object[] parts)
         {
             var formatted = string.Format(message, parts);
             var chunks    = Unicode.ChunkByByteLimit(formatted);
@@ -209,7 +208,7 @@ namespace VP
         /// <param name="effects">Effects to use on this message</param>
         /// <param name="color">Color to use on this message</param>
         /// <param name="message">Message to send</param>
-        public Instance ConsoleBroadcast(ChatEffect effects, ColorRgb color, string name, string message, params object[] parts)
+        public Instance ConsoleBroadcast(ChatEffect effects, Color color, string name, string message, params object[] parts)
         {
             return ConsoleMessage( 0, effects, color, name, string.Format(message, parts) );
         }
@@ -229,7 +228,7 @@ namespace VP
         /// <param name="message">Message to send</param>
         public Instance ConsoleMessage(int session, string name, string message, params object[] parts)
         { 
-            return ConsoleMessage(session, ChatEffect.None, new ColorRgb(0,0,0), name, message, parts);
+            return ConsoleMessage(session, ChatEffect.None, new Color(0,0,0), name, message, parts);
         }
 
         /// <summary>
@@ -243,7 +242,7 @@ namespace VP
         /// <param name="message">Message to send</param>
         public Instance ConsoleBroadcast(string name, string message, params object[] parts)
         {
-            return ConsoleMessage(0, ChatEffect.None, new ColorRgb(0,0,0), name, message, parts);
+            return ConsoleMessage(0, ChatEffect.None, new Color(0,0,0), name, message, parts);
         }
         #endregion
     }

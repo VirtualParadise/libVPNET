@@ -1,5 +1,4 @@
-﻿using Nexus;
-using System;
+﻿using System;
 using VP.Native;
 
 namespace VP
@@ -160,7 +159,7 @@ namespace VP
         /// Sends a click event to an avatar by session number on the specified
         /// coordinates using a <see cref="Vector3D"/>. Thread-safe.
         /// </summary>
-        public void Click(int session, Vector3D coordinates)
+        public void Click(int session, Vector3 coordinates)
         {
             lock (instance.mutex)
             {
@@ -174,14 +173,14 @@ namespace VP
         /// </summary>
         public void Click(int session)
         {
-            Click(session, Vector3D.Zero);
+            Click(session, Vector3.Zero);
         }
 
         /// <summary>
         /// Sends a request for a target session to teleport to a specified world and
         /// position. Thread-safe.
         /// </summary>
-        public void Teleport(int session, string world, Vector3D pos, float yaw, float pitch)
+        public void Teleport(int session, string world, Vector3 pos, float yaw, float pitch)
         {
             lock (instance.mutex)
                 Functions.Call( () =>
@@ -215,7 +214,7 @@ namespace VP
         /// Sends a request for a target session to teleport to a specified position in
         /// the same world. Thread-safe.
         /// </summary>
-        public void Teleport(int session, Vector3D pos, float yaw, float pitch)
+        public void Teleport(int session, Vector3 pos, float yaw, float pitch)
         {
             Teleport(session, "", pos, yaw, pitch);
         }

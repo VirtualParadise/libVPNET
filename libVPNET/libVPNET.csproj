@@ -39,9 +39,6 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nexus">
-      <HintPath>..\packages\Nexus.2.1.0\lib\net40\Nexus.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -61,6 +58,9 @@
     <Compile Include="Types\AvatarPosition.cs" />
     <Compile Include="Types\Click.cs" />
     <Compile Include="Types\Url.cs" />
+    <Compile Include="Types\Color.cs" />
+    <Compile Include="Types\Rotation.cs" />
+    <Compile Include="Types\Vector3.cs" />
     <Compile Include="Utility\TerrainCalculator.cs" />
     <Compile Include="Types\Terrain.cs" />
     <Compile Include="Types\Universe.cs" />
@@ -68,7 +68,6 @@
     <Compile Include="Types\VPObject.cs" />
     <Compile Include="Types\World.cs" />
     <Compile Include="Utility\Extensions.cs" />
-    <Compile Include="Utility\Nexus.cs" />
     <Compile Include="Utility\Unicode.cs" />
     <Compile Include="VPException.cs" />
     <Compile Include="Native\Attributes.cs" />
@@ -79,9 +78,6 @@
     <Compile Include="Instance\ReasonCode.cs" />
     <Compile Include="Native\Utf8Marshaler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\x64\vpsdk.dll">
