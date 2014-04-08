@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>libVPNET</id>
-        <version>0.3.5-pre</version>
+        <version>0.3.6-pre</version>
         <title>libVirtualParadise.NET</title>
         <authors>Roy Curtis</authors>
         <projectUrl>https://github.com/RoyCurtis/libVPNET</projectUrl>
@@ -17,36 +17,16 @@ The native libraries are packaged into the assembly and are automatically unpack
 * x86 Windows
 * x64 Windows</description>
         <summary>Alternative library for writing Virtual Paradise bots</summary>
-        <releaseNotes>0.3.3 to 0.3.5-pre - Native deployment fixes
-
-0.3.2-pre - Made assembly AnyCPU and contains both x86 and x64 Windows natives now
-
-0.3.1-pre - Added utility method for splitting unicode messages by byte VP limit (255), made all say and console methods automatically split long messages
-
-0.3.0-pre - Infinite call loop fixes for ConsoleMessage, removed some ConsoleMessage methods for simplicity
-
-0.2.3-pre - Fixed null object data bug and potential memory leaks
-
-0.2.2-pre - Added NodeSet callback to terrain
-
-0.2.1-pre - Updated to VP SDK 0.3.37 / r1093 featuring:
-* Ability to send URLs to clients to open in a 3D overlay or external browser
-* Single-object query by ID and callback
-* Disconnection event reasons
-
-0.2.0-pre - Mostly rewritten to formalize an API, complete implementation of all bot-accessible features
-
-0.1.0-pre - Forked and adapted from official .NET wrapper</releaseNotes>
+        <releaseNotes>0.3.6 - Changes to native deployment, update to SDK r1163 for Windows</releaseNotes>
         <language>en-GB</language>
-        <dependencies>
-            <dependency id="Nexus" version="2.1.0" />
-        </dependencies>
     </metadata>
     <files>
-        <file src="Build\VP.NET\libVPNET.targets" target="build\net40\libVPNET.targets" />
-        <file src="Build\VP.NET\libvpsdk.so" target="lib\native\libvpsdk.so" />
-        <file src="Build\VP.NET\libVPNET.dll" target="lib\net40\libVPNET.dll" />
-        <file src="Build\VP.NET\libVPNET.pdb" target="lib\net40\libVPNET.pdb" />
-        <file src="Build\VP.NET\libVPNET.xml" target="lib\net40\libVPNET.xml" />
+        <file src="Build\x64\libvpsdk.so" target="content\net40\x64\libvpsdk.so" />
+        <file src="Build\x64\vpsdk.dll" target="content\net40\x64\vpsdk.dll" />
+        <file src="Build\x86\vpsdk.dll" target="content\net40\x86\vpsdk.dll" />
+        <file src="Build\libVPNET.dll" target="lib\net40\libVPNET.dll" />
+        <file src="Build\libVPNET.pdb" target="lib\net40\libVPNET.pdb" />
+        <file src="Build\libVPNET.xml" target="lib\net40\libVPNET.xml" />
+        <file src="Deploy\Install.ps1" target="tools\Install.ps1" />
     </files>
 </package>
