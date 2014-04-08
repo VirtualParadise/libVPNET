@@ -17,13 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{976CEC0A-C
 		Docs\Todo.txt = Docs\Todo.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EB7EC1E9-5432-4A8B-BE0C-3B81D9D791CD}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libVPNET.Tests", "libVPNET.Tests\libVPNET.Tests.csproj", "{6B94EF95-6B49-4B42-AFB0-73216AA089A4}"
 EndProject
 Global
