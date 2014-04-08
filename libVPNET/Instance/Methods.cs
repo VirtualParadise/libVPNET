@@ -49,10 +49,16 @@ namespace VP
         {
             lock (mutex)
             {
+                if (isPumping)
+                    throw new InvalidOperationException("Cannot login whilst handling a pumped event");
+                else
+                    isPumping = true;
+
                 Functions.Call( () => Functions.vp_connect_universe(pointer, universe.Host, universe.Port) );
                 Functions.Call( () => Functions.vp_login(pointer, username, password, botname)             );
 
-                name = botname;
+                isPumping = false;
+                name      = botname;
                 return this;
             }
         }
@@ -93,8 +99,15 @@ namespace VP
         {
             lock (mutex)
             {
+                if (isPumping)
+                    throw new InvalidOperationException("Cannot enter world whilst handling a pumped event");
+                else
+                    isPumping = true;
+
                 Functions.Call( () => Functions.vp_enter(pointer, worldname) );
-                world = worldname;
+
+                isPumping = false;
+                world     = worldname;
 
                 if (setState)
                     GoTo();
