@@ -65,6 +65,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="user.example.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libVPNET\libVPNET.csproj">
