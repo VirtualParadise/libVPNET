@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>libVPNET</id>
-        <version>0.3.6-pre</version>
+        <version>0.3.7-pre</version>
         <title>libVirtualParadise.NET</title>
         <authors>Roy Curtis</authors>
         <projectUrl>https://github.com/RoyCurtis/libVPNET</projectUrl>
@@ -13,11 +13,11 @@ Features a more C#-centric design, including structs and utility classes useful 
 
 The native libraries are packaged into the assembly and are automatically unpacked on use. Supported architectures:
 
-* x64 Linux (CentOS-based)
+* x64 Linux (Debian-built)
 * x86 Windows
 * x64 Windows</description>
         <summary>Alternative library for writing Virtual Paradise bots</summary>
-        <releaseNotes>0.3.6 - Changes to native deployment, update to SDK r1163 for Windows</releaseNotes>
+        <releaseNotes>0.3.7 - Updated Linux native binary to r1163</releaseNotes>
         <language>en-GB</language>
     </metadata>
     <files>
