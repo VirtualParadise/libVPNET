@@ -4,11 +4,13 @@ using VP.Native;
 
 namespace VP
 {
-    internal class SDK
+    internal static class SDK
     {
-        const  int    version = 1;
-        static object mutex   = new object();
-        static bool   isInitialized;
+        const int version = 1;
+
+        static readonly object mutex = new object();
+
+        static bool isInitialized;
 
         /// <summary>
         /// Makes the native SDK create an instance in memory and returns the pointer.
@@ -29,7 +31,11 @@ namespace VP
         {
             try
             {
-                var path    = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
+                var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
+
+                if (path == null)
+                    throw new PlatformNotSupportedException("PATH variable is missing from environment");
+
                 var local   = Environment.Is64BitProcess ? "x64/" : "x86/";
                 var newDir  = Path.GetFullPath( Path.Combine(Environment.CurrentDirectory, local) );
                 var newPath = String.Format( "{0};{1}", path, newDir);

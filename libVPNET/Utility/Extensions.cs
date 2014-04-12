@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VP
+namespace VP.Extensions
 {
     internal static class DateTimeExt
     {
@@ -15,6 +15,14 @@ namespace VP
         internal static DateTime FromUnixTimestampUTC(int timestamp)
         {
             return UnixEpoch.AddSeconds(timestamp);
+        }
+    }
+
+    public static class StringExt
+    {
+        public static string AsBotName(this string str)
+        {
+            return string.Format( "[{0}]", str.Trim('[', ']') );
         }
     }
 }

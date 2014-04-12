@@ -1,9 +1,8 @@
 bin/
 obj/
 *.suo
-*.csproj.user
+*.user
 packages/
 Build/
 user.config
-TestResults/
 Testing/Results/

@@ -1,4 +1,5 @@
 ﻿using System;
+using VP.Extensions;
 using VP.Native;
 
 namespace VP
