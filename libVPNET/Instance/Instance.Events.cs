@@ -13,13 +13,13 @@ namespace VP
         internal void setNativeEvent(Events eventType, EventDelegate eventFunction)
         {
             nativeEvents[eventType] = eventFunction;
-            Functions.vp_event_set(pointer, (int) eventType, eventFunction);
+            Functions.vp_event_set(Pointer, (int) eventType, eventFunction);
         }
 
         internal void setNativeCallback(Callbacks callbackType, CallbackDelegate callbackFunction)
         {
             nativeCallbacks[callbackType] = callbackFunction;
-            Functions.vp_callback_set(pointer, (int) callbackType, callbackFunction);
+            Functions.vp_callback_set(Pointer, (int) callbackType, callbackFunction);
         }
 
         void setupEvents()
@@ -114,7 +114,7 @@ namespace VP
             if (Chat == null && Console == null)
                 return;
 
-            var type = (ChatType) Functions.vp_int(pointer, IntAttributes.ChatType);
+            var type = (ChatType) Functions.vp_int(Pointer, IntAttributes.ChatType);
 
             if      (type == ChatType.Normal && Chat != null)
                 Chat(this, new ChatMessage(sender) );

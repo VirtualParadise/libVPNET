@@ -117,18 +117,18 @@ namespace VP
         /// </summary>
         public void SetNode(TerrainNode node, int tileX, int tileZ)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
                 var refNum  = nextReference;
                 var refNode = new Tuple<TerrainNode, int, int> (node, tileX, tileZ);
                 nodeReferences.Add(refNum, refNode);
 
-                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, refNum);
+                Functions.vp_int_set(instance.Pointer, IntAttributes.ReferenceNumber, refNum);
 
                 try {
                     Functions.Call( () =>
                         Functions.vp_terrain_node_set(
-                        instance.pointer,
+                        instance.Pointer,
                         tileX, tileZ,
                         node.X, node.Z,
                         DataHandlers.NodeToNodeData(node))
@@ -152,8 +152,8 @@ namespace VP
         /// </remarks>
         public void QueryTile(int tileX, int tileZ, int[,] nodeRevision)
         {
-            lock (instance.mutex)
-                Functions.Call( () => Functions.vp_terrain_query(instance.pointer, tileX, tileZ, nodeRevision) );
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_terrain_query(instance.Pointer, tileX, tileZ, nodeRevision) );
         }
 
         /// <summary>
@@ -161,8 +161,8 @@ namespace VP
         /// </summary>
         public void QueryTile(int tileX, int tileZ)
         {
-            lock (instance.mutex)
-                Functions.Call( () => Functions.vp_terrain_query(instance.pointer, tileX, tileZ, allNodes) );
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_terrain_query(instance.Pointer, tileX, tileZ, allNodes) );
         }
         #endregion
     }

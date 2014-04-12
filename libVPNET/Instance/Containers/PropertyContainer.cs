@@ -179,7 +179,7 @@ namespace VP
             if (ObjectClick == null) return;
             ObjectClick click;
 
-            lock (instance.mutex)
+            lock (instance.Mutex)
                 click = new ObjectClick(sender);
 
             ObjectClick(instance, click);
@@ -194,10 +194,10 @@ namespace VP
             VPObject vpObject;
             int sessionId;
 
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
                 sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
-                vpObject  = new VPObject(instance.pointer);
+                vpObject  = new VPObject(instance.Pointer);
             }
 
             if      (sessionId == -1 && QueryCellResult != null)
@@ -212,9 +212,9 @@ namespace VP
             VPObject vpObject;
             int sessionId;
 
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
-                vpObject  = new VPObject(instance.pointer);
+                vpObject  = new VPObject(instance.Pointer);
                 sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
             }
 
@@ -227,7 +227,7 @@ namespace VP
             int session;
             int objectId;
 
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
                 session = Functions.vp_int(sender, IntAttributes.AvatarSession);
                 objectId = Functions.vp_int(sender, IntAttributes.ObjectId);
@@ -294,8 +294,8 @@ namespace VP
         /// </summary>
         public void QueryCell(int cellX, int cellZ)
         {
-            lock (instance.mutex)
-                Functions.Call( () => Functions.vp_query_cell(instance.pointer, cellX, cellZ) );
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_query_cell(instance.Pointer, cellX, cellZ) );
         }
 
         /// <summary>
@@ -305,14 +305,14 @@ namespace VP
         /// <param name="id">ID of the object to query</param>
         public void GetObject(int id)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
                 var referenceNumber = nextReference;
                 idReferences.Add(referenceNumber, id);
 
-                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(instance.Pointer, IntAttributes.ReferenceNumber, referenceNumber);
 
-                try { Functions.Call( () => Functions.vp_object_get(instance.pointer, id) ); }
+                try { Functions.Call( () => Functions.vp_object_get(instance.Pointer, id) ); }
                 catch
                 {
                     idReferences.Remove(referenceNumber);
@@ -327,15 +327,15 @@ namespace VP
         /// <param name="obj">Instance of VPObject with model and position pre-set</param>
         public void AddObject(VPObject obj)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
                 var referenceNumber = nextReference;
                 objReferences.Add(referenceNumber, obj);
 
-                obj.ToNative(instance.pointer);
-                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
+                obj.ToNative(instance.Pointer);
+                Functions.vp_int_set(instance.Pointer, IntAttributes.ReferenceNumber, referenceNumber);
 
-                try { Functions.Call( () => Functions.vp_object_add(instance.pointer) ); }
+                try { Functions.Call( () => Functions.vp_object_add(instance.Pointer) ); }
                 catch
                 {
                     objReferences.Remove(referenceNumber);
@@ -373,15 +373,15 @@ namespace VP
         /// </summary>
         public void ChangeObject(VPObject obj)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
                 var referenceNumber = nextReference;
                 objReferences.Add(referenceNumber, obj);
 
-                obj.ToNative(instance.pointer);
-                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
+                obj.ToNative(instance.Pointer);
+                Functions.vp_int_set(instance.Pointer, IntAttributes.ReferenceNumber, referenceNumber);
 
-                try { Functions.Call( () => Functions.vp_object_change(instance.pointer) ); }
+                try { Functions.Call( () => Functions.vp_object_change(instance.Pointer) ); }
                 catch
                 {
                     objReferences.Remove(referenceNumber);
@@ -395,15 +395,15 @@ namespace VP
         /// </summary>
         public void DeleteObject(int id)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
                 var referenceNumber = nextReference;
                 idReferences.Add(referenceNumber, id);
 
-                Functions.vp_int_set(instance.pointer, IntAttributes.ReferenceNumber, referenceNumber);
-                Functions.vp_int_set(instance.pointer, IntAttributes.ObjectId,        id);
+                Functions.vp_int_set(instance.Pointer, IntAttributes.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(instance.Pointer, IntAttributes.ObjectId,        id);
 
-                try { Functions.Call( () => Functions.vp_object_delete(instance.pointer) ); }
+                try { Functions.Call( () => Functions.vp_object_delete(instance.Pointer) ); }
                 catch
                 {
                     idReferences.Remove(referenceNumber);
@@ -430,11 +430,11 @@ namespace VP
         /// <param name="eventTarget">Optional session to limit event to</param>
         public void ClickObject(int id, Vector3 coordinates, int eventTarget = 0)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
-                coordinates.ToClick(instance.pointer);
-                Functions.vp_int_set(instance.pointer, IntAttributes.ObjectId, id);
-                Functions.Call( () => Functions.vp_object_click(instance.pointer) );
+                coordinates.ToClick(instance.Pointer);
+                Functions.vp_int_set(instance.Pointer, IntAttributes.ObjectId, id);
+                Functions.Call( () => Functions.vp_object_click(instance.Pointer) );
             }
         }
 

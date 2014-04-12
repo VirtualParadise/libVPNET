@@ -19,14 +19,14 @@ namespace VP
         /// </remarks>
         public Instance Pump(int milliseconds = 25)
         {
-            lock (mutex)
+            lock (Mutex)
             {
                 if (isPumping)
                     throw new InvalidOperationException("Cannot pump whilst handling a pumped event");
                 else
                     isPumping = true;
 
-                try     { Functions.Call( () => Functions.vp_wait(pointer, milliseconds) ); }
+                try     { Functions.Call( () => Functions.vp_wait(Pointer, milliseconds) ); }
                 finally { isPumping = false; }
                 return this;
             }
@@ -47,15 +47,15 @@ namespace VP
         /// </remarks>
         public Instance Login(Uniserver universe, string username, string password, string botname)
         {
-            lock (mutex)
+            lock (Mutex)
             {
                 if (isPumping)
                     throw new InvalidOperationException("Cannot login whilst handling a pumped event");
                 else
                     isPumping = true;
 
-                Functions.Call( () => Functions.vp_connect_universe(pointer, universe.Host, universe.Port) );
-                Functions.Call( () => Functions.vp_login(pointer, username, password, botname)             );
+                Functions.Call( () => Functions.vp_connect_universe(Pointer, universe.Host, universe.Port) );
+                Functions.Call( () => Functions.vp_login(Pointer, username, password, botname)             );
 
                 isPumping = false;
                 name      = botname;
@@ -97,14 +97,14 @@ namespace VP
         /// </param>
         public Instance Enter(string worldname, bool setState = true)
         {
-            lock (mutex)
+            lock (Mutex)
             {
                 if (isPumping)
                     throw new InvalidOperationException("Cannot enter world whilst handling a pumped event");
                 else
                     isPumping = true;
 
-                Functions.Call( () => Functions.vp_enter(pointer, worldname) );
+                Functions.Call( () => Functions.vp_enter(Pointer, worldname) );
 
                 isPumping = false;
                 world     = worldname;
@@ -128,14 +128,14 @@ namespace VP
         public Instance GoTo(float x = 0.0f, float y = 0.0f, float z = 0.0f,
             float yaw = 0.0f, float pitch = 0.0f)
         {
-            lock (mutex)
+            lock (Mutex)
             {
-                Functions.vp_float_set(pointer, FloatAttributes.MyX, x);
-                Functions.vp_float_set(pointer, FloatAttributes.MyY, y);
-                Functions.vp_float_set(pointer, FloatAttributes.MyZ, z);
-                Functions.vp_float_set(pointer, FloatAttributes.MyYaw, yaw);
-                Functions.vp_float_set(pointer, FloatAttributes.MyPitch, pitch);
-                Functions.Call( () => Functions.vp_state_change(pointer) );
+                Functions.vp_float_set(Pointer, FloatAttributes.MyX, x);
+                Functions.vp_float_set(Pointer, FloatAttributes.MyY, y);
+                Functions.vp_float_set(Pointer, FloatAttributes.MyZ, z);
+                Functions.vp_float_set(Pointer, FloatAttributes.MyYaw, yaw);
+                Functions.vp_float_set(Pointer, FloatAttributes.MyPitch, pitch);
+                Functions.Call( () => Functions.vp_state_change(Pointer) );
 
                 return this;
             }
@@ -155,9 +155,9 @@ namespace VP
         /// </summary>
         public Instance Leave()
         {
-            lock (mutex)
+            lock (Mutex)
             {
-                Functions.Call( () => Functions.vp_leave(pointer) );
+                Functions.Call( () => Functions.vp_leave(Pointer) );
 
                 world = "";
                 return this;
@@ -176,9 +176,9 @@ namespace VP
             var formatted = string.Format(message, parts);
             var chunks    = Unicode.ChunkByByteLimit(formatted);
 
-            lock (mutex)
+            lock (Mutex)
                 foreach (var chunk in chunks)
-                    Functions.Call( () => Functions.vp_say(pointer, chunk) );
+                    Functions.Call( () => Functions.vp_say(Pointer, chunk) );
 
             return this;
         }  
@@ -203,9 +203,9 @@ namespace VP
             var formatted = string.Format(message, parts);
             var chunks    = Unicode.ChunkByByteLimit(formatted);
 
-            lock (mutex)
+            lock (Mutex)
                 foreach (var chunk in chunks)
-                    Functions.Call( () => Functions.vp_console_message(pointer, session, name, chunk, (int) effects, color.R, color.G, color.B) );
+                    Functions.Call( () => Functions.vp_console_message(Pointer, session, name, chunk, (int) effects, color.R, color.G, color.B) );
 
             return this;
         }

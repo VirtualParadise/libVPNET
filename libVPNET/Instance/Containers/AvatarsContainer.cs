@@ -117,8 +117,8 @@ namespace VP
         {
             if (Leave != null)
             {
-                var name    = Functions.vp_string(instance.pointer, StringAttributes.AvatarName);
-                var session = Functions.vp_int(instance.pointer, IntAttributes.AvatarSession);
+                var name    = Functions.vp_string(instance.Pointer, StringAttributes.AvatarName);
+                var session = Functions.vp_int(instance.Pointer, IntAttributes.AvatarSession);
                 Leave(instance, name, session);
             }
         }
@@ -161,10 +161,10 @@ namespace VP
         /// </summary>
         public void Click(int session, Vector3 coordinates)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
             {
-                coordinates.ToClick(instance.pointer);
-                Functions.Call( () => Functions.vp_avatar_click(instance.pointer, session) );
+                coordinates.ToClick(instance.Pointer);
+                Functions.Call( () => Functions.vp_avatar_click(instance.Pointer, session) );
             }
         }
 
@@ -182,10 +182,10 @@ namespace VP
         /// </summary>
         public void Teleport(int session, string world, Vector3 pos, float yaw, float pitch)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
                 Functions.Call( () =>
                     Functions.vp_teleport_avatar(
-                    instance.pointer,
+                    instance.Pointer,
                     session,
                     world,
                     pos.X, pos.Y, pos.Z,
@@ -199,10 +199,10 @@ namespace VP
         /// </summary>
         public void Teleport(int session, string world, AvatarPosition pos)
         {
-            lock (instance.mutex)
+            lock (instance.Mutex)
                 Functions.Call( () =>
                     Functions.vp_teleport_avatar(
-                    instance.pointer,
+                    instance.Pointer,
                     session,
                     world,
                     pos.X, pos.Y, pos.Z,
@@ -237,8 +237,8 @@ namespace VP
         /// <param name="target">Target container to open the URL in</param>
         public void SendUrl(int session, string url, UrlTarget target)
         {
-            lock (instance.mutex)
-                Functions.Call( () => Functions.vp_url_send(instance.pointer, session, url, (int) target) );
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_url_send(instance.Pointer, session, url, (int) target) );
         }
         
         /// <summary>

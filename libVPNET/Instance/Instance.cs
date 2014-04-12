@@ -32,37 +32,29 @@ namespace VP
         public readonly TerrainContainer Terrain;
         #endregion
 
-        #region Public properties
-        string name = "";
-        /// <summary>
-        /// Logged in bot name, or blank if not logged in at least once
-        /// </summary>
-        public string Name
-        {
-            get { return name; }
-        }
-
-        string world = "";
-        /// <summary>
-        /// World currently logged into, or blank if not logged into a world
-        /// </summary>
-        public string World
-        {
-            get { return world; }
-        }
-        #endregion
-
         #region Constructor, setup & deconstructor
-        internal bool   disposed;
-        internal object mutex = new object();
-        internal IntPtr pointer;
+        internal bool   Disposed;
+        internal IntPtr Pointer;
+
+        object mutex = new object();
+        internal object Mutex
+        {
+            get
+            {
+                if (Disposed)
+                    throw new ObjectDisposedException( this.ToString() );
+                else
+                    return mutex;
+            }
+        }
+
 
         /// <summary>
         /// Creates a bot instance, initializing the SDK automatically
         /// </summary>
         public Instance()
         {
-            pointer = SDK.CreateInstance();
+            Pointer = SDK.CreateInstance();
 
             this.Data     = new DataContainer(this);
             this.Avatars  = new AvatarsContainer(this);
@@ -85,15 +77,12 @@ namespace VP
         /// </summary>
         public void Dispose()
         {
-            lock (mutex)
+            lock (Mutex)
             {
-                if (disposed)
-                    throw new ObjectDisposedException(Name);
-                else
-                    disposed = true;
+                Disposed = true;
 
-                if (pointer != IntPtr.Zero)
-                    Functions.Call( () => Functions.vp_destroy(pointer) );
+                if (Pointer != IntPtr.Zero)
+                    Functions.Call( () => Functions.vp_destroy(Pointer) );
 
                 Data.Dispose();
                 Avatars.Dispose();
@@ -104,6 +93,5 @@ namespace VP
             }
         }
         #endregion
-        
     }
 }

@@ -78,8 +78,8 @@ namespace VP
             if (WorldSetting == null)
                 return;
 
-            var key   = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingKey);
-            var value = Functions.vp_string(instance.pointer, StringAttributes.WorldSettingValue);
+            var key   = Functions.vp_string(instance.Pointer, StringAttributes.WorldSettingKey);
+            var value = Functions.vp_string(instance.Pointer, StringAttributes.WorldSettingValue);
 
             WorldSetting(instance, key, value);
         }
@@ -93,13 +93,13 @@ namespace VP
         internal void OnWorldList(IntPtr sender)
         {
             if (WorldEntry != null)
-                WorldEntry( instance, new World(instance.pointer) );
+                WorldEntry( instance, new World(instance.Pointer) );
         }
 
         internal void OnUserAttributes(IntPtr sender)
         {
             if (UserAttributes == null)
-                UserAttributes(instance, new User(instance.pointer) );
+                UserAttributes(instance, new User(instance.Pointer) );
         }
         #endregion
 
@@ -121,8 +121,8 @@ namespace VP
         /// <seealso cref="UserAttributes"/>
         public void GetUserAttributes(int id)
         {
-            lock (instance.mutex)
-                Functions.Call( () => Functions.vp_user_attributes_by_id(instance.pointer, id) );
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_user_attributes_by_id(instance.Pointer, id) );
         }
 
         /// <summary>
@@ -132,8 +132,8 @@ namespace VP
         /// <seealso cref="WorldEntry"/>
         public void ListWorlds()
         {
-            lock (instance.mutex)
-                Functions.Call( () => Functions.vp_world_list(instance.pointer, 0) );
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_world_list(instance.Pointer, 0) );
         } 
         #endregion
     }

@@ -44,13 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Instance\Containers\TerrainContainer.cs" />
-    <Compile Include="Instance\Properties.cs" />
-    <Compile Include="Instance\Events.cs" />
-    <Compile Include="Instance\Methods.cs" />
+    <Compile Include="Instance\Instance.Properties.cs" />
+    <Compile Include="Instance\Instance.Events.cs" />
+    <Compile Include="Instance\Instance.Methods.cs" />
     <Compile Include="Instance\Containers\AvatarsContainer.cs" />
     <Compile Include="Instance\Containers\DataContainer.cs" />
     <Compile Include="Instance\Containers\PropertyContainer.cs" />
-    <Compile Include="Instance.cs" />
+    <Compile Include="Instance\Instance.cs" />
     <Compile Include="Native\DataHandlers.cs" />
     <Compile Include="SDK.cs" />
     <Compile Include="Types\Avatar.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="Native\Delegates.cs" />
     <Compile Include="Native\Events.cs" />
     <Compile Include="Native\Functions.cs" />
-    <Compile Include="Instance\ReasonCode.cs" />
+    <Compile Include="Types\ReasonCode.cs" />
     <Compile Include="Native\Utf8Marshaler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
