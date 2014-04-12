@@ -29,9 +29,9 @@ namespace VP
         /// </summary>
         StringTooLong,
         /// <summary>
-        /// Invalid password
+        /// Invalid login
         /// </summary>
-        InvalidPassword,
+        InvalidLogin,
         /// <summary>
         /// World not found
         /// </summary>

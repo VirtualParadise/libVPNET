@@ -54,11 +54,14 @@ namespace VP
                 else
                     isPumping = true;
 
-                Functions.Call( () => Functions.vp_connect_universe(Pointer, universe.Host, universe.Port) );
-                Functions.Call( () => Functions.vp_login(Pointer, username, password, botname)             );
+                try
+                {
+                    Functions.Call( () => Functions.vp_connect_universe(Pointer, universe.Host, universe.Port) );
+                    Functions.Call( () => Functions.vp_login(Pointer, username, password, botname)             );
+                }
+                finally { isPumping = false; }
 
-                isPumping = false;
-                name      = botname;
+                name = botname;
                 return this;
             }
         }
@@ -104,10 +107,10 @@ namespace VP
                 else
                     isPumping = true;
 
-                Functions.Call( () => Functions.vp_enter(Pointer, worldname) );
+                try { Functions.Call( () => Functions.vp_enter(Pointer, worldname) ); }
+                finally { isPumping = false; }
 
-                isPumping = false;
-                world     = worldname;
+                world = worldname;
 
                 if (setState)
                     GoTo();
