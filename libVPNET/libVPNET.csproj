@@ -61,7 +61,7 @@
     <Compile Include="Types\Color.cs" />
     <Compile Include="Types\Rotation.cs" />
     <Compile Include="Types\Vector3.cs" />
-    <Compile Include="Utility\TerrainCalculator.cs" />
+    <Compile Include="Utility\TerrainCalculation.cs" />
     <Compile Include="Types\Terrain.cs" />
     <Compile Include="Types\Universe.cs" />
     <Compile Include="Types\User.cs" />

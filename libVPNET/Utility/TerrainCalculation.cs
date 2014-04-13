@@ -6,7 +6,7 @@ namespace VP
     /// Utility struct for calculating coordinates and relative values of terrain cells,
     /// nodes and tiles
     /// </summary>
-    public struct TerrainCalculator
+    public struct TerrainCalculation
     {
         /// <summary>
         /// Global cell X coordinate
@@ -44,7 +44,7 @@ namespace VP
         /// <summary>
         /// Creates a fully calculated terrain position from world coordinates
         /// </summary>
-        public TerrainCalculator(float x, float z, float scaleFactor = 1.0f)
+        public TerrainCalculation(float x, float z, float scaleFactor = 1.0f)
         {
             GlobalCellX = (int)Math.Floor(x * scaleFactor);
             GlobalCellZ = (int)Math.Floor(z * scaleFactor);
