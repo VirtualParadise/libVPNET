@@ -98,7 +98,7 @@ namespace VP
 
         internal void OnUserAttributes(IntPtr sender)
         {
-            if (UserAttributes == null)
+            if (UserAttributes != null)
                 UserAttributes(instance, new User(instance.Pointer) );
         }
         #endregion
