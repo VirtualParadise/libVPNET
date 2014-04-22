@@ -60,6 +60,7 @@
     <Compile Include="Types\Url.cs" />
     <Compile Include="Types\Color.cs" />
     <Compile Include="Types\Rotation.cs" />
+    <Compile Include="Types\Point2.cs" />
     <Compile Include="Types\Vector3.cs" />
     <Compile Include="Utility\TerrainCalculation.cs" />
     <Compile Include="Types\Terrain.cs" />

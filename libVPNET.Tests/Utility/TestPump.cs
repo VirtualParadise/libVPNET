@@ -35,13 +35,13 @@ namespace VP.Tests
         }
 
         /// <summary>
-        /// Pumps all given instances until a 10 second timeout is reached
+        /// Pumps all given instances until a 5 second timeout is reached
         /// </summary>
         public static void AllUntilTimeout(params Instance[] instances)
         {
             var start = DateTime.Now;
 
-            while (DateTime.Now.Subtract(start).TotalMilliseconds < 10000)
+            while (DateTime.Now.Subtract(start).TotalMilliseconds < 5000)
                 foreach (var inst in instances)
                     inst.Pump();
         }

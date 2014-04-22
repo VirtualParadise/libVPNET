@@ -67,7 +67,7 @@ namespace VP
         public event WorldListArgs WorldEntry;
         /// <summary>
         /// Fired when the attributes of an existing user is requested from
-        /// <see cref="GetUserAttributes(string)"/> or <see cref="GetUserAttributes(int)"/>
+        /// <see cref="GetUserAttributes(int)"/>
         /// </summary>
         public event UserAttributesArgs UserAttributes; 
         #endregion
@@ -104,17 +104,6 @@ namespace VP
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Requests user attributes by name. Currently not implemented natively.
-        /// </summary>
-        public void GetUserAttributes(string name)
-        {
-            throw new NotImplementedException();
-
-            //lock (instance.mutex)
-            //    Functions.Call( () => Functions.vp_user_attributes_by_name(instance.pointer, name) );
-        }
-
         /// <summary>
         /// Requests user attributes by account unique ID number. Thread-safe.
         /// </summary>

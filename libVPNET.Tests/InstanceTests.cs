@@ -64,14 +64,14 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodPump()
+        public void Pump()
         {
             using (Instance cmdrData = new Instance().AsData())
                 cmdrData.Pump(1000);
         }
 
         [TestMethod]
-        public void MethodPump_Async()
+        public void Pump_Async()
         {
             using (Instance punch = new Instance().AsPunch())
             using (Instance judy = new Instance().AsJudy())
@@ -91,7 +91,7 @@ namespace VP.Tests
 
         [TestMethod]
         [ExpectedException(typeof (InvalidOperationException))]
-        public void MethodPump_Safety()
+        public void Pump_Safety()
         {
             using (var punch = new Instance().AsPunch())
             using (var judy  = new Instance().AsJudy())
@@ -104,7 +104,7 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodLogin_Exceptions()
+        public void Login_Exceptions()
         {
             using (var cmdrData = new Instance())
             {
@@ -128,7 +128,7 @@ namespace VP.Tests
 
         [TestMethod]
         [ExpectedException(typeof (InvalidOperationException))]
-        public void MethodLogin_Safety()
+        public void Login_Safety()
         {
             using (var punch = new Instance().AsPunch())
             using (var judy  = new Instance().AsJudy())
@@ -141,7 +141,7 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodEnter_Exceptions()
+        public void Enter_Exceptions()
         {
             using (var cmdrData = new Instance())
             {
@@ -162,7 +162,7 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodEnter_Shadow()
+        public void Enter_Shadow()
         {
             using (var punch = new Instance().AsPunch())
             using (var judy  = new Instance().TestLogin(Names.Judy))
@@ -180,7 +180,7 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodGoto()
+        public void Goto()
         {
             var fired = 0;
 
@@ -215,14 +215,14 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodGoto_Exceptions()
+        public void Goto_Exceptions()
         {
             using (var cmdrData = new Instance().TestLogin(Names.Data))
                 VPNetAssert.ThrowsReasonCode(ReasonCode.NotInWorld, _ => cmdrData.GoTo() );
         }
 
         [TestMethod]
-        public void MethodSay_Unicode()
+        public void Say_Unicode()
         {
             var fired = false;
 
@@ -246,7 +246,7 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodSay_Chunked()
+        public void Say_Chunked()
         {
             var fired = 0;
 
@@ -269,7 +269,7 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodConsoleMessage_Chunked()
+        public void ConsoleMessage_Chunked()
         {
             var fired = 0;
             var punchSession = -1;
@@ -302,7 +302,7 @@ namespace VP.Tests
         }
 
         [TestMethod]
-        public void MethodConsoleBroadcast()
+        public void ConsoleBroadcast()
         {
             var fired = 0;
 
@@ -317,7 +317,7 @@ namespace VP.Tests
 
                     Assert.AreEqual(Samples.Color, c.Color);
                     Assert.AreEqual(Samples.ChatEffect, c.Effect);
-                    Assert.AreEqual(Strings.Sample, c.Message);
+                    Assert.AreEqual(Strings.SampleUnicode, c.Message);
                     fired++;
                 };
 
@@ -328,11 +328,11 @@ namespace VP.Tests
 
                     Assert.AreEqual(Samples.Color, c.Color);
                     Assert.AreEqual(Samples.ChatEffect, c.Effect);
-                    Assert.AreEqual(Strings.Sample, c.Message);
+                    Assert.AreEqual(Strings.SampleUnicode, c.Message);
                     fired++;
                 };
 
-                judy.ConsoleBroadcast(Samples.ChatEffect, Samples.Color, Names.Judy, Strings.Sample);
+                judy.ConsoleBroadcast(Samples.ChatEffect, Samples.Color, Names.Judy, Strings.SampleUnicode);
                 TestPump.AllUntil( () => fired >= 2, cmdrData, punch, judy );
             }
 
