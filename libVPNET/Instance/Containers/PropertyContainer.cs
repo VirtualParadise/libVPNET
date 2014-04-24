@@ -434,6 +434,7 @@ namespace VP
             {
                 coordinates.ToClick(instance.Pointer);
                 Functions.vp_int_set(instance.Pointer, IntAttributes.ObjectId, id);
+                Functions.vp_int_set(instance.Pointer, IntAttributes.ClickEventTarget, eventTarget);
                 Functions.Call( () => Functions.vp_object_click(instance.Pointer) );
             }
         }

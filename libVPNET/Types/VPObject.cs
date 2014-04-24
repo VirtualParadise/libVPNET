@@ -71,7 +71,7 @@ namespace VP
         {
             this.Model    = model;
             this.Position = position;
-            this.Rotation = new Rotation();
+            this.Rotation = Rotation.Zero;
         }
 
         /// <summary>
