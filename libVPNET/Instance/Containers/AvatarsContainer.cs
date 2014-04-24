@@ -232,6 +232,11 @@ namespace VP
         /// Sends a request for a target session to open a URL in a specified target
         /// container. Thread-safe.
         /// </summary>
+        /// <remarks>
+        /// The standard Virtual Paradise world server will silently discard any URL
+        /// requests that do not begin with "http://", "https://" or "www." for security
+        /// reasons.
+        /// </remarks>
         /// <param name="session">Target session ID of the request</param>
         /// <param name="url">URL for the target to open, or "" to clear</param>
         /// <param name="target">Target container to open the URL in</param>

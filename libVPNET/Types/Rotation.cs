@@ -9,10 +9,34 @@ namespace VP
     /// </summary>
     public struct Rotation
     {
+        public static readonly Rotation Zero = new Rotation(0, 1, 0, 0);
+
+        /// <summary>
+        /// Gets the X rotation
+        /// </summary>
         public float X;
+        /// <summary>
+        /// Gets the Y rotation
+        /// </summary>
         public float Y;
+        /// <summary>
+        /// Gets the Z rotation
+        /// </summary>
         public float Z;
+        /// <summary>
+        /// Gets the angle of this rotation
+        /// </summary>
         public float Angle;
+
+        /// <summary>
+        /// For compatiability with older objects, which may return a Euler rotation than
+        /// an axis-angle one. This is internally determined in the standard Virtual
+        /// Paradise client as a rotation with an infinite or max float value Angle.
+        /// </summary>
+        public bool IsEuler
+        {
+            get { return float.IsPositiveInfinity(Angle) || Angle == float.MaxValue; }
+        }
 
         public Rotation(float x, float y, float z, float angle)
         {

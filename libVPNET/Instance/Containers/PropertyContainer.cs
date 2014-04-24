@@ -111,8 +111,8 @@ namespace VP
         public delegate void ObjectGetCallbackArgs(Instance sender, ReasonCode result, VPObject obj);
 
         /// <summary>
-        /// Fired for each object found in a cell after a call to
-        /// <see cref="QueryCell"/>, providing the object's data
+        /// Fired for each object found in a cell after a call to <see cref="QueryCell"/>
+        /// , providing the object's data
         /// </summary>
         public event QueryCellResultArgs QueryCellResult;
         /// <summary>

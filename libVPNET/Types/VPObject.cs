@@ -23,41 +23,43 @@ namespace VP
             internal set { id = value; }
         }
         /// <summary>
-        /// Gets the timestamp of this object's last known modification
+        /// Gets the timestamp of this object's last known modification. This field is
+        /// read-only.
         /// </summary>
-        public DateTime Time;
+        public readonly DateTime Time;
         /// <summary>
-        /// Gets the account number of the owner that owns this object
+        /// Gets the account number of the owner that owns this object. This field is
+        /// read-only.
         /// </summary>
-        public int Owner;
+        public readonly int Owner;
         /// <summary>
-        /// Gets the in-world Vector3D position of this object
+        /// Gets or sets the in-world Vector3D position of this object
         /// </summary>
         public Vector3 Position;
         /// <summary>
-        /// Gets the Quaternion (3 axis + angle) rotation of this object
+        /// Gets or sets the Quaternion (3 axis + angle) rotation of this object
         /// </summary>
         public Rotation Rotation;
         /// <summary>
-        /// Gets the model file name of this object
+        /// Gets or sets the model file name of this object
         /// </summary>
         public string Model;
         /// <summary>
-        /// Gets the action script which powers client-side interactivity on this object
+        /// Gets or sets the action script which powers client-side interactivity on this object
         /// </summary>
         public string Action;
         /// <summary>
-        /// Gets the description text of this object
+        /// Gets or sets the description text of this object
         /// </summary>
         public string Description;
-        /// <summary>Gets the type of this object</summary>
+        /// <summary>Gets or sets the type of this object</summary>
         /// <remarks>
         /// Currently unused but is made available to allow for complete object backups
         /// </remarks>
         /// <value>0</value>
         public int Type;
         /// <summary>
-        /// Gets any arbitary data of this object
+        /// Gets or sets any arbitary data of this object
         /// </summary>
         public byte[] Data;
 
