@@ -54,8 +54,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Base\TestInstance.cs" />
+    <Compile Include="InstancePropertyTests.cs" />
+    <Compile Include="InstanceAvatarsTests.cs" />
     <Compile Include="InstanceDataTests.cs" />
     <Compile Include="InstanceTests.cs" />
+    <Compile Include="Base\InstanceTestBase.cs" />
     <Compile Include="UtilityTests.cs" />
     <Compile Include="SDKTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

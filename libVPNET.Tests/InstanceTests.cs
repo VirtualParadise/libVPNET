@@ -6,7 +6,7 @@ using VP.Extensions;
 namespace VP.Tests
 {
     [TestClass]
-    public class InstanceTests
+    public class InstanceTests : InstanceTestBase
     {
         [TestMethod]
         public void Integrity()
@@ -66,41 +66,39 @@ namespace VP.Tests
         [TestMethod]
         public void Pump()
         {
-            using (Instance cmdrData = new Instance().AsData())
-                cmdrData.Pump(1000);
+            NewCmdrData().Pump(1000);
         }
 
         [TestMethod]
         public void Pump_Async()
         {
-            using (Instance punch = new Instance().AsPunch())
-            using (Instance judy = new Instance().AsJudy())
+            var punch = NewPunch();
+            var judy  = NewJudy();
+            
+            Action pump = () =>
             {
-                Action pump = () =>
-                {
-                    for (var i = 0; i < 10; i++)
-                        TestPump.AllOnce(punch, judy);
-                };
+                for (var i = 0; i < 10; i++)
+                    TestPump.AllOnce(punch, judy);
+            };
 
-                Task.WaitAll(
-                    Task.Factory.StartNew(() => pump),
-                    Task.Factory.StartNew(() => pump)
-                    );
-            }
+            Task.WaitAll(
+                Task.Factory.StartNew(() => pump),
+                Task.Factory.StartNew(() => pump)
+                );
+            
         }
 
         [TestMethod]
         [ExpectedException(typeof (InvalidOperationException))]
         public void Pump_Safety()
         {
-            using (var punch = new Instance().AsPunch())
-            using (var judy  = new Instance().AsJudy())
-            {
-                punch.Chat += (i, c) => punch.Pump();
-                judy.Say("MethodPump_Safety");
+            var punch = NewPunch();
+            var judy  = NewJudy();
 
-                TestPump.AllUntilTimeout(punch, judy);
-            }
+            punch.Chat += (i, c) => punch.Pump();
+            judy.Say("MethodPump_Safety");
+
+            TestPump.AllUntilTimeout(punch, judy);
         }
 
         [TestMethod]
@@ -130,14 +128,13 @@ namespace VP.Tests
         [ExpectedException(typeof (InvalidOperationException))]
         public void Login_Safety()
         {
-            using (var punch = new Instance().AsPunch())
-            using (var judy  = new Instance().AsJudy())
-            {
-                punch.Chat += (i, c) => punch.Login("", "", "");
-                judy.Say("MethodLogin_Safety");
+            var punch = NewPunch();
+            var judy  = NewJudy();
+           
+            punch.Chat += (i, c) => punch.Login("", "", "");
+            judy.Say("MethodLogin_Safety");
 
-                TestPump.AllUntilTimeout(punch, judy);
-            }
+            TestPump.AllUntilTimeout(punch, judy);
         }
 
         [TestMethod]
@@ -164,83 +161,78 @@ namespace VP.Tests
         [TestMethod]
         public void Enter_Shadow()
         {
-            using (var punch = new Instance().AsPunch())
-            using (var judy  = new Instance().TestLogin(Names.Judy))
+            var punch = NewPunch();
+            var judy  = NewJudy(false);
+            
+            punch.Avatars.Enter += (i, a) =>
             {
-                punch.Avatars.Enter += (i, a) =>
-                {
-                    if (a.Name == Names.Judy.AsBotName())
-                        Assert.Fail("Should not have seen {0} enter", Names.Judy);
-                };
+                if ( a.Name == Names.Judy.AsBotName() )
+                    Assert.Fail("Should not have seen {0} enter", Names.Judy);
+            };
 
-                judy.Enter(Settings.World, false);
+            judy.Enter(Settings.World, false);
 
-                TestPump.AllOnce(punch, judy);
-            }
+            TestPump.AllUntilTimeout(punch, judy);
         }
 
         [TestMethod]
         public void Goto()
         {
+            var punch = NewPunch();
+            var judy  = NewJudy();
             var fired = 0;
 
-            using (var punch = new Instance().AsPunch())
-            using (var judy  = new Instance().AsJudy())
+            punch.Avatars.Change += (i, a) =>
             {
-                punch.Avatars.Change += (i, a) =>
+                if ( a.Name != Names.Judy.AsBotName() )
+                    return;
+
+                switch (fired)
                 {
-                    if (a.Name != Names.Judy.AsBotName())
-                        return;
+                    case 0:
+                        Assert.AreEqual(Samples.AvPosition, a.Position);
+                        judy.GoTo(AvatarPosition.GroundZero);
+                        break;
 
-                    switch (fired)
-                    {
-                        case 0:
-                            Assert.AreEqual(Samples.AvPosition, a.Position);
-                            judy.GoTo(AvatarPosition.GroundZero);
-                            break;
+                    case 1:
+                        Assert.AreEqual(AvatarPosition.GroundZero, a.Position);
+                        break;
+                }
 
-                        case 1:
-                            Assert.AreEqual(AvatarPosition.GroundZero, a.Position);
-                            break;
-                    }
+                fired++;
+            };
 
-                    fired++;
-                };
-
-                judy.GoTo(Samples.AvPosition);
-                TestPump.AllUntil( () => fired >= 2, punch, judy );
-            }
-
+            judy.GoTo(Samples.AvPosition);
+            TestPump.AllUntil( () => fired >= 2, punch, judy );
+            
             Assert.IsTrue(fired == 2, "State change event not fired exactly twice");
         }
 
         [TestMethod]
         public void Goto_Exceptions()
         {
-            using (var cmdrData = new Instance().TestLogin(Names.Data))
+            using ( var cmdrData = new Instance().TestLogin(Names.Data) )
                 VPNetAssert.ThrowsReasonCode(ReasonCode.NotInWorld, _ => cmdrData.GoTo() );
         }
 
         [TestMethod]
         public void Say_Unicode()
         {
+            var punch = NewPunch();
+            var judy  = NewJudy();
             var fired = false;
 
-            using (var punch = new Instance().AsPunch())
-            using (var judy  = new Instance().AsJudy())
+            punch.Chat += (i, c) =>
             {
-                punch.Chat += (i, c) =>
-                {
-                    if (c.Name != Names.Judy.AsBotName())
-                        return;
+                if ( c.Name != Names.Judy.AsBotName() )
+                    return;
 
-                    Assert.AreEqual(Strings.SampleUnicode, c.Message);
-                    fired = true;
-                };
+                Assert.AreEqual(Strings.SampleUnicode, c.Message);
+                fired = true;
+            };
 
-                judy.Say(Strings.SampleUnicode);
-                TestPump.AllUntil( () => fired, punch, judy );
-            }
+            judy.Say(Strings.SampleUnicode);
+            TestPump.AllUntil( () => fired, punch, judy );
 
             Assert.IsTrue(fired, "Chat event not fired");
         }
@@ -248,93 +240,78 @@ namespace VP.Tests
         [TestMethod]
         public void Say_Chunked()
         {
+            var punch = NewPunch();
+            var judy  = NewJudy();
             var fired = 0;
 
-            using (var punch = new Instance().AsPunch())
-            using (var judy  = new Instance().AsJudy())
+            punch.Chat += (i, c) =>
             {
-                punch.Chat += (i, c) =>
-                {
-                    if (c.Name != Names.Judy.AsBotName())
-                        return;
+                if (c.Name != Names.Judy.AsBotName())
+                    return;
 
-                    fired++;
-                };
+                fired++;
+            };
 
-                judy.Say(Strings.TooLong);
-                TestPump.AllUntil( () => fired >= 3, punch, judy );
-            }
+            judy.Say(Strings.TooLong);
+            TestPump.AllUntil( () => fired >= 3, punch, judy );
 
-            Assert.IsTrue(fired == 3, "Chat event not fired exactly twice");
+            Assert.IsTrue(fired == 3, "Chat event not fired exactly three times");
         }
 
         [TestMethod]
         public void ConsoleMessage_Chunked()
         {
+            var punch = NewPunch();
+            var judy  = NewJudy();
             var fired = 0;
-            var punchSession = -1;
 
-            using (var punch = new Instance().AsPunch())
-            using (var judy  = new Instance().AsJudy())
+            punch.Console += (i, c) =>
             {
-                judy.Avatars.Enter += (i, a) =>
-                {
-                    if (a.Name != Names.Punch.AsBotName())
-                        return;
+                if (c.Name != Names.Judy)
+                    return;
 
-                    punchSession = a.Session;
-                    judy.ConsoleMessage(punchSession, Names.Judy, Strings.TooLong);
-                    judy.ConsoleMessage(punchSession - 1, Names.Judy, Strings.TooLong);
-                };
+                fired++;
+            };
 
-                punch.Console += (i, c) =>
-                {
-                    if (c.Name != Names.Judy)
-                        return;
+            judy.ConsoleMessage(SessionOf(punch), Names.Judy, Strings.TooLong);
+            judy.ConsoleMessage(SessionOf(punch) - 1, Names.Judy, Strings.TooLong);
+            TestPump.AllUntil( () => fired >= 3, punch, judy );
 
-                    fired++;
-                };
-
-                TestPump.AllUntil( () => fired >= 3, punch, judy );
-            }
-
-            Assert.IsTrue(fired == 3, "Console event not fired exactly twice");
+            Assert.IsTrue(fired == 3, "Console event not fired exactly three times");
         }
 
         [TestMethod]
         public void ConsoleBroadcast()
         {
-            var fired = 0;
+            var cmdrData = NewCmdrData();
+            var punch    = NewPunch();
+            var judy     = NewJudy();
+            var fired    = 0;
 
-            using (var cmdrData = new Instance().AsData())
-            using (var punch    = new Instance().AsPunch())
-            using (var judy     = new Instance().AsJudy())
+            cmdrData.Console += (i, c) =>
             {
-                cmdrData.Console += (i, c) =>
-                {
-                    if (c.Name != Names.Judy)
-                        return;
+                if (c.Name != Names.Judy)
+                    return;
 
-                    Assert.AreEqual(Samples.Color, c.Color);
-                    Assert.AreEqual(Samples.ChatEffect, c.Effect);
-                    Assert.AreEqual(Strings.SampleUnicode, c.Message);
-                    fired++;
-                };
+                Assert.AreEqual(Samples.Color, c.Color);
+                Assert.AreEqual(Samples.ChatEffect, c.Effect);
+                Assert.AreEqual(Strings.SampleUnicode, c.Message);
+                fired++;
+            };
 
-                punch.Console += (i, c) =>
-                {
-                    if (c.Name != Names.Judy)
-                        return;
+            punch.Console += (i, c) =>
+            {
+                if (c.Name != Names.Judy)
+                    return;
 
-                    Assert.AreEqual(Samples.Color, c.Color);
-                    Assert.AreEqual(Samples.ChatEffect, c.Effect);
-                    Assert.AreEqual(Strings.SampleUnicode, c.Message);
-                    fired++;
-                };
+                Assert.AreEqual(Samples.Color, c.Color);
+                Assert.AreEqual(Samples.ChatEffect, c.Effect);
+                Assert.AreEqual(Strings.SampleUnicode, c.Message);
+                fired++;
+            };
 
-                judy.ConsoleBroadcast(Samples.ChatEffect, Samples.Color, Names.Judy, Strings.SampleUnicode);
-                TestPump.AllUntil( () => fired >= 2, cmdrData, punch, judy );
-            }
+            judy.ConsoleBroadcast(Samples.ChatEffect, Samples.Color, Names.Judy, Strings.SampleUnicode);
+            TestPump.AllUntil( () => fired >= 2, cmdrData, punch, judy );
 
             Assert.IsTrue(fired == 2, "Console event not fired exactly twice");
         }

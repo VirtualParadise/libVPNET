@@ -15,6 +15,16 @@ namespace VP.Tests
         public const string SampleUnicode = "你好世界‼❗❢ ꩷႟";
 
         /// <summary>
+        /// Sample URL of acceptable length
+        /// </summary>
+        public const string SampleURL = "http://contoso.com";
+
+        /// <summary>
+        /// Sample URL of acceptable length
+        /// </summary>
+        public const string SampleURLUnicode = "https://公司.香港";
+
+        /// <summary>
         /// A 297 length string with unicode multi-byte characters, which should be
         /// automatically split into three strings by the SDK where expected
         /// </summary>
@@ -28,6 +38,7 @@ namespace VP.Tests
 
     static class Names
     {
+        public const string Watch = "SDKTestWatchdog";
         public const string Punch = "SDKPunch";
         public const string Judy  = "SDKJudy";
         public const string Data  = "SDKCmdrData";
@@ -53,9 +64,27 @@ namespace VP.Tests
     static class Samples
     {
         public static AvatarPosition AvPosition = new AvatarPosition(10, 20, 30, 40, 50);
+        
+        public static Vector3 Vector3 = new Vector3(8, 16, 32);
+
+        public static Rotation Rotation = new Rotation(1, 2, 3, 0);
 
         public static Color Color = new Color(11,22,33);
 
         public static ChatEffect ChatEffect = ChatEffect.BoldItalic;
+
+        public static VPObject VPObject
+        {
+            get
+            {
+                return new VPObject("sign5.rwx#sample", Vector3, Rotation)
+                {
+                    Description = "This is a test object\nfrom libVPNET unit tests.\nIf found, please\ncontact the owner",
+                    Action      = "create sign, rotate 15; SDKTestObject",
+                    Type        = 0,
+                    Data        = new byte[8]
+                };
+            }
+        }
     }
 }

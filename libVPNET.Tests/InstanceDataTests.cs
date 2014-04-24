@@ -6,7 +6,7 @@ using VP.Extensions;
 namespace VP.Tests
 {
     [TestClass]
-    public class InstanceDataTests
+    public class InstanceDataTests : InstanceTestBase
     {
         [TestMethod]
         public void Disposal()
@@ -21,24 +21,22 @@ namespace VP.Tests
         [TestMethod]
         public void GetUserAttributes()
         {
-            int fired = 0;
+            var cmdrData = NewCmdrData();
+            int fired    = 0;
 
-            using (Instance cmdrData = new Instance().AsData())
+            cmdrData.Data.UserAttributes += (i, d) =>
             {
-                cmdrData.Data.UserAttributes += (i, d) =>
-                {
-                    Console.WriteLine("Attributes: {0}, {1}, {2}", d.Name, d.ID, d.RegistrationTime);
-                    fired++;
-                };
+                Console.WriteLine("Attributes: {0}, {1}, {2}", d.Name, d.ID, d.RegistrationTime);
+                fired++;
+            };
 
-                cmdrData.Data.GetUserAttributes(1);
-                cmdrData.Data.GetUserAttributes(int.MaxValue);
-                cmdrData.Data.GetUserAttributes(2);
-                cmdrData.Data.GetUserAttributes(int.MaxValue - 1);
-                cmdrData.Data.GetUserAttributes(3);
+            cmdrData.Data.GetUserAttributes(1);
+            cmdrData.Data.GetUserAttributes(int.MaxValue);
+            cmdrData.Data.GetUserAttributes(2);
+            cmdrData.Data.GetUserAttributes(int.MaxValue - 1);
+            cmdrData.Data.GetUserAttributes(3);
 
-                TestPump.AllUntil( () => fired >= 3, cmdrData );
-            }
+            TestPump.AllUntil( () => fired >= 3, cmdrData );
 
             Assert.IsTrue(fired == 3, "State change event not fired exactly three times");
         }
@@ -46,51 +44,47 @@ namespace VP.Tests
         [TestMethod]
         public void ListWorlds()
         {
-            int fired = 0;
+            var cmdrData = NewCmdrData(false);
+            var fired    = 0;
 
-            using (Instance cmdrData = new Instance().TestLogin(Names.Data))
+            cmdrData.Data.WorldEntry += (i, w) =>
             {
-                cmdrData.Data.WorldEntry += (i, w) =>
-                {
-                    Console.WriteLine("World: {0}, {1}, {2} users", w.Name, w.State, w.UserCount);
-                    fired++;
-                };
+                Console.WriteLine("World: {0}, {1}, {2} users", w.Name, w.State, w.UserCount);
+                fired++;
+            };
 
-                cmdrData.EnterTestWorld();
-                TestPump.AllUntilTimeout(cmdrData);
+            cmdrData.EnterTestWorld();
+            TestPump.AllUntilTimeout(cmdrData);
 
-                Assert.IsTrue(fired == 1, "Initial world entry event not fired once only");
-                fired = 0;
+            Assert.IsTrue(fired >= 1, "Initial world entry event not fired at least once");
+            fired = 0;
 
-                cmdrData.Data.ListWorlds();
-                TestPump.AllUntilTimeout(cmdrData);
+            cmdrData.Data.ListWorlds();
+            TestPump.AllUntilTimeout(cmdrData);
 
-                Assert.IsTrue(fired > 1, "World entry event not fired at least once upon manual request");
+            Assert.IsTrue(fired > 1, "World entry event not fired at least once upon manual request");
 
-                if (fired < 3)
-                    Assert.Inconclusive("World entry event did not fire more than three times. This may be because there are not enough worlds online");
-            }
+            if (fired < 3)
+                Assert.Inconclusive("World entry event did not fire more than three times. This may be because there are not enough worlds online");
         }
 
         [TestMethod]
         public void WorldSettings()
         {
-            int  fired = 0;
-            bool done  = false;
+            var cmdrData = NewCmdrData(false);
+            var fired    = 0;
+            var done     = false;
 
-            using (Instance cmdrData = new Instance().TestLogin(Names.Data))
+            cmdrData.Data.WorldSetting += (i, k, v) =>
             {
-                cmdrData.Data.WorldSetting += (i, k, v) =>
-                {
-                    Console.WriteLine("World setting: {0} = {1}", k, v);
-                    fired++;
-                };
+                Console.WriteLine("World setting: {0} = {1}", k, v);
+                fired++;
+            };
 
-                cmdrData.Data.WorldSettingsDone += (i) => done = true;
+            cmdrData.Data.WorldSettingsDone += (i) => done = true;
 
-                cmdrData.EnterTestWorld();
-                TestPump.AllUntilTimeout(cmdrData);
-            }
+            cmdrData.EnterTestWorld();
+            TestPump.AllUntilTimeout(cmdrData);
 
             Assert.IsTrue(done, "World settings retrival done event never fired");
 
