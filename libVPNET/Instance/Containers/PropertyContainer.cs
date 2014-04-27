@@ -281,8 +281,9 @@ namespace VP
             if (CallbackObjectGet == null)
                 return;
 
-            var obj = new VPObject(sender);
-            obj.Id = id;
+            var obj = rc == 0
+                ? new VPObject(sender) { Id = id }
+                : null;
 
             CallbackObjectGet(instance, (ReasonCode) rc, obj);
         }

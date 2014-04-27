@@ -115,8 +115,15 @@ namespace VP
         /// <summary>
         /// Sets a terrain node's worth of data to the world's terrain. Thread-safe.
         /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when passed null for node, instead of a <see cref="TerrainNode"/>
+        /// reference
+        /// </exception>
         public void SetNode(TerrainNode node, int tileX, int tileZ)
         {
+            if (node == null)
+                throw new ArgumentNullException("node", "Expected a terrain node to send");
+
             lock (instance.Mutex)
             {
                 var refNum  = nextReference;
@@ -125,7 +132,8 @@ namespace VP
 
                 Functions.vp_int_set(instance.Pointer, IntAttributes.ReferenceNumber, refNum);
 
-                try {
+                try
+                {
                     Functions.Call( () =>
                         Functions.vp_terrain_node_set(
                         instance.Pointer,
