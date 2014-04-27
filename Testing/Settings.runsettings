@@ -18,7 +18,6 @@
             <ModulePaths>
               <Exclude>
                 <ModulePath>.*CPPUnitTestFramework.*</ModulePath>
-                <ModulePath>\.tests\.dll$</ModulePath>
               </Exclude>
             </ModulePaths>
           </CodeCoverage>
@@ -31,7 +30,7 @@
   <MSTest>
     <MapInconclusiveToFailed>True</MapInconclusiveToFailed>
     <CaptureTraceOutput>false</CaptureTraceOutput>
-    <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+    <DeleteDeploymentDirectoryAfterTestRunIsComplete>True</DeleteDeploymentDirectoryAfterTestRunIsComplete>
     <DeploymentEnabled>False</DeploymentEnabled>
   </MSTest>
 </RunSettings>

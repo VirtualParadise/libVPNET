@@ -285,6 +285,25 @@ namespace VP.Tests
         }
 
         [TestMethod]
+        public void ObjectGet_Exceptions()
+        {
+            var cmdrData = NewCmdrData();
+            var fired    = false;
+
+            cmdrData.Property.CallbackObjectGet += (i, rc, o) =>
+            {
+                Assert.AreEqual(ReasonCode.ObjectNotFound, rc);
+                fired = true;
+            };
+
+            cmdrData.Property.GetObject(-1);
+
+            TestPump.AllUntil( () => fired, cmdrData );
+
+            Assert.IsTrue(fired, "CallbackObjectGet never fired");
+        }
+
+        [TestMethod]
         public void ObjectClick()
         {
             var cmdrData   = NewCmdrData();

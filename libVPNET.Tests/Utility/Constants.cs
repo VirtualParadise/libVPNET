@@ -73,6 +73,18 @@ namespace VP.Tests
 
         public static ChatEffect ChatEffect = ChatEffect.BoldItalic;
 
+        public static TerrainNode TerrainNode
+        {
+            get
+            {
+                return new TerrainNode()
+                {
+                    X = 0,
+                    Z = 1,
+                };
+            }
+        }
+
         public static VPObject VPObject
         {
             get

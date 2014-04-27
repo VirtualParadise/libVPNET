@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Base\TestInstance.cs" />
+    <Compile Include="InstanceTerrainTests.cs" />
     <Compile Include="InstancePropertyTests.cs" />
     <Compile Include="InstanceAvatarsTests.cs" />
     <Compile Include="InstanceDataTests.cs" />

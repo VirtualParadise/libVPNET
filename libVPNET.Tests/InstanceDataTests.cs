@@ -22,7 +22,7 @@ namespace VP.Tests
         public void GetUserAttributes()
         {
             var cmdrData = NewCmdrData();
-            int fired    = 0;
+            var fired    = 0;
 
             cmdrData.Data.UserAttributes += (i, d) =>
             {
