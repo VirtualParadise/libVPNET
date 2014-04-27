@@ -22,6 +22,8 @@
         AvatarClick,
         Teleport,
         Url,
+        ObjectBumpBegin,
+        ObjectBumpEnd,
         Highest
     }
 }

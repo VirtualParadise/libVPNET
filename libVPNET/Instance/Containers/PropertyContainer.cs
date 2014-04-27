@@ -20,6 +20,8 @@ namespace VP
             instance.setNativeEvent(Events.ObjectChange, OnObjectChange);
             instance.setNativeEvent(Events.ObjectDelete, OnObjectDelete);
             instance.setNativeEvent(Events.ObjectClick, OnObjectClick);
+            instance.setNativeEvent(Events.ObjectBumpBegin, OnObjectBumpBegin);
+            instance.setNativeEvent(Events.ObjectBumpEnd, OnObjectBumpEnd);
             instance.setNativeEvent(Events.QueryCellEnd, OnQueryCellEnd);
 
             instance.setNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallback);
@@ -36,6 +38,8 @@ namespace VP
             ObjectChange    = null;
             ObjectDelete    = null;
             ObjectClick     = null;
+            ObjectBumpBegin = null;
+            ObjectBumpEnd   = null;
 
             CallbackObjectCreate = null;
             CallbackObjectChange = null;
@@ -94,6 +98,12 @@ namespace VP
         /// </summary>
         public delegate void ObjectClickArgs(Instance sender, ObjectClick click);
         /// <summary>
+        /// Encapsulates a method that accepts a source <see cref="Instance"/>, an avatar
+        /// session ID and an object ID for the <see cref="ObjectBumpBegin"/> and
+        /// <see cref="ObjectBumpEnd"/> events
+        /// </summary>
+        public delegate void ObjectBumpArgs(Instance sender, int session, int id);
+        /// <summary>
         /// Encapsulates a method that accepts a source <see cref="Instance"/>, a
         /// reason code and a <see cref="VPObject"/> for
         /// <see cref="CallbackObjectCreate"/> and <see cref="CallbackObjectChange"/>
@@ -140,6 +150,16 @@ namespace VP
         /// coordinates and source ID
         /// </summary>
         public event ObjectClickArgs ObjectClick;
+        /// <summary>
+        /// Fired when an avatar begins a physical collision with an object anywhere in
+        /// the world, providing the avatar's session ID and the object ID
+        /// </summary>
+        public event ObjectBumpArgs ObjectBumpBegin;
+        /// <summary>
+        /// Fired when an avatar stops an ongoing physical collision with an object
+        /// anywhere in the world, providing the avatar's session ID and the object ID
+        /// </summary>
+        public event ObjectBumpArgs ObjectBumpEnd;
 
         /// <summary>
         /// Fired after a call to the asynchronous <see cref="AddObject"/>, providing a
@@ -183,6 +203,40 @@ namespace VP
                 click = new ObjectClick(sender);
 
             ObjectClick(instance, click);
+        }
+
+        internal void OnObjectBumpBegin(IntPtr sender)
+        {
+            if (ObjectBumpBegin == null)
+                return;
+            
+            int sessionId;
+            int objectId;
+
+            lock (instance.Mutex)
+            {
+                sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
+                objectId  = Functions.vp_int(sender, IntAttributes.ObjectId);
+            }
+
+            ObjectBumpBegin(instance, sessionId, objectId);
+        }
+
+        internal void OnObjectBumpEnd(IntPtr sender)
+        {
+            if (ObjectBumpEnd == null)
+                return;
+            
+            int sessionId;
+            int objectId;
+
+            lock (instance.Mutex)
+            {
+                sessionId = Functions.vp_int(sender, IntAttributes.AvatarSession);
+                objectId  = Functions.vp_int(sender, IntAttributes.ObjectId);
+            }
+
+            ObjectBumpEnd(instance, sessionId, objectId);
         }
 
         /// <summary>
@@ -402,9 +456,8 @@ namespace VP
                 idReferences.Add(referenceNumber, id);
 
                 Functions.vp_int_set(instance.Pointer, IntAttributes.ReferenceNumber, referenceNumber);
-                Functions.vp_int_set(instance.Pointer, IntAttributes.ObjectId,        id);
 
-                try { Functions.Call( () => Functions.vp_object_delete(instance.Pointer) ); }
+                try { Functions.Call( () => Functions.vp_object_delete(instance.Pointer, id) ); }
                 catch
                 {
                     idReferences.Remove(referenceNumber);
@@ -427,17 +480,12 @@ namespace VP
         /// coordinates using a <see cref="Vector3D"/>. Thread-safe.
         /// </summary>
         /// <param name="id">ID of object to click</param>
-        /// <param name="coordinates">3D coordinates of the click</param>
+        /// <param name="pos">3D coordinates of the click</param>
         /// <param name="eventTarget">Optional session to limit event to</param>
-        public void ClickObject(int id, Vector3 coordinates, int eventTarget = 0)
+        public void ClickObject(int id, Vector3 pos, int eventTarget = 0)
         {
             lock (instance.Mutex)
-            {
-                coordinates.ToClick(instance.Pointer);
-                Functions.vp_int_set(instance.Pointer, IntAttributes.ObjectId, id);
-                Functions.vp_int_set(instance.Pointer, IntAttributes.ClickEventTarget, eventTarget);
-                Functions.Call( () => Functions.vp_object_click(instance.Pointer) );
-            }
+                Functions.Call( () => Functions.vp_object_click(instance.Pointer, id, eventTarget, pos.X, pos.Y, pos.Z) );
         }
 
         /// <summary>
@@ -470,7 +518,53 @@ namespace VP
         public void ClickObject(VPObject obj, int eventTarget = 0)
         {
             ClickObject(obj.Id, eventTarget);
-        } 
+        }
+
+        /// <summary>
+        /// Sends a begin collision (bump) event on a given in-world object by unique ID.
+        /// Thread-safe.
+        /// </summary>
+        /// <param name="id">ID of object to begin colliding with</param>
+        /// <param name="eventTarget">Optional session to limit event to</param>
+        public void BeginBump(int id, int eventTarget = 0)
+        {
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_object_bump_begin(instance.Pointer, id, eventTarget) );
+        }
+
+        /// <summary>
+        /// Sends a begin collision (bump) event on a given in-world object. Thread-safe.
+        /// </summary>
+        /// <param name="id">Object to begin colliding with</param>
+        /// <param name="eventTarget">Optional session to limit event to</param>
+        public void BeginBump(VPObject obj, int eventTarget = 0)
+        {
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_object_bump_begin(instance.Pointer, obj.Id, eventTarget) );
+        }
+
+        /// <summary>
+        /// Sends an end collision (bump) event on a given in-world object by unique ID.
+        /// Thread-safe.
+        /// </summary>
+        /// <param name="id">ID of object to stop colliding with</param>
+        /// <param name="eventTarget">Optional session to limit event to</param>
+        public void EndBump(int id, int eventTarget = 0)
+        {
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_object_bump_end(instance.Pointer, id, eventTarget) );
+        }
+
+        /// <summary>
+        /// Sends an end collision (bump) event on a given in-world object. Thread-safe.
+        /// </summary>
+        /// <param name="id">Object to stop colliding with</param>
+        /// <param name="eventTarget">Optional session to limit event to</param>
+        public void EndBump(VPObject obj, int eventTarget = 0)
+        {
+            lock (instance.Mutex)
+                Functions.Call( () => Functions.vp_object_bump_end(instance.Pointer, obj.Id, eventTarget) );
+        }
         #endregion
     }
 }

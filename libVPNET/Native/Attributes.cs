@@ -38,7 +38,8 @@
         ChatEffects,
         DisconnectErrorCode,
         UrlTarget,
-        ClickEventTarget,
+        CurrentEvent,
+        CurrentCallback, // unused
         IntegerAttributeHighest, 
     }
 

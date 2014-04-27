@@ -40,7 +40,7 @@
 #endif
 
 /* API Version */
-#define VPSDK_VERSION 1
+#define VPSDK_VERSION 2
 
 /**
  *	Events can be registered using #vp_event_set
@@ -248,6 +248,20 @@ typedef enum vp_event_t
      *  - VP_URL_TARGET
      */
     VP_EVENT_URL,
+
+    /**
+     *  Attributes:
+     *  - VP_AVATAR_SESSION
+     *  - VP_OBJECT_ID
+     */
+    VP_EVENT_OBJECT_BUMP_BEGIN,
+
+    /**
+    *  Attributes:
+    *  - VP_AVATAR_SESSION
+    *  - VP_OBJECT_ID
+    */
+    VP_EVENT_OBJECT_BUMP_END,
     
 	VP_HIGHEST_EVENT
 } vp_event_t;
@@ -351,7 +365,8 @@ typedef enum vp_int_attribute_t
     VP_DISCONNECT_ERROR_CODE,
     
     VP_URL_TARGET,
-    VP_CLICK_SESSION_TO,
+    VP_CURRENT_EVENT,
+    VP_CURRENT_CALLBACK,
 	
 	VP_HIGHEST_INT
 } vp_int_attribute_t;
@@ -692,6 +707,22 @@ VPSDK_API int vp_query_cell(VPInstance instance, int x, int z);
 VPSDK_API int vp_object_add(VPInstance instance);
 
 /**
+ *  Send a object contact begin event to other users in the world
+ *  \param object_id
+ *  \param session_to Session ID to send a bump event to, or 0 to send to everyone
+ */
+VPSDK_API int vp_object_bump_begin(vp_instance_t instance,
+                                   int object_id, int session_to);
+
+/**
+*  Send a object contact end event to other users in the world
+*  \param object_id
+*  \param session_to Session ID to send a bump event to, or 0 to send to everyone
+*/
+VPSDK_API int vp_object_bump_end(vp_instance_t instance,
+                                 int object_id, int session_to);
+
+/**
  *  Changes an existing object
  *
  *  Uses attributes:
@@ -713,23 +744,21 @@ VPSDK_API int vp_object_change(VPInstance instance);
 
 /**
  *  Sends an object click event to other users in the world.
- *  Uses the following attributes:
- *  - #VP_OBJECT_ID
- *  - #VP_CLICK_HIT_X
- *  - #VP_CLICK_HIT_Y
- *  - #VP_CLICK_HIT_Z
+ *  \param object_id            Object ID of the clicked object
+ *  \param session_to           Target session, or 0 to send to everyone
+ *  \param hit_x,hit_y,hit_z    Position where the object was hit
  *  \returns #VP_RC_SUCCESS
  *  \returns #VP_RC_NOT_IN_WORLD
  */
-VPSDK_API int vp_object_click(VPInstance instance);
+VPSDK_API int vp_object_click(VPInstance instance, int object_id, 
+                              int session_to, float hit_x, 
+                              float hit_y, float hit_z);
 
 /**
  *  Delete an object
- *
- *  Uses attributes:
- *  - #VP_OBJECT_ID
+ *  \param object_id ID of the object to be deleted
  */
-VPSDK_API int vp_object_delete(VPInstance instance);
+VPSDK_API int vp_object_delete(VPInstance instance, int object_id);
 
 /**
  *  Request the attributes of a single object. The result will be returned in

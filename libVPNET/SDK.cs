@@ -6,7 +6,7 @@ namespace VP
 {
     internal static class SDK
     {
-        const int version = 1;
+        const int version = 2;
 
         static readonly object mutex = new object();
 

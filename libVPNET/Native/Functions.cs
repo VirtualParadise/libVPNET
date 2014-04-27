@@ -113,13 +113,19 @@ namespace VP.Native
         internal static extern int vp_object_change(IntPtr instance);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int vp_object_delete(IntPtr instance);
+        internal static extern int vp_object_delete(IntPtr instance, int id);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int vp_object_click(IntPtr instance);
+        internal static extern int vp_object_click(IntPtr instance, int id, int session, float x, float y, float z);
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int vp_object_get(IntPtr instance, int id);
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int vp_object_bump_begin(IntPtr instance, int session, int id);
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int vp_object_bump_end(IntPtr instance, int session, int id);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int vp_world_list(IntPtr instance, int time);
