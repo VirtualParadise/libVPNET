@@ -525,22 +525,20 @@ namespace VP
         /// Thread-safe.
         /// </summary>
         /// <param name="id">ID of object to begin colliding with</param>
-        /// <param name="eventTarget">Optional session to limit event to</param>
-        public void BeginBump(int id, int eventTarget = 0)
+        public void BeginBump(int id)
         {
             lock (instance.Mutex)
-                Functions.Call( () => Functions.vp_object_bump_begin(instance.Pointer, id, eventTarget) );
+                Functions.Call( () => Functions.vp_object_bump_begin(instance.Pointer, id, 0) );
         }
 
         /// <summary>
         /// Sends a begin collision (bump) event on a given in-world object. Thread-safe.
         /// </summary>
-        /// <param name="id">Object to begin colliding with</param>
-        /// <param name="eventTarget">Optional session to limit event to</param>
-        public void BeginBump(VPObject obj, int eventTarget = 0)
+        /// <param name="obj">Object to begin colliding with</param>
+        public void BeginBump(VPObject obj)
         {
             lock (instance.Mutex)
-                Functions.Call( () => Functions.vp_object_bump_begin(instance.Pointer, obj.Id, eventTarget) );
+                Functions.Call( () => Functions.vp_object_bump_begin(instance.Pointer, obj.Id, 0) );
         }
 
         /// <summary>
@@ -548,22 +546,20 @@ namespace VP
         /// Thread-safe.
         /// </summary>
         /// <param name="id">ID of object to stop colliding with</param>
-        /// <param name="eventTarget">Optional session to limit event to</param>
-        public void EndBump(int id, int eventTarget = 0)
+        public void EndBump(int id)
         {
             lock (instance.Mutex)
-                Functions.Call( () => Functions.vp_object_bump_end(instance.Pointer, id, eventTarget) );
+                Functions.Call( () => Functions.vp_object_bump_end(instance.Pointer, id, 0) );
         }
 
         /// <summary>
         /// Sends an end collision (bump) event on a given in-world object. Thread-safe.
         /// </summary>
-        /// <param name="id">Object to stop colliding with</param>
-        /// <param name="eventTarget">Optional session to limit event to</param>
-        public void EndBump(VPObject obj, int eventTarget = 0)
+        /// <param name="obj">Object to stop colliding with</param>
+        public void EndBump(VPObject obj)
         {
             lock (instance.Mutex)
-                Functions.Call( () => Functions.vp_object_bump_end(instance.Pointer, obj.Id, eventTarget) );
+                Functions.Call( () => Functions.vp_object_bump_end(instance.Pointer, obj.Id, 0) );
         }
         #endregion
     }

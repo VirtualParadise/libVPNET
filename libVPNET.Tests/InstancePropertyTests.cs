@@ -364,5 +364,69 @@ namespace VP.Tests
             Assert.IsTrue(dataClicks == 4, "ObjectClick event not fired for Data exactly four times");
             Assert.IsTrue(judyClicks == 8, "ObjectClick event not fired for Judy exactly eight times");
         }
+
+        // TODO: Failing as test server does not implement session target yet
+        [TestMethod]
+        public void ObjectBump()
+        {
+            var cmdrData   = NewCmdrData();
+            var punch      = NewPunch();
+            var judy       = NewJudy();
+            var judyBumps  = 0;
+            var dataBumps  = 0;
+            var objId      = -1;
+
+            punch.Property.ObjectCreate += (i, s, o) =>
+            {
+                if ( s != SessionOf(judy) )
+                    return;
+
+                objId = o.Id;
+
+                punch.Property.BeginBump(objId);
+                punch.Property.BeginBump(o);
+                punch.Property.EndBump(o.Id);
+                punch.Property.EndBump(o);
+
+#if false
+                punch.Property.BeginBump(objId, SessionOf(judy));
+                punch.Property.BeginBump(o, SessionOf(judy));
+                punch.Property.EndBump(o.Id, SessionOf(judy));
+                punch.Property.EndBump(o, SessionOf(judy)); 
+#endif
+            };
+
+            VP.PropertyContainer.ObjectBumpArgs judyBump = (i, s, id) =>
+            {
+                if ( s != SessionOf(punch) )
+                    return;
+
+                Assert.AreEqual(objId, id);
+
+                judyBumps++;
+            };
+
+            VP.PropertyContainer.ObjectBumpArgs dataBump = (i, s, id) =>
+            {
+                if ( s != SessionOf(punch) )
+                    return;
+
+                Assert.AreEqual(objId, id);
+
+                dataBumps++;
+            };
+
+            judy.Property.ObjectBumpBegin += judyBump;
+            judy.Property.ObjectBumpEnd   += judyBump;
+            cmdrData.Property.ObjectBumpBegin += dataBump;
+            cmdrData.Property.ObjectBumpEnd   += dataBump;
+
+            judy.Property.AddObject(Samples.VPObject);
+
+            TestPump.AllUntil( () => dataBumps + judyBumps >= 8, punch, judy, cmdrData );
+
+            Assert.IsTrue(dataBumps == 4, "ObjectBump* events not fired for Data exactly four times");
+            Assert.IsTrue(judyBumps == 4, "ObjectBump* events not fired for Judy exactly four times");
+        }
     }
 }
