@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>libVPNET</id>
-        <version>0.3.7-pre</version>
+        <version>0.3.8-pre</version>
         <title>libVirtualParadise.NET</title>
         <authors>Roy Curtis</authors>
         <projectUrl>https://github.com/RoyCurtis/libVPNET</projectUrl>
@@ -17,7 +17,7 @@ The native libraries are packaged into the assembly and are automatically unpack
 * x86 Windows
 * x64 Windows</description>
         <summary>Alternative library for writing Virtual Paradise bots</summary>
-        <releaseNotes>0.3.7 - Updated Linux native binary to r1163</releaseNotes>
+        <releaseNotes>0.3.8 - Updated Windows native binaries and SDK to VP SDK 2 / 0.3.41 / r1206, which adds support for object bump events</releaseNotes>
         <language>en-GB</language>
     </metadata>
     <files>
