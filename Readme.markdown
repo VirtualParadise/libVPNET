@@ -1,5 +1,5 @@
 # Warning
-The code in this repository is unmaintained and incompatible with newer versions of [Virtual Paradise SDK](http://dev.virtualparadise.org/). If you are looking for a way to use the Virtual Paradise SDK from .NET please take a look at [VPNET](http://vpnet.codeplex.com/), the official .NET library for [Virtual Paradise](http://virtualparadise.org/).
+The code in this repository is unmaintained and incompatible with newer versions of [Virtual Paradise SDK](http://dev.virtualparadise.org/). If you are looking for a way to use the Virtual Paradise SDK from .NET please take a look at [VpNet](https://github.com/VirtualParadise/VpNet), the official .NET library for [Virtual Paradise](http://virtualparadise.org/).
 
 ---
 ## Project Description
